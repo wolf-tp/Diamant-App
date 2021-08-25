@@ -14,7 +14,11 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-const RootScreen = () => {
+type Props = {
+	isFirstTime?: boolean;
+};
+
+const RootScreen = (props: Props) => {
 	return (
 		<NavigationContainer ref={navigationRef}>
 			<Stack.Navigator
@@ -29,7 +33,7 @@ const RootScreen = () => {
 					headerLeftContainerStyle: {paddingLeft: 10},
 					headerTitleAlign: 'left',
 				}}
-				initialRouteName={'Home'}
+				initialRouteName={props.isFirstTime ? 'Intro' : 'Home'}
 			>
 				<Stack.Screen options={{header: () => null}} name={'Intro'} component={IntroApp} />
 				<Stack.Screen options={{header: () => null}} name={'Home'} component={Home} />

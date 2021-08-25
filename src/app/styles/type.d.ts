@@ -18,4 +18,9 @@ declare type ColorTheme = {
 	white: string;
 	none: string;
 	gray: string;
+	textColor: string;
+	background: string;
+};
+declare type App = {
+	isFirstTime?: boolean;
 };

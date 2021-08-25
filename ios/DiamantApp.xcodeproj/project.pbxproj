@@ -16,6 +16,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8A22C3B36C1F41ED81A2A221 /* MontserratAlternates-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 329FC07A720648A9A88C5AD4 /* MontserratAlternates-Regular.ttf */; };
 		8BC0533C67AF0747C93DDF47 /* libPods-DiamantApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 299E1C8C0F0D3033100D977E /* libPods-DiamantApp.a */; };
+		B8E823AE26D64953000403F5 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E823AD26D64953000403F5 /* File.swift */; };
 		BE0DE389CC0141E9A699CD9B /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F5607C4284D4735BEA7E314 /* MontserratAlternates-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,8 @@
 		7F5607C4284D4735BEA7E314 /* MontserratAlternates-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-SemiBold.ttf"; path = "../assets/fonts/MontserratAlternates-SemiBold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DiamantApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B647F58DE3CC62BE2143F33D /* Pods-DiamantApp-DiamantAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiamantApp-DiamantAppTests.debug.xcconfig"; path = "Target Support Files/Pods-DiamantApp-DiamantAppTests/Pods-DiamantApp-DiamantAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B8E823AC26D64952000403F5 /* DiamantApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DiamantApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		B8E823AD26D64953000403F5 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		C03850D7F3977A2FBFE0D827 /* Pods-DiamantApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiamantApp.debug.xcconfig"; path = "Target Support Files/Pods-DiamantApp/Pods-DiamantApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D4DC7791D8C04AAFB575561B /* MontserratAlternates-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-SemiBoldItalic.ttf"; path = "../assets/fonts/MontserratAlternates-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		E1976B3767F92FD9CCF83C14 /* Pods-DiamantApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiamantApp.release.xcconfig"; path = "Target Support Files/Pods-DiamantApp/Pods-DiamantApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -143,6 +146,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				B8E823AD26D64953000403F5 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* DiamantApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DiamantAppTests */,
@@ -150,6 +154,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				792ACE0322F0FA4AECB9CF3A /* Pods */,
 				5EFEEFEC89E440E290A3634B /* Resources */,
+				B8E823AC26D64952000403F5 /* DiamantApp-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -223,7 +228,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -409,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				B8E823AE26D64953000403F5 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,6 +434,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B647F58DE3CC62BE2143F33D /* Pods-DiamantApp-DiamantAppTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -455,6 +462,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5BEFA0ECC08DD387F3FD3B26 /* Pods-DiamantApp-DiamantAppTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = DiamantAppTests/Info.plist;
@@ -479,6 +487,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C03850D7F3977A2FBFE0D827 /* Pods-DiamantApp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -495,6 +504,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = DiamantApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "DiamantApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -505,6 +515,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E1976B3767F92FD9CCF83C14 /* Pods-DiamantApp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -520,6 +531,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = DiamantApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "DiamantApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -528,6 +540,7 @@
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -593,6 +606,7 @@
 		83CBBA211A601CBA00E9B192 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -644,6 +658,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

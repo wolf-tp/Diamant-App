@@ -20,8 +20,12 @@ export const TextLarge = styled.Text`
 `;
 export const Container = styled.View`
 	flex: 1;
+	background-color: ${({theme}) => theme.colors.background};
 	padding-horizontal: ${({theme}) => theme.scapingContainer};
 `;
 export const RowView = styled.View`
 	${rowCss}
+`;
+export const CenterItemView = styled.View`
+	${centerItemsCss}
 `;
