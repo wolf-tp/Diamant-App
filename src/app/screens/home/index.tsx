@@ -13,7 +13,7 @@ interface Props {}
 
 const Home = (props: Props) => {
 	return (
-		<Container>
+		<Container style={{backgroundColor: '#F9FAFE'}}>
 			<ImageHeader source={require('images/bg_header_home.png')} />
 			<SafeAreaView>
 				<HeaderLogo typeHeader={'small'} />

@@ -13,12 +13,14 @@ const globalScaping: ScapingTheme = {
 	scaping: (num: number) => `${num * 5}px`,
 	scapingContainer: '25px',
 };
-const globalColor: ColorTheme = {
+export const globalColor: ColorTheme = {
 	gray: '#F2F2F2',
 	white: '#fff',
 	none: 'transparent',
 	textColor: '#4C4F4D',
 	background: '#FCFEFF',
+	bottomBarUnFocus: '#BBBBBB',
+	bottomBarFocus: '#C89524',
 };
 
 export const myTheme: ThemeInterface = {

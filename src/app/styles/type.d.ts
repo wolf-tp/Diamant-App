@@ -20,6 +20,8 @@ declare type ColorTheme = {
 	gray: string;
 	textColor: string;
 	background: string;
+	bottomBarUnFocus: string;
+	bottomBarFocus: string;
 };
 declare type App = {
 	isFirstTime?: boolean;
