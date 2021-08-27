@@ -44,7 +44,7 @@ const RootScreen = (props: Props) => {
 					headerLeftContainerStyle: {paddingLeft: 10},
 					headerTitleAlign: 'left',
 				}}
-				initialRouteName={props.isFirstTime ? 'Intro' : 'Home'}
+				initialRouteName={props.isFirstTime ? 'Intro' : 'Explore'}
 			>
 				<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
 				<Stack.Screen options={{header: () => null}} name={'ListProduct'} component={ListProduct} />

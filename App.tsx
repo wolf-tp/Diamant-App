@@ -6,6 +6,7 @@ import ThemeProvider from 'app/styles';
 import {getKey, setKey} from 'app/utils/storage';
 import {FIRST_INSTALL} from 'app/utils/storage/constants';
 import SplashScreen from 'react-native-splash-screen';
+import ModalPopup from 'app/components/modal';
 
 interface Props {}
 
@@ -25,7 +26,10 @@ const App = (_props: Props) => {
 	}, []);
 	return (
 		<Provider store={store}>
-			<ThemeProvider>{app && <RootScreen isFirstTime={app.isFirstTime} />}</ThemeProvider>
+			<ThemeProvider>
+				{app && <RootScreen isFirstTime={app.isFirstTime} />}
+				<ModalPopup />
+			</ThemeProvider>
 		</Provider>
 	);
 };

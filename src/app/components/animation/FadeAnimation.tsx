@@ -7,8 +7,9 @@ interface Props {
 interface AnimateProps {
 	config?: {
 		easing?: (value: number) => number;
-		duration: number;
+		duration?: number;
 		delay?: number;
+		useNativeDriver?: boolean;
 	};
 	defaultValue?: 0 | 1;
 	outputRange: number[] | string[];

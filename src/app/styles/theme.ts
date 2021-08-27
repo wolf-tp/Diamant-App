@@ -2,22 +2,24 @@ export const light_theme = {};
 
 const globalFont = {
 	fontFamily: 'Montserrat Alternates',
-	fontMedium: '14px',
+	fontMedium: '14.5px',
+	fontSmall: '12.5px',
 	normal: '500',
 	bold: '600',
-	fontLarge: '18px',
+	fontLarge: '18.5px',
 };
 const globalScaping: ScapingTheme = {
 	scapingElement: '15px',
+	borderRadiusStand: '15px',
 	borderRadius: '40px',
 	scaping: (num: number) => `${num * 5}px`,
 	scapingContainer: '25px',
 };
 export const globalColor: ColorTheme = {
-	gray: '#F2F2F2',
+	gray: '#E2E2E2',
 	white: '#fff',
 	none: 'transparent',
-	textColor: '#4C4F4D',
+	textColor: '#3C3F3D',
 	background: '#FCFEFF',
 	bottomBarUnFocus: '#BBBBBB',
 	bottomBarFocus: '#C89524',

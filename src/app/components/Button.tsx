@@ -11,7 +11,7 @@ const Button = (props: ButtonProps) => {
 	const {interpolate} = useToggleAnimate({outputRange: [0, 1]});
 
 	return (
-		<ViewContainer {...props} style={[{opacity: interpolate}, props.style]}>
+		<ViewContainer {...props} style={[{opacity: interpolate}]}>
 			<Container activeOpacity={0.6} disabled={loading} {...props}>
 				{!loading ? (
 					typeof children === 'string' ? (
