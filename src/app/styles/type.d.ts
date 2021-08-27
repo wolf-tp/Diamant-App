@@ -20,10 +20,14 @@ declare type ColorTheme = {
 	white: string;
 	none: string;
 	gray: string;
+	gray_100: string;
+	gray_200: string;
 	textColor: string;
+	textColor_100: string;
 	background: string;
 	bottomBarUnFocus: string;
 	bottomBarFocus: string;
+	orange_100: string;
 };
 declare type App = {
 	isFirstTime?: boolean;

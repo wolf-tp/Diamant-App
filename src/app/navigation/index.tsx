@@ -1,9 +1,11 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import IntroApp from '../screens/intro';
 import {TouchableOpacity} from 'react-native';
 import {BackHeader} from '../components/icons/Icons';
+import Home from '../screens/home';
+import IntroApp from '../screens/intro';
+import LoginScreen from '../screens/login';
 import {navigationRef, popNavigate} from './rootNavigation';
 import ListProduct from 'app/screens/ListProduct';
 import ProductDetail from 'app/screens/ProductDetal';
@@ -20,6 +22,7 @@ export type RootStackParamList = {
 	Cart: undefined;
 	Favourite: undefined;
 	Account: undefined;
+	LoginScreen: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -48,6 +51,7 @@ const RootScreen = (props: Props) => {
 			>
 				<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
 				<Stack.Screen options={{header: () => null}} name={'ListProduct'} component={ListProduct} />
+				<Stack.Screen options={notShowHeader} name={'LoginScreen'} component={LoginScreen} />
 				<Stack.Screen
 					options={{header: () => null}}
 					name={'ProductDetail'}
