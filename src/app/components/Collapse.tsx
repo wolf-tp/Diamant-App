@@ -1,5 +1,6 @@
-import React from 'react';
-import {Text, Animated, TouchableOpacity, StyleSheet} from 'react-native';
+import {TextLarge} from 'app/styles/globalStyled';
+import React, {useState} from 'react';
+import {Animated, TouchableOpacity, StyleSheet, View, ViewStyle} from 'react-native';
 import {useToggleAnimate} from './animation/FadeAnimation';
 import {ArrowIcon} from './icons/Icons';
 
@@ -7,32 +8,33 @@ interface Props {
 	children?: React.ReactNode;
 	maxHeight?: number;
 	title?: any;
+	style?: ViewStyle;
 }
 
-const Collapse = ({children, maxHeight = 40, title}: Props) => {
-	const {interpolate, onToggle} = useToggleAnimate({outputRange: [40, maxHeight]});
+const Collapse = ({children, title, style}: Props) => {
 	const {interpolate: interChevron, onToggle: toggleChevron} = useToggleAnimate({
 		outputRange: ['0deg', '180deg'],
 		config: {useNativeDriver: true, duration: 200},
 	});
+
+	const [isShow, setShow] = useState(true);
+
 	return (
-		<Animated.View style={{maxHeight: interpolate, overflow: 'hidden'}}>
+		<View style={style}>
 			<TouchableOpacity
 				onPress={() => {
-					onToggle();
+					setShow(!isShow);
 					toggleChevron();
 				}}
 				style={styles.touchTitle}
 			>
-				<Text style={styles.title} allowFontScaling={false}>
-					{title}
-				</Text>
+				<TextLarge allowFontScaling={false}>{title}</TextLarge>
 				<Animated.View style={{transform: [{rotate: interChevron}]}}>
 					<ArrowIcon width={25} height={18} />
 				</Animated.View>
 			</TouchableOpacity>
-			{children}
-		</Animated.View>
+			{isShow && children}
+		</View>
 	);
 };
 const styles = StyleSheet.create({

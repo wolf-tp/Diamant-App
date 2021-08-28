@@ -29,13 +29,23 @@ declare type ColorTheme = {
 	bottomBarUnFocus: string;
 	bottomBarFocus: string;
 	orange_100: string;
+	backgroundGray: string;
 };
 declare type App = {
 	isFirstTime?: boolean;
 };
-type Product = {
+declare type Product = {
 	url?: string;
 	title?: string;
 	description?: string;
 	price?: string | number;
 };
+declare interface Navigate<T> {
+	route?: Route<T>;
+}
+
+declare interface Route<T> {
+	key?: string;
+	name?: string;
+	params?: T;
+}

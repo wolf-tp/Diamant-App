@@ -57,20 +57,60 @@ const fakeData = [
 		title: 'Exclusive Offer',
 		totalCount: 29,
 		product: [
-			{url: 'abc', title: 'Big cheese burger', description: '7pcs, Priceg', price: 4.99},
-			{url: 'abc', title: 'Big cheese burger', description: '7pcs, Priceg', price: 4.99},
-			{url: 'abc', title: 'Big cheese burger', description: '7pcs, Priceg', price: 4.99},
-			{url: 'abc', title: 'Big cheese burger', description: '7pcs, Priceg', price: 4.99},
+			{
+				url: require('images/template/apple.png'),
+				title: 'Big cheese burger',
+				description: '7pcs, Priceg',
+				price: 5.99,
+			},
+			{
+				url: require('images/template/apple.png'),
+				title: 'Big cheese burger',
+				description: '7pcs, Priceg',
+				price: 4.99,
+			},
+			{
+				url: require('images/template/apple.png'),
+				title: 'Big cheese burger',
+				description: '7pcs, Priceg',
+				price: 6.99,
+			},
+			{
+				url: require('images/template/apple.png'),
+				title: 'Big cheese burger',
+				description: '7pcs, Priceg',
+				price: 7.99,
+			},
 		],
 	},
 	{
 		title: 'Exclusive Offer',
 		totalCount: 29,
 		product: [
-			{url: 'abc', title: 'Big cheese burger', description: '7pcs, Priceg', price: 4.99},
-			{url: 'abc', title: 'Big cheese burger', description: '7pcs, Priceg', price: 4.99},
-			{url: 'abc', title: 'Big cheese burger', description: '7pcs, Priceg', price: 4.99},
-			{url: 'abc', title: 'Big cheese burger', description: '7pcs, Priceg', price: 4.99},
+			{
+				url: require('images/template/apple.png'),
+				title: 'Big cheese burger',
+				description: '7pcs, Priceg',
+				price: 4.99,
+			},
+			{
+				url: require('images/template/apple.png'),
+				title: 'Big cheese burger',
+				description: '7pcs, Priceg',
+				price: 4.99,
+			},
+			{
+				url: require('images/template/apple.png'),
+				title: 'Big cheese burger',
+				description: '7pcs, Priceg',
+				price: 4.99,
+			},
+			{
+				url: require('images/template/apple.png'),
+				title: 'Big cheese burger',
+				description: '7pcs, Priceg',
+				price: 4.99,
+			},
 		],
 	},
 ];

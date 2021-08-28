@@ -14,3 +14,4 @@ export function navigate<RouteName extends keyof RootStackParamList>(
 export function popNavigate() {
 	navigationRef.current?.canGoBack() && navigationRef.current.goBack();
 }
+export const getParams = <T>(props: Navigate<any>): T => props.route?.params;

@@ -9,7 +9,7 @@ const globalFont = {
 	fontLarge: '18.5px',
 };
 const globalScaping: ScapingTheme = {
-	scapingElement: '15px',
+	scapingElement: '20px',
 	borderRadiusStand: '15px',
 	borderRadius: '40px',
 	scaping: (num: number) => `${num * 5}px`,
@@ -26,6 +26,7 @@ export const globalColor: ColorTheme = {
 	textColor_100: '#4C4F4D',
 	orange_100: '#C89524',
 	background: '#FCFEFF',
+	backgroundGray: '#F2F3F2',
 	bottomBarUnFocus: '#BBBBBB',
 	bottomBarFocus: '#C89524',
 };

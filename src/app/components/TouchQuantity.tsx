@@ -1,7 +1,6 @@
-import {centerItemsCss, RowView, TextLarge, textLargeCss} from 'app/styles/globalStyled';
+import {RowView, TextLarge, textLargeCss} from 'app/styles/globalStyled';
 import styled, {css} from 'app/styles/styled';
 import React, {useEffect, useState} from 'react';
-import {ViewStyle} from 'react-native';
 import {IconMinusClean, IconPlusClean} from './icons/Icons';
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 	isInput?: boolean;
 }
 
-const TouchQuantity = ({quantity: quantityProps, isInput = true}: Props) => {
+const TouchQuantity = ({quantity: quantityProps, isInput}: Props) => {
 	const [quantity, setQuantity] = useState(1);
 
 	useEffect(() => {
@@ -27,7 +26,7 @@ const TouchQuantity = ({quantity: quantityProps, isInput = true}: Props) => {
 				<IconMinusClean disabled={!quantity} />
 			</TouchIcon>
 
-			<QuantityView>
+			<QuantityView isInput={isInput}>
 				{isInput ? (
 					<QuantityInput
 						maxLength={2}
@@ -54,7 +53,7 @@ const TouchQuantity = ({quantity: quantityProps, isInput = true}: Props) => {
 const borderCss = css`
 	background-color: white;
 	border-radius: ${({theme}) => theme.borderRadiusStand};
-	border-width: 0.5px;
+	border-width: 1px;
 	border-color: ${({theme}) => theme.colors.gray};
 `;
 

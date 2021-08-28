@@ -2,6 +2,7 @@ import {isIOS} from './dimens';
 import styled, {css} from './styled';
 
 export const BOTTOM_BAR_HEIGHT = 100;
+export const PADDING_CONTAINER = 50;
 
 // TODO: Design CSS
 export const textLargeCss = css`
@@ -52,10 +53,10 @@ export const paddingContainer = css`
 	padding-horizontal: ${({theme}) => theme.scapingContainer};
 `;
 
-export const containerCss = css`
+export const containerCss = css<{notPadding?: boolean}>`
 	flex: 1;
 	background-color: ${({theme}) => theme.colors.background};
-	${paddingContainer}
+	${({notPadding}) => (!notPadding ? paddingContainer : '')}
 `;
 // TODO: Design component
 export const TextLarge = styled.Text`
@@ -70,7 +71,7 @@ export const TextSmall = styled.Text`
 	${textSmallCss}
 `;
 
-export const Container = styled.View`
+export const Container = styled.View<{notPadding?: boolean}>`
 	${containerCss}
 `;
 export const AreaContainer = styled.SafeAreaView`
@@ -92,3 +93,4 @@ export const CenterItemView = styled.View`
 export const ScrollContainer = styled.ScrollView`
 	${containerCss}
 `;
+export const Touch = styled.TouchableOpacity``;
