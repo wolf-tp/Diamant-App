@@ -2,20 +2,22 @@ import {navigate} from 'app/navigation/rootNavigation';
 import {betweenContent, RowView, centerItemsCss, shadowElement} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import React from 'react';
+import {ViewStyle} from 'react-native';
 import {IconCardPlus} from './icons/Icons';
 
 interface Props {
 	onPressPlus?: () => void;
+	style?: ViewStyle;
 }
 
-const CardFood = (props: Props) => {
+const CardFood = ({style, title = '', description = '', price}: Props & Product) => {
 	return (
-		<Container activeOpacity={0.6} onPress={() => navigate('ProductDetail')}>
+		<Container style={style} activeOpacity={0.6} onPress={() => navigate('ProductDetail')}>
 			<ProductImage source={require('images/template/apple.png')} />
-			<NameProduct>Big cheese burger</NameProduct>
-			<Description>7pcs, Priceg</Description>
+			<NameProduct>{title}</NameProduct>
+			<Description>{description}</Description>
 			<RowBottom>
-				<PriceText>$4.99</PriceText>
+				<PriceText>${price}</PriceText>
 				<TouchIcon activeOpacity={0.6}>
 					<IconCardPlus />
 				</TouchIcon>

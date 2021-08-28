@@ -33,12 +33,19 @@ export const betweenContent = css`
 	justify-content: space-between;
 `;
 export const shadowElement = css`
-	shadow-color: #f1f4f9;
-	border-width: 0.2px;
-	shadow-radius: 12px;
-	shadow-offset: 0px 4px;
-	shadow-opacity: 1;
-	${!isIOS ? 'elevation:3;' : ''}
+	${!isIOS
+		? css`
+				elevation: 1.5;
+		  `
+		: css`
+				shadow-color: #f1f4f9;
+				border-width: 0.2px;
+				shadow-radius: 12px;
+				shadow-offset: 0px 4px;
+				shadow-opacity: 1;
+		  `}
+	margin-bottom: 5px;
+	margin-horizontal: 5px;
 `;
 
 export const paddingContainer = css`
@@ -81,4 +88,7 @@ export const RowTouch = styled.TouchableOpacity`
 
 export const CenterItemView = styled.View`
 	${centerItemsCss}
+`;
+export const ScrollContainer = styled.ScrollView`
+	${containerCss}
 `;

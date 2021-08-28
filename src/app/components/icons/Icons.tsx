@@ -343,3 +343,23 @@ export const ArrowIcon = (props: SvgProps) => (
 		/>
 	</Svg>
 );
+export const IconCheckIn = (props: SvgProps) => (
+	<Svg width={16} height={19} fill={'none'} {...props}>
+		<Path
+			fillRule={'evenodd'}
+			clipRule={'evenodd'}
+			d={
+				'M10.546 1.113A7.468 7.468 0 007.65.5a7.397 7.397 0 00-5.4 2.22 7.801 7.801 0 00-.09 10.87l4.601 4.763a1.01 1.01 0 001.108.238.948.948 0 00.325-.228l4.683-4.693a7.801 7.801 0 00.1-10.87 7.467 7.467 0 00-2.43-1.688zM7.488 10.81a2.443 2.443 0 100-4.885 2.443 2.443 0 000 4.885z'
+			}
+			fill={'#C89524'}
+		/>
+	</Svg>
+);
+export const IconDropdownAddress = (props: SvgProps) => (
+	<Svg width={8} height={7} fill={'none'} {...props}>
+		<Path
+			d={'M4.866 6.5a1 1 0 01-1.732 0L.536 2A1 1 0 011.402.5h5.196A1 1 0 017.464 2L4.866 6.5z'}
+			fill={'#C89524'}
+		/>
+	</Svg>
+);

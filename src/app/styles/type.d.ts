@@ -28,3 +28,9 @@ declare type ColorTheme = {
 declare type App = {
 	isFirstTime?: boolean;
 };
+type Product = {
+	url?: string;
+	title?: string;
+	description?: string;
+	price?: string | number;
+};

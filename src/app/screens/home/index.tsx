@@ -1,19 +1,70 @@
 import SearchInput from 'app/components/group/SearchInput';
-import {Container} from 'app/styles/globalStyled';
+import {IconCheckIn, IconDropdownAddress} from 'app/components/icons/Icons';
+import {
+	betweenContent,
+	centerItemsCss,
+	RowView,
+	ScrollContainer,
+	TextLarge,
+	TextMedium,
+} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import React from 'react';
 import {SafeAreaView} from 'react-native';
+import CarouselHome from './Carousel';
+import ProductHome from './ProductsHome';
 
-interface Props {}
-
-const Home = (props: Props) => {
+const Home = () => {
 	return (
-		<Container style={{backgroundColor: '#F9FAFE'}}>
+		<ScrollContainer>
 			<SafeAreaView>
-				<SearchInput />
+				<RowBetween>
+					{/* Left address view */}
+					<AddressView>
+						<IconCheckIn />
+						<AddressText>Dhaka, Banassre</AddressText>
+						<IconDropdownAddress />
+					</AddressView>
+					{/* Avatar */}
+					<Avatar source={require('images/template/avatar-home.png')} />
+				</RowBetween>
+				<TitleQuestion>What is you like to eat?</TitleQuestion>
+				{/* Input & Carousel */}
+				<TouchSearch activeOpacity={0.6}>
+					<SearchInput editable={false} />
+				</TouchSearch>
+
+				<HeaderCarousel />
+				{/* Body */}
+				<ProductHome />
 			</SafeAreaView>
-		</Container>
+		</ScrollContainer>
 	);
 };
+const RowBetween = styled(RowView)`
+	padding-top: ${({theme}) => theme.scaping(2)};
+	${betweenContent}
+	${centerItemsCss}
+`;
+const AddressView = styled(RowView)`
+	${centerItemsCss}
+`;
+const AddressText = styled(TextMedium)`
+	padding-left: ${({theme}) => theme.scaping(2)};
+	padding-right: ${({theme}) => theme.scaping(1)};
+	font-weight: 400;
+`;
+const Avatar = styled.Image`
+	width: 40px;
+	aspect-ratio: 1;
+	border-radius: 25px;
+`;
+const TitleQuestion = styled(TextLarge)`
+	margin-vertical: ${({theme}) => theme.scapingElement};
+`;
+const HeaderCarousel = styled(CarouselHome)`
+	margin-vertical: 10px;
+`;
+const TouchSearch = styled.TouchableOpacity``;
 
 export default Home;
