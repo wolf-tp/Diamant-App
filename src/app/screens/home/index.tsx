@@ -1,5 +1,10 @@
+import React, {useEffect} from 'react';
+import {SafeAreaView} from 'react-native';
+import CarouselHome from './Carousel';
+import ProductHome from './ProductsHome';
 import SearchInput from 'app/components/group/SearchInput';
 import {IconCheckIn, IconDropdownAddress} from 'app/components/icons/Icons';
+import {getTranslate} from 'app/locate/reducer';
 import {
 	betweenContent,
 	centerItemsCss,
@@ -9,12 +14,9 @@ import {
 	TextMedium,
 } from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
-import React from 'react';
-import {SafeAreaView} from 'react-native';
-import CarouselHome from './Carousel';
-import ProductHome from './ProductsHome';
 
 const Home = () => {
+	const getString = getTranslate();
 	return (
 		<ScrollContainer>
 			<SafeAreaView>
@@ -28,7 +30,7 @@ const Home = () => {
 					{/* Avatar */}
 					<Avatar source={require('images/template/avatar-home.png')} />
 				</RowBetween>
-				<TitleQuestion>What is you like to eat?</TitleQuestion>
+				<TitleQuestion>{getString('Home', 'Question')}</TitleQuestion>
 				{/* Input & Carousel */}
 				<TouchSearch activeOpacity={0.6}>
 					<SearchInput editable={false} />

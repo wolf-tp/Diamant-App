@@ -6,21 +6,23 @@ import {IconFinger, IconEye} from 'app/components/icons/Icons';
 import TextboxInput from 'app/components/group/TextboxInput';
 import Button from 'app/components/Button';
 import {useForm} from 'app/components/hooks/useForm';
+import {getTranslate} from 'app/locate/reducer';
 
 const Login = () => {
+	const getString = getTranslate();
 	const [changeSecurePassword, setChangeSecurePassword] = useState(true);
 	const {handleSubmit, handleChange, data, errors} = useForm({
 		validations: {
 			email: {
 				required: {
 					value: true,
-					message: 'Email is required',
+					message: getString('Login', 'EmailRequire'),
 				},
 			},
 			password: {
 				required: {
 					value: true,
-					message: 'Password is required',
+					message: getString('Login', 'PasswordRequire'),
 				},
 			},
 		},
@@ -32,23 +34,25 @@ const Login = () => {
 	const onPressSecurePassword = useCallback(() => {
 		setChangeSecurePassword(!changeSecurePassword);
 	}, [changeSecurePassword]);
+
 	return (
 		<Container>
 			<ImageHeader source={require('images/title-login.png')} />
 			<BodyTop>
 				<TextLogin>
-					Lo<TextOrange>gin</TextOrange>
+					{getString('Login', 'Lo')}
+					<TextOrange>{getString('Login', 'Gin')}</TextOrange>
 				</TextLogin>
-				<TextCaption>Your favorite meals delivered to you</TextCaption>
+				<TextCaption>{getString('Login', 'Favorite')}</TextCaption>
 			</BodyTop>
 			<BodyCenter>
-				<LabelInput>Email</LabelInput>
+				<LabelInput>{getString('Login', 'Email')}</LabelInput>
 				<TextboxInput
 					placeholder={'Email'}
 					values={data.email || ''}
 					handleChange={handleChange('email')}
 				/>
-				<LabelInput>Password</LabelInput>
+				<LabelInput>{getString('Login', 'Password')}</LabelInput>
 				<PasswordTextboxInput
 					secureTextEntry={changeSecurePassword}
 					placeholder={'Password'}
@@ -61,17 +65,19 @@ const Login = () => {
 			<BodyBottom>
 				{errors.email && <TextError>{errors.email}</TextError>}
 				{errors.password && <TextError>{errors.password}</TextError>}
-				<CustomButton children={'Continue'} onPress={onPressLogin} />
+				<CustomButton children={getString('Login', 'Continue')} onPress={onPressLogin} />
 				<FingerTouchOpacity>
 					<FingerIconCustom />
 					<TextCaption>
-						Login by <TextBold>FingerID</TextBold>
+						{getString('Login', 'LoginBy')}
+						<TextBold>{getString('Login', 'FingerId')}</TextBold>
 					</TextCaption>
 				</FingerTouchOpacity>
 			</BodyBottom>
 			<TextCaption>
-				By continuing you agree to our <TextOrange>Terms of Service</TextOrange> and{' '}
-				<TextOrange> Privacy Policy.</TextOrange>
+				{getString('Login', 'Agree')}
+				<TextOrange>{getString('Login', 'TermOfServices')}</TextOrange> {getString('Global', 'And')}{' '}
+				<TextOrange> {getString('Login', 'Privacy')}.</TextOrange>
 			</TextCaption>
 		</Container>
 	);

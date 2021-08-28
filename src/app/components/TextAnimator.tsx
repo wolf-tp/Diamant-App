@@ -28,6 +28,17 @@ class TextAnimator extends React.Component<TextAnimatorProps> {
 		this.textArr = textArr;
 	}
 
+	shouldComponentUpdate(nextProps: TextAnimatorProps) {
+		if (this.props.content !== nextProps.content) {
+			const textArr: string[] = nextProps.content?.trim().split(' ') || [];
+			textArr.forEach((_, i: number) => {
+				this.animatedValues[i] = new Animated.Value(0);
+			});
+			this.textArr = textArr;
+		}
+		return true;
+	}
+
 	componentDidMount() {
 		this.animate(1);
 	}

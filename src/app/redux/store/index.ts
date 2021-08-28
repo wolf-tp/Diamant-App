@@ -1,6 +1,7 @@
 import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
 import counterReducer from '../../features/counter/counterSlice';
 import themeReducer from 'app/styles/reducer';
+import langReducer from 'app/locate/reducer';
 import modalReducer from 'app/components/modal/reducer';
 
 export const store = configureStore({
@@ -8,6 +9,7 @@ export const store = configureStore({
 		counter: counterReducer,
 		theme: themeReducer,
 		modal: modalReducer,
+		language: langReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({

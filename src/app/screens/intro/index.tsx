@@ -1,4 +1,4 @@
-import Button from 'app/components/Button';
+import React from 'react';
 import TextAnimator from 'app/components/TextAnimator';
 import {navigate} from 'app/navigation/rootNavigation';
 import {screenHeight, screenWidth} from 'app/styles/dimens';
@@ -6,11 +6,14 @@ import {CenterItemView, Container} from 'app/styles/globalStyled';
 import {getAppTheme} from 'app/styles/reducer';
 import styled from 'app/styles/styled';
 import LottieView from 'lottie-react-native';
-import React from 'react';
+import Button from 'app/components/Button';
+import {getTranslate} from 'app/locate/reducer';
 
 const timing = 600;
 const IntroApp = () => {
 	const theme = getAppTheme();
+	const getString = getTranslate();
+
 	return (
 		<Container>
 			<ContainerView>
@@ -20,22 +23,25 @@ const IntroApp = () => {
 						<CakeImage resizeMode={'contain'} source={require('images/cake_intro.png')} />
 					</ContainerImage>
 					<TextAnimator
-						content={'Welcome to'}
+						content={getString('Intro', 'WelcomeTo')}
 						timing={timing}
 						textStyle={{color: theme.colors.textColor, fontSize: 36}}
 					/>
 					<TextAnimate
-						content={'our store'}
+						content={getString('Intro', 'OurStore')}
 						timing={timing}
 						textStyle={{color: theme.colors.main, fontSize: 36}}
 					/>
 					<TextAnimate
-						content={'Ger your groceries in as fast as one hour'}
+						content={getString('Intro', 'Description')}
 						timing={800}
 						textStyle={{color: theme.colors.textColor}}
 					/>
 					<BottomContaineButton>
-						<StartButton children={'Get Started'} onPress={() => navigate('Login')} />
+						<StartButton
+							children={getString('Intro', 'GetStart')}
+							onPress={() => navigate('Login')}
+						/>
 					</BottomContaineButton>
 				</BottomView>
 			</ContainerView>
