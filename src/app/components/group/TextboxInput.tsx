@@ -1,19 +1,34 @@
-import React, {useState} from 'react';
+import React, {useCallback} from 'react';
 import {TextInputProps, ViewProps} from 'react-native';
 import styled from 'app/styles/styled';
 
 interface ChildrenProps {
 	children?: React.ReactChild;
+	handleChange?: (e: string) => void;
+	values: any;
 }
 type PropsTextInput = TextInputProps & ViewProps & ChildrenProps;
-const TextBoxInput = ({children, secureTextEntry, ...props}: PropsTextInput) => {
-	const [onChangeValue, setOnChangeValue] = useState('');
+const TextBoxInput = ({
+	children,
+	values,
+	secureTextEntry,
+	handleChange,
+	...props
+}: PropsTextInput) => {
+	const setInputChange = useCallback(
+		(text) => {
+			if (handleChange) {
+				handleChange(text);
+			}
+		},
+		[handleChange]
+	);
 	return (
 		<ViewContainer {...props}>
 			<TextInputContent
 				secureTextEntry={secureTextEntry}
-				value={onChangeValue}
-				onChangeText={setOnChangeValue}
+				value={values}
+				onChangeText={setInputChange}
 			/>
 			{children}
 		</ViewContainer>

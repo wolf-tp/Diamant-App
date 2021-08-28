@@ -18,6 +18,7 @@ const globalScaping: ScapingTheme = {
 export const globalColor: ColorTheme = {
 	gray: '#E2E2E2',
 	white: '#fff',
+	red_100: '#ff0000',
 	none: 'transparent',
 	textColor: '#3C3F3D',
 	gray_200: '#F2F2F2',

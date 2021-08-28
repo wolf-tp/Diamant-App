@@ -5,12 +5,30 @@ import {Container} from 'app/styles/globalStyled';
 import {IconFinger, IconEye} from 'app/components/icons/Icons';
 import TextboxInput from 'app/components/group/TextboxInput';
 import Button from 'app/components/Button';
+import {useForm} from 'app/components/hooks/useForm';
 
 const Login = () => {
 	const [changeSecurePassword, setChangeSecurePassword] = useState(true);
-	const onPressLogin = useCallback(() => {
-		console.log('press login');
-	}, []);
+	const {handleSubmit, handleChange, data, errors} = useForm({
+		validations: {
+			email: {
+				required: {
+					value: true,
+					message: 'Email is required',
+				},
+			},
+			password: {
+				required: {
+					value: true,
+					message: 'Password is required',
+				},
+			},
+		},
+	});
+	const onPressLogin = () => {
+		handleSubmit();
+	};
+
 	const onPressSecurePassword = useCallback(() => {
 		setChangeSecurePassword(!changeSecurePassword);
 	}, [changeSecurePassword]);
@@ -25,13 +43,24 @@ const Login = () => {
 			</BodyTop>
 			<BodyCenter>
 				<LabelInput>Email</LabelInput>
-				<TextboxInput placeholder={'Email'} />
+				<TextboxInput
+					placeholder={'Email'}
+					values={data.email || ''}
+					handleChange={handleChange('email')}
+				/>
 				<LabelInput>Password</LabelInput>
-				<PasswordTextboxInput secureTextEntry={changeSecurePassword} placeholder={'Password'}>
+				<PasswordTextboxInput
+					secureTextEntry={changeSecurePassword}
+					placeholder={'Password'}
+					values={data.password || ''}
+					handleChange={handleChange('password')}
+				>
 					<IconEye isPress={changeSecurePassword} onPress={onPressSecurePassword} />
 				</PasswordTextboxInput>
 			</BodyCenter>
 			<BodyBottom>
+				{errors.email && <TextError>{errors.email}</TextError>}
+				{errors.password && <TextError>{errors.password}</TextError>}
 				<CustomButton children={'Continue'} onPress={onPressLogin} />
 				<FingerTouchOpacity>
 					<FingerIconCustom />
@@ -84,6 +113,11 @@ const TextBold = styled.Text`
 const TextCaption = styled.Text`
 	font-size: ${({theme}) => theme.font.fontMedium};
 	margin: 6px 0px;
+`;
+const TextError = styled.Text`
+	font-size: ${({theme}) => theme.font.fontMedium};
+	margin: 6px 0px;
+	color: ${({theme}) => theme.colors.red_100};
 `;
 const FingerTouchOpacity = styled.TouchableOpacity`
 	margin: 6px 0px;
