@@ -6,14 +6,14 @@ import {useToggleAnimate} from './animation/FadeAnimation';
 
 type ButtonProps = TouchableOpacityProps & InsideTouch;
 
-const Button = (props: ButtonProps) => {
+const Button = ({style, ...props}: ButtonProps) => {
 	const {children, loading} = props;
 
 	const {interpolate} = useToggleAnimate({outputRange: [0, 1]});
 
 	return (
-		<ViewContainer {...props} style={[{opacity: interpolate}]}>
-			<Container activeOpacity={0.6} disabled={loading} {...props}>
+		<ViewContainer style={[{opacity: interpolate}]}>
+			<Container activeOpacity={0.6} disabled={loading} style={style} {...props}>
 				{!loading ? (
 					typeof children === 'string' ? (
 						<TextButton {...props}>{children}</TextButton>

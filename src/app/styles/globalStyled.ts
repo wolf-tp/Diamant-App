@@ -11,14 +11,18 @@ export const textLargeCss = css`
 	font-size: ${(props) => props.theme.font.fontLarge};
 `;
 export const textMediumCss = css`
-	font-size: normal;
 	font-weight: 600;
 	font-size: ${({theme}) => theme.font.fontMedium};
 `;
 export const textSmallCss = css`
-	font-size: normal;
 	font-weight: 200;
 	font-size: ${({theme}) => theme.font.fontSmall};
+`;
+export const textMediumLargeCss = css`
+	font-weight: 200;
+	font-size: ${({theme}) => theme.font.fontMediumLarge};
+	font-style: normal;
+	font-weight: normal;
 `;
 export const scapingTabbar = css``;
 export const rowCss = css`
@@ -65,6 +69,10 @@ export const TextLarge = styled.Text`
 
 export const TextMedium = styled.Text`
 	${textMediumCss}
+`;
+
+export const TextMediumLarge = styled.Text`
+	${textMediumLargeCss}
 `;
 
 export const TextSmall = styled.Text`

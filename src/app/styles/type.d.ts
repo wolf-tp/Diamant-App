@@ -7,6 +7,7 @@ declare type ThemeInterface = {
 		fontLarge: string;
 		fontFamily: string;
 		fontSmall: string;
+		fontMediumLarge: string;
 	};
 } & ScapingTheme;
 declare type ScapingTheme = {
@@ -30,6 +31,7 @@ declare type ColorTheme = {
 	bottomBarFocus: string;
 	orange_100: string;
 	backgroundGray: string;
+	darkGray: string;
 };
 declare type App = {
 	isFirstTime?: boolean;

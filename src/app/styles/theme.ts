@@ -7,6 +7,7 @@ const globalFont = {
 	normal: '500',
 	bold: '600',
 	fontLarge: '18.5px',
+	fontMediumLarge: '16px',
 };
 const globalScaping: ScapingTheme = {
 	scapingElement: '20px',
@@ -23,6 +24,7 @@ export const globalColor: ColorTheme = {
 	textColor: '#3C3F3D',
 	gray_200: '#F2F2F2',
 	gray_100: '#F7F7F7',
+	darkGray: '#545454',
 	textColor_100: '#4C4F4D',
 	orange_100: '#C89524',
 	background: '#F3F4F9',

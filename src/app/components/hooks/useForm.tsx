@@ -1,10 +1,7 @@
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 
 interface Validation {
-	required?: {
-		value: boolean;
-		message: string;
-	};
+	required?: string;
 	pattern?: {
 		value: string;
 		message: string;
@@ -21,45 +18,39 @@ export const useForm = <T extends Record<keyof T, any> = {}>(options?: {
 	validations?: Validations<T>;
 	initialValue?: Partial<T>;
 }) => {
-	const [data, setData] = useState<T>((options?.initialValue || {}) as T);
+	const data = useRef<T>((options?.initialValue || {}) as T).current;
 	const [errors, setErrors] = useState<ErrorRecord<T>>({});
 
 	const handleChange =
 		<S extends unknown>(key: keyof T, sanitizeFn?: (value: string) => S) =>
 		(e: string) => {
 			const value = sanitizeFn ? sanitizeFn(e) : e;
-			setData({
-				...data,
-				[key]: value,
-			});
+			(data as any)[key] = value;
 		};
+
 	const handleSubmit = () => {
 		const validations = options?.validations;
 		if (validations) {
-			let valid = true;
 			const newErrors: ErrorRecord<T> = {};
 			for (const key in validations) {
 				const value = data[key];
 				const validation = validations[key];
-				if (validation?.required?.value && !value) {
-					valid = false;
-					newErrors[key] = validation?.required?.message;
+				if (validation?.required && !value) {
+					newErrors[key] = validation?.required;
 				}
 
 				const pattern = validation?.pattern;
 				if (pattern?.value && !RegExp(pattern.value).test(value)) {
-					valid = false;
 					newErrors[key] = pattern.message;
 				}
 
 				const custom = validation?.custom;
 				if (custom?.isValid && !custom.isValid(value)) {
-					valid = false;
 					newErrors[key] = custom.message;
 				}
 			}
 
-			setErrors(valid ? {} : newErrors);
+			setErrors(newErrors);
 		}
 	};
 	return {
