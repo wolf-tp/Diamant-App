@@ -22,7 +22,7 @@ export type RootStackParamList = {
 	Cart: undefined;
 	Favourite: undefined;
 	Account: undefined;
-	LoginScreen: undefined;
+	Login: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -47,11 +47,11 @@ const RootScreen = (props: Props) => {
 					headerLeftContainerStyle: {paddingLeft: 10},
 					headerTitleAlign: 'left',
 				}}
-				initialRouteName={props.isFirstTime ? 'Intro' : 'Explore'}
+				initialRouteName={props.isFirstTime ? 'Intro' : 'Login'}
 			>
 				<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
 				<Stack.Screen options={{header: () => null}} name={'ListProduct'} component={ListProduct} />
-				<Stack.Screen options={notShowHeader} name={'LoginScreen'} component={LoginScreen} />
+				<Stack.Screen options={notShowHeader} name={'Login'} component={LoginScreen} />
 				<Stack.Screen
 					options={{header: () => null}}
 					name={'ProductDetail'}

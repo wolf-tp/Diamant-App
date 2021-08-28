@@ -35,7 +35,7 @@ const IntroApp = () => {
 						textStyle={{color: theme.colors.textColor}}
 					/>
 					<BottomContaineButton>
-						<StartButton children={'Get Started'} onPress={() => navigate('Home')} />
+						<StartButton children={'Get Started'} onPress={() => navigate('Login')} />
 					</BottomContaineButton>
 				</BottomView>
 			</ContainerView>
