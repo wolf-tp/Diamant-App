@@ -20,7 +20,6 @@ const Avatar = styled.Image`
 	max-width: 80px;
 	aspect-ratio: 1;
 	resize-mode: contain;
-	${shadowElement}
 `;
 
 const ContainerContent = styled.View``;

@@ -93,4 +93,7 @@ export const CenterItemView = styled.View`
 export const ScrollContainer = styled.ScrollView`
 	${containerCss}
 `;
+export const ListContainer = styled.FlatList`
+	${containerCss}
+`;
 export const Touch = styled.TouchableOpacity``;

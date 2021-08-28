@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TouchableOpacity, StyleSheet} from 'react-native';
-import {BackHeader} from '../components/icons/Icons';
+import {BackHeader, IconFilter} from '../components/icons/Icons';
 import IntroApp from '../screens/intro';
 import LoginScreen from '../screens/login';
 import {navigationRef, popNavigate} from './rootNavigation';
@@ -31,6 +31,7 @@ type Props = {
 	isFirstTime?: boolean;
 };
 const notShowHeader = {headerShown: false};
+const scapingHeader = 15;
 
 const RootScreen = (props: Props) => {
 	const themes = getAppTheme();
@@ -45,13 +46,25 @@ const RootScreen = (props: Props) => {
 					),
 					headerStyle: styles.headerNoLine,
 					headerTitleStyle: styles.headerFont,
-					headerLeftContainerStyle: {paddingLeft: 10},
-					headerTitleAlign: 'left',
+					headerLeftContainerStyle: {paddingLeft: scapingHeader},
+					headerTitleAlign: 'center',
 				}}
-				initialRouteName={props.isFirstTime ? 'Intro' : 'Login'}
+				initialRouteName={(props.isFirstTime ? 'Intro' : 'Login') as keyof RootStackParamList}
 			>
 				<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
-				<Stack.Screen options={{header: () => null}} name={'ListProduct'} component={ListProduct} />
+				<Stack.Screen
+					options={{
+						headerStyle: {backgroundColor: themes.colors.background, ...styles.headerNoLine},
+						headerRight: () => (
+							<TouchableOpacity onPress={popNavigate}>
+								<IconFilter />
+							</TouchableOpacity>
+						),
+						headerRightContainerStyle: styles.headerRight,
+					}}
+					name={'ListProduct'}
+					component={ListProduct}
+				/>
 				<Stack.Screen options={notShowHeader} name={'Login'} component={LoginScreen} />
 				<Stack.Screen
 					options={{
@@ -79,6 +92,9 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 0,
 	},
 	headerFont: {fontSize: 22},
+	headerRight: {
+		paddingRight: scapingHeader,
+	},
 });
 
 export default RootScreen;

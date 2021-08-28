@@ -24,13 +24,12 @@ interface Props {}
 
 const ProductDetail = (props: Props & Navigate<Product>) => {
 	const {url, description, price, title} = getParams<Product>(props);
-	console.log(props);
 	return (
 		<AreaContainer>
 			<BetweenContainer notPadding>
 				<ProductImage source={url as any} />
 				<BottomContainer>
-					<ScrollContent>
+					<ScrollContent showsVerticalScrollIndicator={false}>
 						<RowBetween>
 							<TitleContent title={title} content={description} />
 							<Touch>
@@ -55,7 +54,7 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 							</RowContentTouch>
 						</RowBetween>
 					</ScrollContent>
-					<Button>Add to cart</Button>
+					<AddCardButton>Add to cart</AddCardButton>
 				</BottomContainer>
 			</BetweenContainer>
 		</AreaContainer>
@@ -97,6 +96,9 @@ const ViewQuantity = styled.View`
 `;
 const TextQuantity = styled(TextSmall)`
 	color: #7c7c7c;
+`;
+const AddCardButton = styled(Button)`
+	margin-bottom: 10px;
 `;
 const ScrollContent = styled.ScrollView``;
 

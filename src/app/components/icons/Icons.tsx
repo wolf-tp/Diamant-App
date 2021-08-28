@@ -481,3 +481,64 @@ export const IconHeart = (props: SvgProps) => (
 		</Defs>
 	</Svg>
 );
+
+export const IconFilter = (props: SvgProps) => (
+	<Svg width={19} height={18} fill={'none'} {...props}>
+		<Path
+			d={
+				'M9.983 4.326c0 1.816-1.483 3.3-3.327 3.3-1.843 0-3.327-1.484-3.327-3.3 0-1.817 1.484-3.3 3.327-3.3 1.844 0 3.327 1.483 3.327 3.3z'
+			}
+			stroke={'#4C4F4D'}
+			strokeWidth={1.9}
+		/>
+		<Rect
+			x={0.85}
+			y={3.284}
+			width={3.327}
+			height={2.083}
+			rx={1.042}
+			fill={'#4C4F4D'}
+			stroke={'#4C4F4D'}
+			strokeWidth={0.3}
+		/>
+		<Path
+			d={
+				'M9.022 13.674c0-1.816 1.484-3.3 3.327-3.3 1.844 0 3.328 1.484 3.328 3.3 0 1.817-1.484 3.3-3.328 3.3-1.843 0-3.327-1.483-3.327-3.3z'
+			}
+			stroke={'#4C4F4D'}
+			strokeWidth={1.9}
+		/>
+		<Rect
+			x={9.85}
+			y={3.284}
+			width={7.885}
+			height={2.083}
+			rx={1.042}
+			fill={'#4C4F4D'}
+			stroke={'#4C4F4D'}
+			strokeWidth={0.3}
+		/>
+		<Rect
+			x={9.155}
+			y={14.716}
+			width={7.889}
+			height={2.083}
+			rx={1.042}
+			transform={'rotate(-180 9.155 14.716)'}
+			fill={'#4C4F4D'}
+			stroke={'#4C4F4D'}
+			strokeWidth={0.3}
+		/>
+		<Rect
+			x={18.061}
+			y={14.716}
+			width={2.858}
+			height={2.083}
+			rx={1.042}
+			transform={'rotate(-180 18.061 14.716)'}
+			fill={'#4C4F4D'}
+			stroke={'#4C4F4D'}
+			strokeWidth={0.3}
+		/>
+	</Svg>
+);

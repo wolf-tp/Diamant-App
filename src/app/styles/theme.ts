@@ -25,7 +25,7 @@ export const globalColor: ColorTheme = {
 	gray_100: '#F7F7F7',
 	textColor_100: '#4C4F4D',
 	orange_100: '#C89524',
-	background: '#FCFEFF',
+	background: '#F3F4F9',
 	backgroundGray: '#F2F3F2',
 	bottomBarUnFocus: '#BBBBBB',
 	bottomBarFocus: '#C89524',
