@@ -8,7 +8,6 @@ import LoginScreen from '../screens/login';
 import {navigationRef, popNavigate} from './rootNavigation';
 import ListProduct from 'app/screens/ListProduct';
 import ProductDetail from 'app/screens/ProductDetal';
-import FindStore from 'app/screens/FindStore';
 import Tabs from './tabs';
 import {getAppTheme} from 'app/styles/reducer';
 
@@ -49,7 +48,7 @@ const RootScreen = (props: Props) => {
 					headerLeftContainerStyle: {paddingLeft: scapingHeader},
 					headerTitleAlign: 'center',
 				}}
-				initialRouteName={(props.isFirstTime ? 'Intro' : 'Login') as keyof RootStackParamList}
+				initialRouteName={(props.isFirstTime ? 'Intro' : 'Explore') as keyof RootStackParamList}
 			>
 				<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
 				<Stack.Screen
@@ -74,7 +73,6 @@ const RootScreen = (props: Props) => {
 					name={'ProductDetail'}
 					component={ProductDetail}
 				/>
-				<Stack.Screen name={'FindStore'} component={FindStore} />
 				<Stack.Screen options={notShowHeader} name={'Home'} component={Tabs} />
 				<Stack.Screen options={notShowHeader} name={'Explore'} component={Tabs} />
 				<Stack.Screen options={notShowHeader} name={'Cart'} component={Tabs} />

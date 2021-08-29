@@ -14,6 +14,10 @@ export const textMediumCss = css`
 	font-weight: 600;
 	font-size: ${({theme}) => theme.font.fontMedium};
 `;
+export const spaceTextHeader = css`
+	margin: 12px 0px;
+	align-self: center;
+`;
 export const textSmallCss = css`
 	font-weight: 200;
 	font-size: ${({theme}) => theme.font.fontSmall};

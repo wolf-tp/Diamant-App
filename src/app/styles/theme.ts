@@ -6,6 +6,7 @@ const globalFont = {
 	fontSmall: '12.5px',
 	normal: '500',
 	bold: '600',
+	bold_100: '700',
 	fontLarge: '18.5px',
 	fontMediumLarge: '16px',
 };

@@ -16,8 +16,8 @@ const SearchInput = (props: SearchInputProps) => {
 			pointerEvents={!props.editable ? 'none' : undefined}
 			style={{transform: [{translateX: interpolate}]}}
 		>
-			<InputSearch placeholder={'Search for fruits, vegetables, groce...'} {...props} />
-			<SearchIcon {...props} />
+			<InputSearch {...props} />
+			<SearchIcon />
 		</Container>
 	);
 };
@@ -32,6 +32,7 @@ const InputSearch = styled.TextInput<SearchInputProps>`
 const Container = styled(Animated.View)`
 	flex-direction: column;
 	justify-content: center;
+	background-color: ${({theme}) => theme.colors.background};
 `;
 const SearchIcon = styled(Search)<PositionICon>`
 	position: absolute;

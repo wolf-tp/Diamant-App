@@ -4,6 +4,7 @@ declare type ThemeInterface = {
 		fontMedium: string;
 		normal: string;
 		bold: string;
+		bold_100: string;
 		fontLarge: string;
 		fontFamily: string;
 		fontSmall: string;
