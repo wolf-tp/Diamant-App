@@ -7,13 +7,14 @@ import TextboxInput from 'app/components/group/TextboxInput';
 import Button from 'app/components/Button';
 import {useForm} from 'app/components/hooks/useForm';
 import {getTranslate} from 'app/locate/reducer';
-import {Text} from 'react-native';
 import {navigate} from 'app/navigation/rootNavigation';
+import ReactNativeBiometrics from 'react-native-biometrics';
+import * as Keychain from 'react-native-keychain';
 
 const Login = () => {
 	const getString = getTranslate();
 	const [changeSecurePassword, setChangeSecurePassword] = useState(true);
-	const {handleSubmit, handleChange, errors} = useForm({
+	const {handleSubmit, handleChange, data, errors} = useForm({
 		validations: {
 			email: {
 				required: getString('Login', 'EmailRequire'),
@@ -23,15 +24,42 @@ const Login = () => {
 			},
 		},
 	});
+	const generateAccount = async () => {
+		await Keychain.setGenericPassword(data.email as string, data.password as string);
+	};
 	const onPressLogin = () => {
-		navigate('Home');
-		// handleSubmit();
+		if (!Object.keys(handleSubmit()).length) {
+			navigate('Home');
+			generateAccount();
+		}
+	};
+	const fingerID = async () => {
+		const {available} = await ReactNativeBiometrics.isSensorAvailable();
+		if (available) {
+			const {success} = await ReactNativeBiometrics.simplePrompt({
+				promptMessage: 'Login by FingerID',
+				cancelButtonText: 'Cancel',
+			});
+
+			if (success) {
+				try {
+					const credentials = await Keychain.getGenericPassword();
+					if (credentials) {
+						handleChange('email')(credentials.username || '');
+						handleChange('password')(credentials.password);
+					} else {
+						console.log('No credentials stored');
+					}
+				} catch (error) {
+					console.log("Keychain couldn't be accessed!", error);
+				}
+			}
+		}
 	};
 
 	const onPressSecurePassword = useCallback(() => {
 		setChangeSecurePassword(!changeSecurePassword);
 	}, [changeSecurePassword]);
-
 	return (
 		<ParentContainer>
 			<ContainerLogin>
@@ -47,12 +75,14 @@ const Login = () => {
 				<TextboxInput
 					title={getString('Login', 'Email')}
 					placeholder={'Email'}
+					value={data.email as string}
 					handleChange={handleChange('email')}
 					error={errors.email}
 				/>
 				<PasswordView
 					title={getString('Login', 'Password')}
 					secureTextEntry={changeSecurePassword}
+					value={data.password as string}
 					placeholder={'Password'}
 					handleChange={handleChange('password')}
 					error={errors.password}
@@ -64,7 +94,7 @@ const Login = () => {
 					<CustomButton children={getString('Login', 'Continue')} onPress={onPressLogin} />
 				</LoginBottom>
 
-				<FingerTouchOpacity>
+				<FingerTouchOpacity onPress={fingerID}>
 					<FingerIconCustom />
 					<TextCaption>
 						{getString('Login', 'LoginBy')}

@@ -18,20 +18,20 @@ export const useForm = <T extends Record<keyof T, any> = {}>(options?: {
 	validations?: Validations<T>;
 	initialValue?: Partial<T>;
 }) => {
-	const data = useRef<T>((options?.initialValue || {}) as T).current;
+	const [data, setData] = useState<T>((options?.initialValue || {}) as T);
 	const [errors, setErrors] = useState<ErrorRecord<T>>({});
 
 	const handleChange =
 		<S extends unknown>(key: keyof T, sanitizeFn?: (value: string) => S) =>
 		(e: string) => {
 			const value = sanitizeFn ? sanitizeFn(e) : e;
-			(data as any)[key] = value;
+			setData((_data) => ({..._data, [key]: value}));
 		};
 
 	const handleSubmit = () => {
 		const validations = options?.validations;
+		const newErrors: ErrorRecord<T> = {};
 		if (validations) {
-			const newErrors: ErrorRecord<T> = {};
 			for (const key in validations) {
 				const value = data[key];
 				const validation = validations[key];
@@ -49,9 +49,9 @@ export const useForm = <T extends Record<keyof T, any> = {}>(options?: {
 					newErrors[key] = custom.message;
 				}
 			}
-
 			setErrors(newErrors);
 		}
+		return newErrors;
 	};
 	return {
 		data,
