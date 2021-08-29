@@ -8,6 +8,7 @@ import LoginScreen from '../screens/login';
 import {navigationRef, popNavigate} from './rootNavigation';
 import ListProduct from 'app/screens/ListProduct';
 import ProductDetail from 'app/screens/ProductDetal';
+import PlaceOrderSuccess from 'app/screens/PlaceOrder/success';
 import Tabs from './tabs';
 import {getAppTheme} from 'app/styles/reducer';
 
@@ -16,6 +17,7 @@ export type RootStackParamList = {
 	Home: undefined;
 	ListProduct: undefined;
 	ProductDetail: Product;
+	PlaceOrderSuccess: undefined;
 	FindStore: undefined;
 	Explore: undefined;
 	Cart: undefined;
@@ -48,7 +50,9 @@ const RootScreen = (props: Props) => {
 					headerLeftContainerStyle: {paddingLeft: scapingHeader},
 					headerTitleAlign: 'center',
 				}}
-				initialRouteName={(props.isFirstTime ? 'Intro' : 'Login') as keyof RootStackParamList}
+				initialRouteName={
+					(props.isFirstTime ? 'Intro' : 'PlaceOrderSuccess') as keyof RootStackParamList
+				}
 			>
 				<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
 				<Stack.Screen
@@ -65,6 +69,11 @@ const RootScreen = (props: Props) => {
 					component={ListProduct}
 				/>
 				<Stack.Screen options={notShowHeader} name={'Login'} component={LoginScreen} />
+				<Stack.Screen
+					options={notShowHeader}
+					name={'PlaceOrderSuccess'}
+					component={PlaceOrderSuccess}
+				/>
 				<Stack.Screen
 					options={{
 						headerTitle: '',
