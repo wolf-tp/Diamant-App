@@ -8,6 +8,7 @@ import Button from 'app/components/Button';
 import {useForm} from 'app/components/hooks/useForm';
 import {getTranslate} from 'app/locate/reducer';
 import {Text} from 'react-native';
+import {navigate} from 'app/navigation/rootNavigation';
 
 const Login = () => {
 	const getString = getTranslate();
@@ -23,7 +24,8 @@ const Login = () => {
 		},
 	});
 	const onPressLogin = () => {
-		handleSubmit();
+		navigate('Home');
+		// handleSubmit();
 	};
 
 	const onPressSecurePassword = useCallback(() => {

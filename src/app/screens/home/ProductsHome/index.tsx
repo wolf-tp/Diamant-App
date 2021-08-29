@@ -8,6 +8,7 @@ import {
 } from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import CardFood from 'app/components/CardFood';
+import {navigate} from 'app/navigation/rootNavigation';
 
 interface Props {
 	data?: ListProduct[];
@@ -35,7 +36,7 @@ const ProductHome = (props: Props) => {
 				<Container key={`listProduct_${index}`}>
 					<RowBetween>
 						<Title>{item.title}</Title>
-						<TouchSeeAll>
+						<TouchSeeAll onPress={() => navigate('ListProduct')}>
 							<SeeAllText>See all ({item.totalCount})</SeeAllText>
 						</TouchSeeAll>
 					</RowBetween>
