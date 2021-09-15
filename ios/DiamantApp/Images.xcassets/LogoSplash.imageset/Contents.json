@@ -6,12 +6,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "Logo@2x.png",
+      "filename" : "Logo-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Logo@3x.png",
+      "filename" : "Logo2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
