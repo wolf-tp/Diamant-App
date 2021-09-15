@@ -11,9 +11,15 @@ interface Props {
 	children?: React.ReactNode | React.ReactNode[];
 }
 
-const RowContentTouch = ({style, Icon, content, children}: Props & TouchableOpacityProps) => {
+const RowContentTouch = ({
+	style,
+	Icon,
+	content,
+	children,
+	onPress,
+}: Props & TouchableOpacityProps) => {
 	return (
-		<ContainerView style={style}>
+		<ContainerView style={style} onPress={onPress}>
 			<LeftView>
 				{Icon && <Icon style={{marginRight: 10}} />}
 				{typeof content === 'string' ? <TitleText>{content}</TitleText> : content}

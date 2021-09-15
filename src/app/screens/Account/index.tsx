@@ -10,6 +10,7 @@ import {
 } from 'app/components/icons/Icons';
 import RowContentTouch from 'app/components/RowContentTouch';
 import UserCard from 'app/components/UserCard';
+import {navigate} from 'app/navigation/rootNavigation';
 import {AreaContainer, Container, rowCss, TextLarge} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import React from 'react';
@@ -20,7 +21,7 @@ const Account = () => {
 			<ContainerView>
 				<UserCard />
 				<Container>
-					<TouchRow Icon={IconOrder} content={'Order'} />
+					<TouchRow Icon={IconOrder} content={'Order'} onPress={() => navigate('TrackingOrder')} />
 					<TouchRow Icon={IconMyDetail} content={'My Details'} />
 					<TouchRow Icon={IconDeliveryAddress} content={'Delivery Address'} />
 					<TouchRow Icon={IconNotificationAccount} content={'Notifications'} />

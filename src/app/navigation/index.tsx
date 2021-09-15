@@ -11,6 +11,7 @@ import ProductDetail from 'app/screens/ProductDetal';
 import PlaceOrderSuccess from 'app/screens/PlaceOrder/success';
 import Tabs from './tabs';
 import {getAppTheme} from 'app/styles/reducer';
+import TrackingOrder from 'app/screens/TrackingOrder';
 
 export type RootStackParamList = {
 	Intro: undefined;
@@ -24,6 +25,7 @@ export type RootStackParamList = {
 	Favourite: undefined;
 	Account: undefined;
 	Login: undefined;
+	TrackingOrder: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -50,9 +52,7 @@ const RootScreen = (props: Props) => {
 					headerLeftContainerStyle: {paddingLeft: scapingHeader},
 					headerTitleAlign: 'center',
 				}}
-				initialRouteName={
-					(props.isFirstTime ? 'Intro' : 'PlaceOrderSuccess') as keyof RootStackParamList
-				}
+				initialRouteName={(props.isFirstTime ? 'Intro' : 'Home') as keyof RootStackParamList}
 			>
 				<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
 				<Stack.Screen
@@ -81,6 +81,19 @@ const RootScreen = (props: Props) => {
 					}}
 					name={'ProductDetail'}
 					component={ProductDetail}
+				/>
+				<Stack.Screen
+					options={{
+						headerStyle: {backgroundColor: themes.colors.background, ...styles.headerNoLine},
+						headerRight: () => (
+							<TouchableOpacity onPress={popNavigate}>
+								<IconFilter />
+							</TouchableOpacity>
+						),
+						headerRightContainerStyle: styles.headerRight,
+					}}
+					name={'TrackingOrder'}
+					component={TrackingOrder}
 				/>
 				<Stack.Screen options={notShowHeader} name={'Home'} component={Tabs} />
 				<Stack.Screen options={notShowHeader} name={'Explore'} component={Tabs} />
