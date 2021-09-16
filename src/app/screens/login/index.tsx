@@ -63,24 +63,18 @@ const Login = () => {
 	return (
 		<ParentContainer>
 			<ContainerLogin>
-				<ImageHeader source={require('images/title-login.png')} />
+				<ImageHeader source={require('images/image_diamant.png')} />
 				<BodyTop>
-					<TextLogin>
-						{getString('Login', 'Lo')}
-						<TextOrange>{getString('Login', 'Gin')}</TextOrange>
-					</TextLogin>
-					<TextCaption>{getString('Login', 'Favorite')}</TextCaption>
+					<TextLogin>{getString('Login', 'Title')}</TextLogin>
 				</BodyTop>
 
 				<TextboxInput
-					title={getString('Login', 'Email')}
 					placeholder={'Email'}
 					value={data.email as string}
 					handleChange={handleChange('email')}
 					error={errors.email}
 				/>
 				<PasswordView
-					title={getString('Login', 'Password')}
 					secureTextEntry={changeSecurePassword}
 					value={data.password as string}
 					placeholder={'Password'}
@@ -98,24 +92,21 @@ const Login = () => {
 					<FingerIconCustom />
 					<TextCaption>
 						{getString('Login', 'LoginBy')}
-						<TextBold>{getString('Login', 'FingerId')}</TextBold>
+						<TextOrange>{getString('Login', 'FingerId')}</TextOrange>
+						{getString('Login', 'or')}
+						<TextOrange>{getString('Login', 'FaceId')}</TextOrange>
 					</TextCaption>
 				</FingerTouchOpacity>
-
-				<BottomText>
-					{getString('Login', 'Agree')}
-					<TextOrange>{getString('Login', 'TermOfServices')}</TextOrange>{' '}
-					{getString('Global', 'And')} <TextOrange> {getString('Login', 'Privacy')}.</TextOrange>
-				</BottomText>
 			</ContainerLogin>
 		</ParentContainer>
 	);
 };
 const ContainerLogin = styled(AreaContainer)`
-	background-color: ${({theme}) => theme.colors.white};
+	background-color: ${({theme}) => theme.colors.background};
+	align-items: center;
 `;
 const ParentContainer = styled(Container)`
-	background-color: ${({theme}) => theme.colors.white};
+	background-color: ${({theme}) => theme.colors.background};
 `;
 const BodyTop = styled.View`
 	justify-content: space-around;
@@ -130,34 +121,31 @@ const EyePassword = styled(IconEye)`
 	right: ${({theme}) => theme.scapingElement};
 `;
 const ImageHeader = styled.Image`
-	width: ${screenWidth - PADDING_CONTAINER}px;
-	height: ${screenHeight * 0.3}px;
+	width: ${screenWidth - PADDING_CONTAINER * 3}px;
+	height: ${screenHeight * 0.35}px;
 	resize-mode: contain;
 `;
 const TextLogin = styled.Text`
-	font-size: 32px;
+	color: ${({theme}) => theme.colors.white};
+	font-size: ${({theme}) => theme.font.fontXLarge};
 	font-weight: bold;
 	margin-bottom: 6px;
 `;
 const TextOrange = styled.Text`
 	color: ${({theme}) => theme.colors.orange_100};
+	font-weight: bold;
 `;
 const PasswordView = styled(TextboxInput)`
+	margin-top: 24px;
 	justify-content: center;
-`;
-const TextBold = styled.Text`
-	font-weight: bold;
 `;
 const TextCaption = styled.Text`
 	font-size: ${({theme}) => theme.font.fontMedium};
+	color: ${({theme}) => theme.colors.white};
 	margin: 6px 0px;
 `;
-const BottomText = styled(TextCaption)`
-	margin-top: ${({theme}) => theme.scaping(5)};
-`;
-
 const FingerTouchOpacity = styled.TouchableOpacity`
-	margin: 6px 0px;
+	margin-top: ${({theme}) => theme.scapingElement};
 	flex-direction: row;
 	align-items: center;
 	align-self: center;
@@ -166,7 +154,7 @@ const FingerIconCustom = styled(IconFinger)`
 	margin: 0px 6px;
 `;
 const CustomButton = styled(Button)`
-	width: ${screenWidth * 0.7}px;
+	width: ${screenWidth * 0.6}px;
 	margin-top: ${({theme}) => theme.scapingElement};
 `;
 export default Login;

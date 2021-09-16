@@ -7,6 +7,7 @@ const globalFont = {
 	normal: '500',
 	bold: '600',
 	bold_100: '700',
+	fontXLarge: '24px',
 	fontLarge: '18.5px',
 	fontMediumLarge: '16px',
 };
@@ -14,6 +15,7 @@ const globalScaping: ScapingTheme = {
 	scapingElement: '20px',
 	borderRadiusStand: '15px',
 	borderRadius: '40px',
+	borderRadiusSmall: '12px',
 	scaping: (num: number) => `${num * 5}px`,
 	scapingContainer: '25px',
 };
@@ -28,7 +30,7 @@ export const globalColor: ColorTheme = {
 	darkGray: '#545454',
 	textColor_100: '#4C4F4D',
 	orange_100: '#C89524',
-	background: '#F3F4F9',
+	background: '#0C1015',
 	backgroundGray: '#F2F3F2',
 	bottomBarUnFocus: '#BBBBBB',
 	bottomBarFocus: '#C89524',

@@ -22,7 +22,7 @@ export type RootStackParamList = {
 	FindStore: undefined;
 	Explore: undefined;
 	Cart: undefined;
-	Favourite: undefined;
+	Favorite: undefined;
 	Account: undefined;
 	Login: undefined;
 	TrackingOrder: undefined;
@@ -52,7 +52,7 @@ const RootScreen = (props: Props) => {
 					headerLeftContainerStyle: {paddingLeft: scapingHeader},
 					headerTitleAlign: 'center',
 				}}
-				initialRouteName={(props.isFirstTime ? 'Intro' : 'Home') as keyof RootStackParamList}
+				initialRouteName={(props.isFirstTime ? 'Intro' : 'Login') as keyof RootStackParamList}
 			>
 				<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
 				<Stack.Screen
@@ -98,7 +98,7 @@ const RootScreen = (props: Props) => {
 				<Stack.Screen options={notShowHeader} name={'Home'} component={Tabs} />
 				<Stack.Screen options={notShowHeader} name={'Explore'} component={Tabs} />
 				<Stack.Screen options={notShowHeader} name={'Cart'} component={Tabs} />
-				<Stack.Screen options={notShowHeader} name={'Favourite'} component={Tabs} />
+				<Stack.Screen options={notShowHeader} name={'Favorite'} component={Tabs} />
 				<Stack.Screen options={notShowHeader} name={'Account'} component={Tabs} />
 			</Stack.Navigator>
 		</NavigationContainer>

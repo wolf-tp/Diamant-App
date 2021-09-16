@@ -6,6 +6,7 @@ declare type ThemeInterface = {
 		bold: string;
 		bold_100: string;
 		fontLarge: string;
+		fontXLarge: string;
 		fontFamily: string;
 		fontSmall: string;
 		fontMediumLarge: string;
@@ -16,6 +17,7 @@ declare type ScapingTheme = {
 	scaping: (num: number) => string;
 	scapingElement: string;
 	borderRadius: string;
+	borderRadiusSmall: string;
 	borderRadiusStand: string;
 };
 declare type ColorTheme = {

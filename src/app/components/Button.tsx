@@ -32,10 +32,10 @@ const Loading = styled.ActivityIndicator`
 	height: ${(props) => props.theme.scapingElement};
 `;
 const Container = styled.TouchableOpacity<ButtonProps>`
-	padding-vertical: ${(props) => props.theme.scaping(isIOS ? 3 : 2)};
+	padding-vertical: ${(props) => props.theme.scaping(isIOS ? 3 : 3)};
 	background-color: ${({clean, outline, solidWhite, theme}) =>
 		clean || outline ? 'transparent' : solidWhite ? theme.colors.white : theme.colors.main};
-	border-radius: ${(props) => props.theme.borderRadius};
+	border-radius: ${(props) => props.theme.borderRadiusSmall};
 	border-width: ${({outline}) => (outline ? 1 : 0)};
 	border-color: ${({outline, theme}) => (outline ? theme.colors.main : 'transparent')};
 	align-items: center;

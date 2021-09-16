@@ -18,7 +18,6 @@ const TextBoxInput = ({
 	values,
 	secureTextEntry,
 	handleChange,
-	title,
 	style,
 	error,
 	...props
@@ -33,10 +32,10 @@ const TextBoxInput = ({
 	);
 	return (
 		<>
-			{title && <Title>{title}</Title>}
 			<ViewContainer style={style}>
 				<TextInputContent
 					secureTextEntry={secureTextEntry}
+					placeholderTextColor={'#C4C4C4'}
 					value={values}
 					onChangeText={setInputChange}
 					{...props}
@@ -48,20 +47,21 @@ const TextBoxInput = ({
 	);
 };
 const ViewContainer = styled.View`
-	background-color: ${({theme}) => theme.colors.gray_100};
-	border-radius: ${({theme}) => theme.borderRadius};
+	width: 100%;
+	/* background-color: ${({theme}) => theme.colors.gray_100}; */
+	border-radius: ${({theme}) => theme.borderRadiusSmall};
+	border-width: 1px;
+	border-color: white;
 	padding-vertical: ${({theme}) => theme.scaping(isIOS ? 3 : 0)};
 	padding-left: ${({theme}) => theme.scapingElement};
-`;
-const Title = styled(TextMediumLarge)`
-	color: ${({theme}) => theme.colors.darkGray};
-	margin-vertical: ${({theme}) => theme.scaping(2)};
 `;
 const TextError = styled.Text`
 	font-size: ${({theme}) => theme.font.fontMedium};
 	margin: 6px 0px;
 	color: ${({theme}) => theme.colors.red_100};
 `;
-const TextInputContent = styled.TextInput``;
+const TextInputContent = styled.TextInput`
+	color: ${({theme}) => theme.colors.white};
+`;
 
 export default TextBoxInput;
