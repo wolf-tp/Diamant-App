@@ -3,9 +3,9 @@ import {useAppSelector} from 'app/redux/store/hooks';
 import enData from './en';
 import frData from './fr';
 
-type LangContent = typeof enData;
+type LangContent = typeof frData;
 
-const initModal: LangContent = enData;
+const initModal: LangContent = frData;
 
 const langSlice = createSlice({
 	initialState: initModal,

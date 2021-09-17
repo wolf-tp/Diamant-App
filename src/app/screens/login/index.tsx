@@ -69,7 +69,7 @@ const Login = () => {
 				</BodyTop>
 
 				<TextboxInput
-					placeholder={'Email'}
+					placeholder={getString('Login', 'Email')}
 					value={data.email as string}
 					handleChange={handleChange('email')}
 					error={errors.email}
@@ -77,7 +77,7 @@ const Login = () => {
 				<PasswordView
 					secureTextEntry={changeSecurePassword}
 					value={data.password as string}
-					placeholder={'Password'}
+					placeholder={getString('Login', 'Password')}
 					handleChange={handleChange('password')}
 					error={errors.password}
 				>
