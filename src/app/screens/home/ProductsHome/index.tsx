@@ -1,143 +1,85 @@
 import React, {useState} from 'react';
-import {
-	betweenContent,
-	centerItemsCss,
-	RowView,
-	TextLarge,
-	TextMedium,
-} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
-import CardFood from 'app/components/CardFood';
-import {navigate} from 'app/navigation/rootNavigation';
+import {SceneRendererProps, TabView} from 'react-native-tab-view';
+import {useWindowDimensions} from 'react-native';
+import CustomTabBar from 'app/components/TabBar';
+import ProductList from 'app/components/ProductList';
 
-interface Props {
-	data?: ListProduct[];
-}
-type ListProduct = {
+interface Props {}
+type HomeTabData = {
+	key: string;
 	title: string;
-	totalCount: number;
-	product: Product[];
-};
-type Product = {
-	url?: string;
-	title?: string;
-	description?: string;
-	price?: string | number;
+	data: Product[];
 };
 
-const ProductHome = (props: Props) => {
-	const [data, setData] = useState<ListProduct[]>(fakeData);
+const ProductHome = (_: Props) => {
+	const layout = useWindowDimensions();
 
-	const renderItemProduct = ({item}: {item: Product}) => <CardProduct {...item} />;
+	const [routes] = useState<HomeTabData[]>([
+		{key: 'PATES', title: 'Pâtes', data: fakeData},
+		{key: 'TRUFFES', title: 'Truffes', data: fakeData},
+		{key: 'SNACKS', title: 'Snacks', data: fakeData},
+		{key: 'SAUCE', title: 'Sauce', data: fakeData},
+	]);
+
+	const [index, setIndex] = React.useState(0);
+
+	const renderScene = ({route}: SceneRendererProps & {route: HomeTabData}) => {
+		if (routes[index] === route) {
+			return <ProductList data={route.data} />;
+		}
+
+		return null;
+	};
 
 	return (
 		<Container>
-			{data.map((item, index) => (
-				<Container key={`listProduct_${index}`}>
-					<RowBetween>
-						<Title>{item.title}</Title>
-						<TouchSeeAll onPress={() => navigate('ListProduct')}>
-							<SeeAllText>See all ({item.totalCount})</SeeAllText>
-						</TouchSeeAll>
-					</RowBetween>
-					<HorizontalListProduct
-						showsHorizontalScrollIndicator={false}
-						horizontal
-						data={item.product}
-						renderItem={renderItemProduct as any}
-						keyExtractor={(_, _index) => `product_${_index.toString()}`}
-					/>
-				</Container>
-			))}
+			<HomeTab
+				renderTabBar={(_props) => <CustomTabBar {..._props} />}
+				lazy
+				navigationState={{index, routes}}
+				renderScene={renderScene as any}
+				onIndexChange={setIndex}
+				initialLayout={{width: layout.width}}
+			/>
 		</Container>
 	);
 };
 
-const fakeData = [
+const HomeTab = styled(TabView)``;
+
+const Container = styled.View`
+	flex: 1;
+`;
+const fakeData: Product[] = [
 	{
-		title: 'Exclusive Offer',
-		totalCount: 29,
-		product: [
-			{
-				url: require('images/template/apple.png'),
-				title: 'Big cheese burger',
-				description: '7pcs, Priceg',
-				price: 5.99,
-			},
-			{
-				url: require('images/template/apple.png'),
-				title: 'Big cheese burger',
-				description: '7pcs, Priceg',
-				price: 4.99,
-			},
-			{
-				url: require('images/template/apple.png'),
-				title: 'Big cheese burger',
-				description: '7pcs, Priceg',
-				price: 6.99,
-			},
-			{
-				url: require('images/template/apple.png'),
-				title: 'Big cheese burger',
-				description: '7pcs, Priceg',
-				price: 7.99,
-			},
-		],
+		url: require('images/template/product.png'),
+		title: 'Tagliattes',
+		description:
+			'Tagliatelles préparés de façon artisanale à base de produits frais rigoureusement sélectionnés.',
+		code: 'TAG',
 	},
 	{
-		title: 'Exclusive Offer',
-		totalCount: 29,
-		product: [
-			{
-				url: require('images/template/apple.png'),
-				title: 'Big cheese burger',
-				description: '7pcs, Priceg',
-				price: 4.99,
-			},
-			{
-				url: require('images/template/apple.png'),
-				title: 'Big cheese burger',
-				description: '7pcs, Priceg',
-				price: 4.99,
-			},
-			{
-				url: require('images/template/apple.png'),
-				title: 'Big cheese burger',
-				description: '7pcs, Priceg',
-				price: 4.99,
-			},
-			{
-				url: require('images/template/apple.png'),
-				title: 'Big cheese burger',
-				description: '7pcs, Priceg',
-				price: 4.99,
-			},
-		],
+		url: require('images/template/product.png'),
+		title: 'Tagliattes',
+		description:
+			'Tagliatelles préparés de façon artisanale à base de produits frais rigoureusement sélectionnés.',
+		code: 'TAG',
+	},
+	{
+		url: require('images/template/product.png'),
+		title: 'Tagliattes',
+		description:
+			'Tagliatelles préparés de façon artisanale à base de produits frais rigoureusement sélectionnés.',
+		code: 'TAG',
+	},
+	{
+		url: require('images/template/product.png'),
+		title: 'Tagliattes',
+		description:
+			'Tagliatelles préparés de façon artisanale à base de produits frais rigoureusement sélectionnés.',
+		code: 'TAG',
 	},
 ];
-
-const Container = styled.View``;
-const RowBetween = styled(RowView)`
-	${betweenContent}
-	${centerItemsCss}
-`;
-const Title = styled(TextLarge)`
-	margin-vertical: ${({theme}) => theme.scapingElement};
-`;
-const SeeAllText = styled(TextMedium)`
-	font-weight: 400;
-	color: ${({theme}) => theme.colors.main};
-`;
-const TouchSeeAll = styled.TouchableOpacity`
-	border-bottom-width: 1px;
-	padding-bottom: 1px;
-	border-color: ${({theme}) => theme.colors.main};
-`;
-const HorizontalListProduct = styled.FlatList`
-	padding-vertical: ${({theme}) => theme.scaping(2)};
-`;
-const CardProduct = styled(CardFood)`
-	margin-right: 10px;
-`;
 
 export default ProductHome;

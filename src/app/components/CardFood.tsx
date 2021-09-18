@@ -1,5 +1,6 @@
 import {navigate} from 'app/navigation/rootNavigation';
-import {betweenContent, RowView, centerItemsCss, shadowElement} from 'app/styles/globalStyled';
+import {screenWidth} from 'app/styles/dimens';
+import {rowCss, TextMedium, TextSmall} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import React from 'react';
 import {ViewStyle} from 'react-native';
@@ -11,58 +12,59 @@ interface Props {
 }
 
 const CardFood = ({style, ...props}: Props & Product) => {
-	const {title = '', description = '', price, url} = props;
+	const {title = '', description = '', url, code} = props;
 	return (
 		<Container style={style} activeOpacity={0.6} onPress={() => navigate('ProductDetail', props)}>
 			<ViewImage>
-				<ProductImage source={url as any} />
+				<ProductImage source={(url as any) || require('images/template/product.png')} />
 			</ViewImage>
-			<NameProduct>{title}</NameProduct>
-			<Description>{description}</Description>
-			<RowBottom>
-				<PriceText>${price}</PriceText>
-				<TouchIcon activeOpacity={0.6}>
-					<IconCardPlus />
-				</TouchIcon>
-			</RowBottom>
+			<ContainerContent>
+				<NameProduct>{title}</NameProduct>
+				<Description>{description}</Description>
+				<Description>CODE:{code}</Description>
+			</ContainerContent>
+			<TouchIcon>
+				<TouchPlusCard />
+			</TouchIcon>
 		</Container>
 	);
 };
+
+const IMAGE_CARD_SIZE = screenWidth / 4.5;
+
 const Container = styled.TouchableOpacity`
-	border-radius: 14px;
+	border-radius: ${({theme}) => theme.borderRadius};
 	padding: 13px;
-	background-color: white;
-	flex: 0;
-	${shadowElement}
+	background-color: ${({theme}) => theme.colors.card};
+	${rowCss}
 `;
-const NameProduct = styled.Text`
-	margin-top: 6px;
-	font-size: 14px;
-	font-weight: 500;
+const ContainerContent = styled.View`
+	margin-left: ${({theme}) => theme.scaping(2)};
+	flex: 1;
+	justify-content: space-around;
 `;
-const Description = styled.Text`
-	margin-top: 3px;
-	font-size: 12px;
-	font-weight: 300;
-	color: #7c7c7c;
+const NameProduct = styled(TextMedium)`
+	font-weight: 600;
+	color: ${({theme}) => theme.colors.text};
 `;
-const PriceText = styled.Text`
-	font-size: 14px;
-	font-weight: 500;
+const Description = styled(TextSmall)`
+	font-weight: 400;
+	color: ${({theme}) => theme.colors.textGray};
 `;
+const TouchPlusCard = styled(IconCardPlus)``;
 const ViewImage = styled.View`
-	max-width: 100px;
-	max-height: 100px;
+	width: ${IMAGE_CARD_SIZE}px;
+	height: ${IMAGE_CARD_SIZE * 1.24}px;
 `;
 const ProductImage = styled.Image`
-	resize-mode: contain;
 	width: 100%;
 	height: 100%;
+	resize-mode: contain;
 `;
-const RowBottom = styled(RowView)`
-	${betweenContent}
-	${centerItemsCss}
+const TouchIcon = styled.TouchableOpacity`
+	position: absolute;
+	bottom: 10px;
+	right: 15px;
 `;
-const TouchIcon = styled.TouchableOpacity``;
 
 export default CardFood;

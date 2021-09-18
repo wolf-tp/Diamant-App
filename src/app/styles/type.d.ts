@@ -35,6 +35,9 @@ declare type ColorTheme = {
 	orange_100: string;
 	backgroundGray: string;
 	darkGray: string;
+	text: string;
+	textGray: string;
+	card: string;
 };
 declare type App = {
 	isFirstTime?: boolean;
@@ -44,6 +47,11 @@ declare type Product = {
 	title?: string;
 	description?: string;
 	price?: string | number;
+	code: string;
+};
+declare type BannerData = {
+	title: string;
+	content: string;
 };
 declare interface Navigate<T> {
 	route?: Route<T>;

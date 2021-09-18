@@ -1,57 +1,36 @@
 import React from 'react';
-import {screenWidth} from 'app/styles/dimens';
 import {getAppTheme} from 'app/styles/reducer';
-import {StyleSheet, View} from 'react-native';
-import {
-	Route,
-	NavigationState,
-	SceneRendererProps,
-	TabBar,
-	TabBarIndicator,
-	TabBarIndicatorProps,
-} from 'react-native-tab-view';
+import {StyleSheet} from 'react-native';
+import {Route, NavigationState, SceneRendererProps, TabBar} from 'react-native-tab-view';
 
-interface Props {
-	index?: number;
-	routers?: RouterItem[];
-	onChange: (index: number) => void;
-}
-type RouterItem = {
-	key: string;
-	title?: string;
-};
-
-const CustomTabBar = (
-	props: SceneRendererProps & {navigationState: NavigationState<{key: string; title: string}>}
-) => {
+const CustomTabBar = (props: SceneRendererProps & {navigationState: NavigationState<Route>}) => {
 	const theme = getAppTheme();
 
 	return (
 		<TabBar
 			{...props}
 			style={styles.containerTab}
+			bounces
+			tabStyle={styles.tabStyle}
 			labelStyle={styles.labelStyles}
-			inactiveColor={'#00000055'}
+			inactiveColor={theme.colors.textGray}
 			activeColor={theme.colors.main}
-			renderIndicator={(propsIndicator: TabBarIndicatorProps<Route>) => (
-				<View style={styles.viewIndicator}>
-					<TabBarIndicator
-						{...propsIndicator}
-						style={{...styles.indicatorStyles, backgroundColor: theme.colors.main}}
-					/>
-				</View>
-			)}
+			renderIndicator={() => null}
+			scrollEnabled
 		/>
 	);
 };
 const styles = StyleSheet.create({
-	indicatorStyles: {
-		position: 'relative',
-		marginTop: 40,
-		width: 130,
+	viewIndicator: {flex: 1, alignItems: 'center', backgroundColor: 'red'},
+	labelStyles: {
+		color: '#ffff',
+		textTransform: 'none',
+		fontSize: 16,
+		width: '100%',
+		textAlign: 'center',
+		fontWeight: '500',
 	},
-	viewIndicator: {flex: 1, alignItems: 'center', width: screenWidth / 2},
-	labelStyles: {color: 'red', textTransform: 'none', fontSize: 16},
+	tabStyle: {width: 'auto', paddingRight: 20},
 	containerTab: {backgroundColor: '#00000000'},
 });
 

@@ -1,4 +1,5 @@
 import {screenWidth} from 'app/styles/dimens';
+import {getAppTheme} from 'app/styles/reducer';
 import styled from 'app/styles/styled';
 import React from 'react';
 import {Animated, TextInputProps} from 'react-native';
@@ -9,6 +10,7 @@ type PositionICon = {leftIcon?: boolean};
 type SearchInputProps = TextInputProps & PositionICon;
 
 const SearchInput = (props: SearchInputProps) => {
+	const theme = getAppTheme();
 	const {interpolate} = useToggleAnimate({outputRange: [-screenWidth, 0]});
 
 	return (
@@ -16,13 +18,17 @@ const SearchInput = (props: SearchInputProps) => {
 			pointerEvents={!props.editable ? 'none' : undefined}
 			style={{transform: [{translateX: interpolate}]}}
 		>
-			<InputSearch {...props} />
+			<InputSearch
+				{...props}
+				placeholder={'Recherche de produit'}
+				placeholderTextColor={theme.colors.textGray}
+			/>
 			<SearchIcon />
 		</Container>
 	);
 };
 const InputSearch = styled.TextInput<SearchInputProps>`
-	background-color: ${({theme}) => theme.colors.white};
+	background-color: ${({theme}) => theme.colors.card};
 	border-radius: ${({theme}) => theme.borderRadius};
 	min-height: 50px;
 	padding: 12px;
@@ -30,6 +36,7 @@ const InputSearch = styled.TextInput<SearchInputProps>`
 	font-size: 15px;
 `;
 const Container = styled(Animated.View)`
+	margin-top: ${({theme}) => theme.scaping(2)};
 	flex-direction: column;
 	justify-content: center;
 	background-color: ${({theme}) => theme.colors.background};

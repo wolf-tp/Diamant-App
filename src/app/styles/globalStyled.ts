@@ -66,6 +66,9 @@ export const containerCss = css<{notPadding?: boolean}>`
 	background-color: ${({theme}) => theme.colors.background};
 	${({notPadding}) => (!notPadding ? paddingContainer : '')}
 `;
+export const marginVerticalElementCss = css`
+	margin-vertical: ${({theme}) => theme.scapingElement};
+`;
 // TODO: Design component
 export const TextLarge = styled.Text`
 	${textLargeCss}
@@ -86,9 +89,8 @@ export const TextSmall = styled.Text`
 export const Container = styled.View<{notPadding?: boolean}>`
 	${containerCss}
 `;
-export const AreaContainer = styled.SafeAreaView`
-	flex: 1;
-	background-color: ${({theme}) => theme.colors.background};
+export const AreaContainer = styled.SafeAreaView<{notPadding?: boolean}>`
+	${containerCss}
 `;
 
 export const RowView = styled.View`

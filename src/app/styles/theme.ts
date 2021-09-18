@@ -14,7 +14,7 @@ const globalFont = {
 const globalScaping: ScapingTheme = {
 	scapingElement: '20px',
 	borderRadiusStand: '15px',
-	borderRadius: '40px',
+	borderRadius: '15px',
 	borderRadiusSmall: '12px',
 	scaping: (num: number) => `${num * 5}px`,
 	scapingContainer: '25px',
@@ -31,9 +31,12 @@ export const globalColor: ColorTheme = {
 	textColor_100: '#4C4F4D',
 	orange_100: '#C89524',
 	background: '#0C1015',
-	backgroundGray: '#F2F3F2',
+	backgroundGray: '#0C1015',
 	bottomBarUnFocus: '#BBBBBB',
 	bottomBarFocus: '#C89524',
+	text: '#ECECEC',
+	textGray: '#999999',
+	card: '#141921',
 };
 
 export const myTheme: ThemeInterface = {
