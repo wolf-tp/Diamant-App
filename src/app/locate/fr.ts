@@ -35,6 +35,7 @@ const frData = {
 		Privacy: 'Privacy Policy',
 		EmailRequire: 'Email is required',
 		PasswordRequire: 'Password is required',
+		LoginFailed: "Nom d'utilisateur ou mot de passe erroné",
 	},
 	ProductDetail: {
 		detail: 'Product Detail',

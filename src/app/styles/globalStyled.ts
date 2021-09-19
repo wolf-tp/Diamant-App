@@ -1,3 +1,4 @@
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {isIOS} from './dimens';
 import styled, {css} from './styled';
 
@@ -90,6 +91,9 @@ export const Container = styled.View<{notPadding?: boolean}>`
 	${containerCss}
 `;
 export const AreaContainer = styled.SafeAreaView<{notPadding?: boolean}>`
+	${containerCss}
+`;
+export const KeyboardContainer = styled(KeyboardAwareScrollView)<{notPadding?: boolean}>`
 	${containerCss}
 `;
 

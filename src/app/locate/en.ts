@@ -35,6 +35,7 @@ const enData = {
 		Privacy: 'Privacy Policy',
 		EmailRequire: 'Email is required',
 		PasswordRequire: 'Password is required',
+		LoginFailed: 'Wrong username or password',
 	},
 	ProductDetail: {
 		detail: 'Product Detail',

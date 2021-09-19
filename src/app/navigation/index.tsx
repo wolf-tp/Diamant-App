@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TouchableOpacity, StyleSheet} from 'react-native';
@@ -12,6 +12,11 @@ import PlaceOrderSuccess from 'app/screens/PlaceOrder/success';
 import Tabs from './tabs';
 import {getAppTheme} from 'app/styles/reducer';
 import TrackingOrder from 'app/screens/TrackingOrder';
+import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
+import {isLogin, loginStorage} from 'app/screens/login/reducer';
+import {getKey} from 'app/utils/storage';
+import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
+import SplashScreen from 'react-native-splash-screen';
 
 export type RootStackParamList = {
 	Intro: undefined;
@@ -30,77 +35,94 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-type Props = {
-	isFirstTime?: boolean;
-};
 const notShowHeader = {headerShown: false};
 const scapingHeader = 15;
 
-const RootScreen = (props: Props) => {
+const RootScreen = () => {
 	const themes = getAppTheme();
+	const isAuthorized = useAppSelector(isLogin);
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		(async () => {
+			const user = await getKey<LoginResult>(ACCESS_TOKEN_STORAGE);
+			dispatch(loginStorage(user));
+
+			setTimeout(() => {
+				SplashScreen.hide();
+			}, 300);
+		})();
+	}, [dispatch]);
+
 	return (
 		<NavigationContainer ref={navigationRef}>
-			<Stack.Navigator
-				screenOptions={{
-					headerLeft: () => (
-						<TouchableOpacity onPress={popNavigate}>
-							<BackHeader />
-						</TouchableOpacity>
-					),
-					headerStyle: styles.headerNoLine,
-					headerTitleStyle: styles.headerFont,
-					headerLeftContainerStyle: {paddingLeft: scapingHeader},
-					headerTitleAlign: 'center',
-				}}
-				initialRouteName={(props.isFirstTime ? 'Intro' : 'Login') as keyof RootStackParamList}
-			>
-				<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
-				<Stack.Screen
-					options={{
-						headerStyle: {backgroundColor: themes.colors.background, ...styles.headerNoLine},
-						headerRight: () => (
+			{isAuthorized ? (
+				<Stack.Navigator
+					screenOptions={{
+						headerLeft: () => (
 							<TouchableOpacity onPress={popNavigate}>
-								<IconFilter />
+								<BackHeader />
 							</TouchableOpacity>
 						),
-						headerRightContainerStyle: styles.headerRight,
+						headerStyle: styles.headerNoLine,
+						headerTitleStyle: styles.headerFont,
+						headerLeftContainerStyle: {paddingLeft: scapingHeader},
+						headerTitleAlign: 'center',
 					}}
-					name={'ListProduct'}
-					component={ListProduct}
-				/>
-				<Stack.Screen options={notShowHeader} name={'Login'} component={LoginScreen} />
-				<Stack.Screen
-					options={notShowHeader}
-					name={'PlaceOrderSuccess'}
-					component={PlaceOrderSuccess}
-				/>
-				<Stack.Screen
-					options={{
-						headerTitle: '',
-						headerStyle: {backgroundColor: themes.colors.backgroundGray, ...styles.headerNoLine},
-					}}
-					name={'ProductDetail'}
-					component={ProductDetail}
-				/>
-				<Stack.Screen
-					options={{
-						headerStyle: {backgroundColor: themes.colors.background, ...styles.headerNoLine},
-						headerRight: () => (
-							<TouchableOpacity onPress={popNavigate}>
-								<IconFilter />
-							</TouchableOpacity>
-						),
-						headerRightContainerStyle: styles.headerRight,
-					}}
-					name={'TrackingOrder'}
-					component={TrackingOrder}
-				/>
-				<Stack.Screen options={notShowHeader} name={'Home'} component={Tabs} />
-				<Stack.Screen options={notShowHeader} name={'Explore'} component={Tabs} />
-				<Stack.Screen options={notShowHeader} name={'Cart'} component={Tabs} />
-				<Stack.Screen options={notShowHeader} name={'Favorite'} component={Tabs} />
-				<Stack.Screen options={notShowHeader} name={'Account'} component={Tabs} />
-			</Stack.Navigator>
+					initialRouteName={'Login' as keyof RootStackParamList}
+				>
+					<Stack.Screen options={notShowHeader} name={'Home'} component={Tabs} />
+					<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
+					<Stack.Screen
+						options={{
+							headerStyle: {backgroundColor: themes.colors.background, ...styles.headerNoLine},
+							headerRight: () => (
+								<TouchableOpacity onPress={popNavigate}>
+									<IconFilter />
+								</TouchableOpacity>
+							),
+							headerRightContainerStyle: styles.headerRight,
+						}}
+						name={'ListProduct'}
+						component={ListProduct}
+					/>
+
+					<Stack.Screen
+						options={notShowHeader}
+						name={'PlaceOrderSuccess'}
+						component={PlaceOrderSuccess}
+					/>
+					<Stack.Screen
+						options={{
+							headerTitle: '',
+							headerStyle: {backgroundColor: themes.colors.backgroundGray, ...styles.headerNoLine},
+						}}
+						name={'ProductDetail'}
+						component={ProductDetail}
+					/>
+					<Stack.Screen
+						options={{
+							headerStyle: {backgroundColor: themes.colors.background, ...styles.headerNoLine},
+							headerRight: () => (
+								<TouchableOpacity onPress={popNavigate}>
+									<IconFilter />
+								</TouchableOpacity>
+							),
+							headerRightContainerStyle: styles.headerRight,
+						}}
+						name={'TrackingOrder'}
+						component={TrackingOrder}
+					/>
+					<Stack.Screen options={notShowHeader} name={'Explore'} component={Tabs} />
+					<Stack.Screen options={notShowHeader} name={'Cart'} component={Tabs} />
+					<Stack.Screen options={notShowHeader} name={'Favorite'} component={Tabs} />
+					<Stack.Screen options={notShowHeader} name={'Account'} component={Tabs} />
+				</Stack.Navigator>
+			) : (
+				<Stack.Navigator>
+					<Stack.Screen options={notShowHeader} name={'Login'} component={LoginScreen} />
+				</Stack.Navigator>
+			)}
 		</NavigationContainer>
 	);
 };

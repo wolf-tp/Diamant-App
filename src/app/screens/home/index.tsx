@@ -17,7 +17,7 @@ import UserHeader from 'app/components/UserHeader';
 const Home = () => {
 	return (
 		<Container>
-			<AreaContainer>
+			<AreaContainer notPadding>
 				<Logo />
 				<RowBetween>
 					{/* Left address view */}

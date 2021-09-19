@@ -1,20 +1,32 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import styled from 'app/styles/styled';
 import {screenHeight, screenWidth} from 'app/styles/dimens';
-import {AreaContainer, Container, PADDING_CONTAINER} from 'app/styles/globalStyled';
+import {
+	AreaContainer,
+	Container,
+	KeyboardContainer,
+	PADDING_CONTAINER,
+} from 'app/styles/globalStyled';
 import {IconFinger, IconEye} from 'app/components/icons/Icons';
 import TextboxInput from 'app/components/group/TextboxInput';
 import Button from 'app/components/Button';
 import {useForm} from 'app/components/hooks/useForm';
 import {getTranslate} from 'app/locate/reducer';
-import {navigate} from 'app/navigation/rootNavigation';
 import ReactNativeBiometrics from 'react-native-biometrics';
 import * as Keychain from 'react-native-keychain';
+import {getLoginStatus, getUser, loginAuth} from './reducer';
+import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
+import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
+import {setKey} from 'app/utils/storage';
 
 const Login = () => {
 	const getString = getTranslate();
+	const dispatch = useAppDispatch();
+	const statusLogin = useAppSelector(getLoginStatus);
+	const user = useAppSelector(getUser);
+
 	const [changeSecurePassword, setChangeSecurePassword] = useState(true);
-	const {handleSubmit, handleChange, data, errors} = useForm({
+	const {handleSubmit, handleChange, data, errors} = useForm<{email: string; password: string}>({
 		validations: {
 			email: {
 				required: getString('Login', 'EmailRequire'),
@@ -24,15 +36,20 @@ const Login = () => {
 			},
 		},
 	});
-	const generateAccount = async () => {
-		await Keychain.setGenericPassword(data.email as string, data.password as string);
-	};
+	const generateAccount = () =>
+		Keychain.setGenericPassword(data.email as string, data.password as string);
+
 	const onPressLogin = () => {
 		if (!Object.keys(handleSubmit()).length) {
-			navigate('Home');
-			generateAccount();
+			dispatch(
+				loginAuth({
+					user_name: data.email,
+					password: data.password,
+				})
+			);
 		}
 	};
+
 	const fingerID = async () => {
 		const {available} = await ReactNativeBiometrics.isSensorAvailable();
 		if (available) {
@@ -60,53 +77,73 @@ const Login = () => {
 	const onPressSecurePassword = useCallback(() => {
 		setChangeSecurePassword(!changeSecurePassword);
 	}, [changeSecurePassword]);
+
+	useEffect(() => {
+		if (user && Object.keys(data).length) {
+			generateAccount();
+			setKey(ACCESS_TOKEN_STORAGE, user);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [user]);
+
 	return (
-		<ParentContainer>
-			<ContainerLogin>
-				<ImageHeader source={require('images/image_diamant.png')} />
-				<BodyTop>
-					<TextLogin>{getString('Login', 'Title')}</TextLogin>
-				</BodyTop>
+		<KeyboardContainer notPadding scrollEnabled={false}>
+			<ParentContainer>
+				<ContainerLogin>
+					<ContainerImage>
+						<ImageHeader source={require('images/image_diamant.png')} />
+					</ContainerImage>
 
-				<TextboxInput
-					placeholder={getString('Login', 'Email')}
-					value={data.email as string}
-					handleChange={handleChange('email')}
-					error={errors.email}
-				/>
-				<PasswordView
-					secureTextEntry={changeSecurePassword}
-					value={data.password as string}
-					placeholder={getString('Login', 'Password')}
-					handleChange={handleChange('password')}
-					error={errors.password}
-				>
-					<EyePassword isPress={changeSecurePassword} onPress={onPressSecurePassword} />
-				</PasswordView>
+					<BodyTop>
+						<TextLogin>{getString('Login', 'Title')}</TextLogin>
+					</BodyTop>
 
-				<LoginBottom>
-					<CustomButton children={getString('Login', 'Continue')} onPress={onPressLogin} />
-				</LoginBottom>
+					<TextboxInput
+						placeholder={getString('Login', 'Email')}
+						value={data.email as string}
+						handleChange={handleChange('email')}
+						error={errors.email}
+					/>
+					<PasswordView
+						secureTextEntry={changeSecurePassword}
+						value={data.password as string}
+						placeholder={getString('Login', 'Password')}
+						handleChange={handleChange('password')}
+						error={statusLogin === 'failed' ? getString('Login', 'LoginFailed') : errors.password}
+					>
+						<EyePassword isPress={changeSecurePassword} onPress={onPressSecurePassword} />
+					</PasswordView>
 
-				<FingerTouchOpacity onPress={fingerID}>
-					<FingerIconCustom />
-					<TextCaption>
-						{getString('Login', 'LoginBy')}
-						<TextOrange>{getString('Login', 'FingerId')}</TextOrange>
-						{getString('Login', 'or')}
-						<TextOrange>{getString('Login', 'FaceId')}</TextOrange>
-					</TextCaption>
-				</FingerTouchOpacity>
-			</ContainerLogin>
-		</ParentContainer>
+					<LoginBottom>
+						<CustomButton
+							loading={statusLogin === 'loading'}
+							children={getString('Login', 'Continue')}
+							onPress={onPressLogin}
+						/>
+					</LoginBottom>
+
+					<FingerTouchOpacity onPress={fingerID}>
+						<FingerIconCustom />
+						<TextCaption>
+							{getString('Login', 'LoginBy')}
+							<TextOrange>{getString('Login', 'FingerId')}</TextOrange>
+							{getString('Login', 'or')}
+							<TextOrange>{getString('Login', 'FaceId')}</TextOrange>
+						</TextCaption>
+					</FingerTouchOpacity>
+				</ContainerLogin>
+			</ParentContainer>
+		</KeyboardContainer>
 	);
 };
 const ContainerLogin = styled(AreaContainer)`
 	background-color: ${({theme}) => theme.colors.background};
 	align-items: center;
+	justify-content: center;
 `;
 const ParentContainer = styled(Container)`
 	background-color: ${({theme}) => theme.colors.background};
+	height: ${screenHeight}px;
 `;
 const BodyTop = styled.View`
 	justify-content: space-around;
@@ -120,14 +157,18 @@ const EyePassword = styled(IconEye)`
 	width: 100%;
 	right: ${({theme}) => theme.scapingElement};
 `;
-const ImageHeader = styled.Image`
+const ContainerImage = styled.View`
 	width: ${screenWidth - PADDING_CONTAINER * 3}px;
-	height: ${screenHeight * 0.35}px;
+	height: ${screenHeight * 0.2}px;
+`;
+const ImageHeader = styled.Image`
+	width: 100%;
+	height: 100%;
 	resize-mode: contain;
 `;
 const TextLogin = styled.Text`
 	color: ${({theme}) => theme.colors.white};
-	font-size: ${({theme}) => theme.font.fontXLarge};
+	font-size: ${({theme}) => theme.font.fontLarge};
 	font-weight: bold;
 	margin-bottom: 6px;
 `;

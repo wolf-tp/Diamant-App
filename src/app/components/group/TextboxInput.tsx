@@ -31,7 +31,7 @@ const TextBoxInput = ({
 		[handleChange]
 	);
 	return (
-		<>
+		<Container>
 			<ViewContainer style={style}>
 				<TextInputContent
 					secureTextEntry={secureTextEntry}
@@ -43,9 +43,12 @@ const TextBoxInput = ({
 				{children}
 			</ViewContainer>
 			{error && <TextError>{error}</TextError>}
-		</>
+		</Container>
 	);
 };
+const Container = styled.View`
+	width: 100%;
+`;
 const ViewContainer = styled.View`
 	width: 100%;
 	/* background-color: ${({theme}) => theme.colors.gray_100}; */
@@ -59,6 +62,7 @@ const TextError = styled.Text`
 	font-size: ${({theme}) => theme.font.fontMedium};
 	margin: 6px 0px;
 	color: ${({theme}) => theme.colors.red_100};
+	padding-left: ${({theme}) => theme.scaping(1)};
 `;
 const TextInputContent = styled.TextInput`
 	color: ${({theme}) => theme.colors.white};

@@ -39,26 +39,3 @@ declare type ColorTheme = {
 	textGray: string;
 	card: string;
 };
-declare type App = {
-	isFirstTime?: boolean;
-};
-declare type Product = {
-	url?: string;
-	title?: string;
-	description?: string;
-	price?: string | number;
-	code: string;
-};
-declare type BannerData = {
-	title: string;
-	content: string;
-};
-declare interface Navigate<T> {
-	route?: Route<T>;
-}
-
-declare interface Route<T> {
-	key?: string;
-	name?: string;
-	params?: T;
-}
