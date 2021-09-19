@@ -7,7 +7,7 @@ import IntroApp from '../screens/intro';
 import LoginScreen from '../screens/login';
 import {navigationRef, popNavigate} from './rootNavigation';
 import ListProduct from 'app/screens/ListProduct';
-import ProductDetail from 'app/screens/ProductDetal';
+import ProductDetail from 'app/screens/ProductDetail';
 import PlaceOrderSuccess from 'app/screens/PlaceOrder/success';
 import Tabs from './tabs';
 import {getAppTheme} from 'app/styles/reducer';

@@ -1,4 +1,4 @@
-import {TextLarge} from 'app/styles/globalStyled';
+import {TextMedium} from 'app/styles/globalStyled';
 import React, {useState} from 'react';
 import {Animated, TouchableOpacity, StyleSheet, View, ViewStyle} from 'react-native';
 import {useToggleAnimate} from './animation/FadeAnimation';
@@ -28,7 +28,7 @@ const Collapse = ({children, title, style}: Props) => {
 				}}
 				style={styles.touchTitle}
 			>
-				<TextLarge allowFontScaling={false}>{title}</TextLarge>
+				<TextMedium allowFontScaling={false}>{title}</TextMedium>
 				<Animated.View style={{transform: [{rotate: interChevron}]}}>
 					<ArrowIcon width={25} height={18} />
 				</Animated.View>

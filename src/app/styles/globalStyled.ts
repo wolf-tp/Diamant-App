@@ -73,10 +73,12 @@ export const marginVerticalElementCss = css`
 // TODO: Design component
 export const TextLarge = styled.Text`
 	${textLargeCss}
+	color: ${({theme}) => theme.colors.white};
 `;
 
 export const TextMedium = styled.Text`
 	${textMediumCss}
+	color: ${({theme}) => theme.colors.white};
 `;
 
 export const TextMediumLarge = styled.Text`

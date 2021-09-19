@@ -435,7 +435,7 @@ export const ArrowIcon = (props: SvgProps) => (
 			}
 			stroke={'none'}
 			fillRule={'nonzero'}
-			fill={'#000'}
+			fill={'#fff'}
 			fillOpacity={1}
 		/>
 	</Svg>
@@ -486,7 +486,7 @@ export const IconHeart = (props: SvgProps) => (
 				d={
 					'M4.405 10.01l7.113 7.112 7.113-7.113a3.353 3.353 0 10-4.743-4.742l-2.37 2.37-2.371-2.37a3.353 3.353 0 00-4.742 4.742zm6.322-6.325l.79.79.791-.79a5.588 5.588 0 117.903 7.904l-7.902 7.903a1.117 1.117 0 01-1.582 0L2.824 11.59a5.59 5.59 0 117.902-7.904h.001z'
 				}
-				fill={'#C89524'}
+				fill={'#fff'}
 			/>
 		</G>
 		<Defs>
