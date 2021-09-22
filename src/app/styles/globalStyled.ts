@@ -10,24 +10,31 @@ export const textLargeCss = css`
 	font-style: normal;
 	font-weight: ${(props) => props.theme.font.bold};
 	font-size: ${(props) => props.theme.font.fontLarge};
+	color: ${({theme}) => theme.colors.text};
 `;
 export const textMediumCss = css`
 	font-weight: 600;
 	font-size: ${({theme}) => theme.font.fontMedium};
+	color: ${({theme}) => theme.colors.textGray};
 `;
 export const spaceTextHeader = css`
 	margin: 12px 0px;
 	align-self: center;
 `;
 export const textSmallCss = css`
-	font-weight: 200;
+	font-weight: 300;
 	font-size: ${({theme}) => theme.font.fontSmall};
+	color: ${({theme}) => theme.colors.textGray};
 `;
 export const textMediumLargeCss = css`
 	font-weight: 200;
 	font-size: ${({theme}) => theme.font.fontMediumLarge};
 	font-style: normal;
 	font-weight: normal;
+	color: ${({theme}) => theme.colors.text};
+`;
+export const marginTopCss = css`
+	margin-top: ${({theme}) => theme.scaping(2)};
 `;
 export const scapingTabbar = css``;
 export const rowCss = css`
@@ -57,7 +64,9 @@ export const shadowElement = css`
 	margin-bottom: 5px;
 	margin-horizontal: 5px;
 `;
-
+export const marginContainerCss = css`
+	margin-horizontal: ${({theme}) => theme.scapingContainer};
+`;
 export const paddingContainer = css`
 	padding-horizontal: ${({theme}) => theme.scapingContainer};
 `;
@@ -70,6 +79,11 @@ export const containerCss = css<{notPadding?: boolean}>`
 export const marginVerticalElementCss = css`
 	margin-vertical: ${({theme}) => theme.scapingElement};
 `;
+export const cartCss = css`
+	border-radius: ${({theme}) => theme.borderRadius};
+	background-color: ${({theme}) => theme.colors.card};
+`;
+
 // TODO: Design component
 export const TextLarge = styled.Text`
 	${textLargeCss}
@@ -117,3 +131,9 @@ export const ListContainer = styled.FlatList`
 	${containerCss}
 `;
 export const Touch = styled.TouchableOpacity``;
+
+export const RowBetween = styled(RowView)`
+	${betweenContent}
+	${centerItemsCss}
+	${marginTopCss}
+`;

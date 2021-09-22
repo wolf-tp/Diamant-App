@@ -18,13 +18,6 @@ const Home = () => {
 	return (
 		<Container>
 			<AreaContainer notPadding>
-				<Logo />
-				<RowBetween>
-					{/* Left address view */}
-					<UserHeader />
-					{/* Avatar */}
-					<IconCartCircle />
-				</RowBetween>
 				<TouchSearch activeOpacity={0.6}>
 					<SearchInput editable={false} />
 				</TouchSearch>

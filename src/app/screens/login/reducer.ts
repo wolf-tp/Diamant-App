@@ -1,6 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'app/redux/store';
 import {query, setTokenAxios} from 'app/utils/api';
+import {removeKey} from 'app/utils/storage';
+import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
 
 let initModal: {
 	status?: Status;
@@ -18,7 +20,11 @@ const authSlice = createSlice({
 	initialState: initModal,
 	name: 'auth',
 	reducers: {
-		logout: (_) => ({status: 'none'}),
+		logout: (_, action: PayloadAction<LogoutOption | undefined>) => {
+			removeKey(ACCESS_TOKEN_STORAGE);
+			// action.payload?.tokenExpiration
+			return {status: 'none'};
+		},
 		loginStorage: (state, action: PayloadAction<LoginResult | undefined>) => {
 			setTokenAxios(action.payload?.token);
 			state.user = action.payload;

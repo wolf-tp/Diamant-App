@@ -1,32 +1,25 @@
 import {
-	IconAccount,
-	IconCart,
-	IconExplore,
+	IconNotification,
+	IconListOrders,
 	IconFavourite,
 	IconHome,
 } from 'app/components/icons/Icons';
-import Account from 'app/screens/Account';
-import Cart from 'app/screens/Cart';
-import Explore from 'app/screens/Explore';
+import Notifications from 'app/screens/Notifications';
+import ListOrders from 'app/screens/ListOrders';
 import Favourite from 'app/screens/Favourite';
 import Home from 'app/screens/home';
 import {SvgProps} from 'react-native-svg';
 
 const dataTab: TabScreen[] = [
 	{
-		name: 'Home',
+		name: 'Produits',
 		component: Home,
 		Icon: IconHome,
 	},
 	{
-		name: 'Explore',
-		component: Explore,
-		Icon: IconExplore,
-	},
-	{
-		name: 'Cart',
-		component: Cart,
-		Icon: IconCart,
+		name: 'List oders',
+		component: ListOrders,
+		Icon: IconListOrders,
 	},
 	{
 		name: 'Favourite',
@@ -34,9 +27,9 @@ const dataTab: TabScreen[] = [
 		Icon: IconFavourite,
 	},
 	{
-		name: 'Account',
-		component: Account,
-		Icon: IconAccount,
+		name: 'Notifications',
+		component: Notifications,
+		Icon: IconNotification,
 	},
 ];
 interface TabScreen {

@@ -1,5 +1,5 @@
 import {API_PREFIX} from 'app/config';
-import {useAppDispatch} from 'app/redux/store/hooks';
+import {store} from 'app/redux/store';
 import {logout} from 'app/screens/login/reducer';
 import axios, {AxiosResponse} from 'axios';
 
@@ -25,7 +25,8 @@ export const query = async <T, P>(
 
 	return response
 		.then((_response) => _response.data)
-		.catch(() => {
+		.catch((err) => {
+			console.log('err===', err);
 			return undefined;
 		});
 };
@@ -59,10 +60,10 @@ axios.interceptors.response.use(
 		// 			}
 		// 		});
 		// }
-
+		console.log('Response === ', error.response.status);
 		//Logout when token fail
 		if (error.response.status === 401) {
-			useAppDispatch()(logout);
+			store.dispatch(logout());
 		}
 		// return Error object with Promise
 		return Promise.reject(error);

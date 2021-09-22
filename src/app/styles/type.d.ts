@@ -15,6 +15,7 @@ declare type ThemeInterface = {
 declare type ScapingTheme = {
 	scapingContainer: string;
 	scaping: (num: number) => string;
+	scapingNumber: (num: number) => number;
 	scapingElement: string;
 	borderRadius: string;
 	borderRadiusSmall: string;

@@ -27,10 +27,15 @@ export const getTranslate = () => {
 		try {
 			return lang[args[0]][args[1]];
 		} catch (error) {
-			return 'UNKNOW';
+			return 'UNKNOWN';
 		}
 	};
 	return translate;
+};
+
+export const replaceText = (text: string, ...params: any[]) => {
+	params.forEach((param, index) => (text = text.replace(`{value${index || ''}}`, String(param))));
+	return text;
 };
 
 const modalReducer = langSlice.reducer;

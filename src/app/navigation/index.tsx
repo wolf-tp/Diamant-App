@@ -17,6 +17,7 @@ import {isLogin, loginStorage} from 'app/screens/login/reducer';
 import {getKey} from 'app/utils/storage';
 import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
 import SplashScreen from 'react-native-splash-screen';
+import HeaderApp from 'app/components/HeaderApp';
 
 export type RootStackParamList = {
 	Intro: undefined;
@@ -25,10 +26,9 @@ export type RootStackParamList = {
 	ProductDetail: Product;
 	PlaceOrderSuccess: undefined;
 	FindStore: undefined;
-	Explore: undefined;
+	ListOrders: undefined;
 	Cart: undefined;
 	Favorite: undefined;
-	Account: undefined;
 	Login: undefined;
 	TrackingOrder: undefined;
 };
@@ -59,19 +59,14 @@ const RootScreen = () => {
 			{isAuthorized ? (
 				<Stack.Navigator
 					screenOptions={{
-						headerLeft: () => (
-							<TouchableOpacity onPress={popNavigate}>
-								<BackHeader />
-							</TouchableOpacity>
-						),
+						header: () => <HeaderApp />,
 						headerStyle: styles.headerNoLine,
 						headerTitleStyle: styles.headerFont,
 						headerLeftContainerStyle: {paddingLeft: scapingHeader},
-						headerTitleAlign: 'center',
 					}}
 					initialRouteName={'Login' as keyof RootStackParamList}
 				>
-					<Stack.Screen options={notShowHeader} name={'Home'} component={Tabs} />
+					<Stack.Screen name={'Home'} component={Tabs} />
 					<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
 					<Stack.Screen
 						options={{
@@ -113,10 +108,9 @@ const RootScreen = () => {
 						name={'TrackingOrder'}
 						component={TrackingOrder}
 					/>
-					<Stack.Screen options={notShowHeader} name={'Explore'} component={Tabs} />
+					<Stack.Screen options={notShowHeader} name={'ListOrders'} component={Tabs} />
 					<Stack.Screen options={notShowHeader} name={'Cart'} component={Tabs} />
 					<Stack.Screen options={notShowHeader} name={'Favorite'} component={Tabs} />
-					<Stack.Screen options={notShowHeader} name={'Account'} component={Tabs} />
 				</Stack.Navigator>
 			) : (
 				<Stack.Navigator>

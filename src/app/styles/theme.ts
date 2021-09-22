@@ -17,6 +17,7 @@ const globalScaping: ScapingTheme = {
 	borderRadius: '15px',
 	borderRadiusSmall: '12px',
 	scaping: (num: number) => `${num * 5}px`,
+	scapingNumber: (num: number) => num * 5,
 	scapingContainer: '25px',
 };
 export const globalColor: ColorTheme = {

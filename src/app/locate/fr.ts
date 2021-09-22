@@ -8,17 +8,22 @@ const frData = {
 		SeeAll: 'See all',
 		SearchStore: 'Search for Store',
 	},
-	Explore: {
-		Title: 'Explore',
+	Orders: {
+		Title: 'ListOrders',
+		FilterMonth: 'Mois actuel',
+		ThreeMonth: 'il y a 3 mois',
+		SixMonth: 'il y a 6 mois',
+		CurrentYears: 'année actuelle',
+		ClientCode: 'Code client',
+		OrderCode: 'Code de commande',
+		DeliveryDate: 'Date de livraison',
+		ProductAmount: '{value} Products',
 	},
 	Cart: {
 		Title: 'Cart',
 	},
 	Favourite: {
 		Title: 'Favourite',
-	},
-	Account: {
-		Title: 'Account',
 	},
 	Login: {
 		Title: 'Bienvenue à nouveau !',

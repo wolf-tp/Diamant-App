@@ -6,7 +6,7 @@ import Button from '../Button';
 import {hideModal} from './reducer';
 
 const ModalPopup = () => {
-	const {visible} = useAppSelector((state) => state.modal);
+	const {visible, message, title} = useAppSelector((state) => state.modal);
 	const dispatch = useAppDispatch();
 	return (
 		<Modal
@@ -18,8 +18,8 @@ const ModalPopup = () => {
 			isVisible={visible}
 		>
 			<Container>
-				<Button clean>Take Photo</Button>
-				<Button clean>Open Gallery</Button>
+				<Button clean>{title}</Button>
+				<Button clean>{message}</Button>
 			</Container>
 		</Modal>
 	);

@@ -8,17 +8,14 @@ const enData = {
 		SeeAll: 'See all',
 		SearchStore: 'Search for Store',
 	},
-	Explore: {
-		Title: 'Explore',
+	Orders: {
+		Title: 'ListOrders',
 	},
 	Cart: {
 		Title: 'Cart',
 	},
 	Favourite: {
 		Title: 'Favourite',
-	},
-	Account: {
-		Title: 'Account',
 	},
 	Login: {
 		Title: 'Welcome to store',

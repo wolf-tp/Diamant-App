@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 
 interface Props {}
 
-const Cart = (props: Props) => {
+const Notifications = (props: Props) => {
 	return (
 		<View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
 			<Text>Cart</Text>
@@ -11,4 +11,4 @@ const Cart = (props: Props) => {
 	);
 };
 
-export default Cart;
+export default Notifications;

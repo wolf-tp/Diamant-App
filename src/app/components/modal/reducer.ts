@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-type ModalContent = {visible?: boolean};
+type ModalContent = {visible?: boolean; title?: string; message?: string};
 
 const initModal: ModalContent = {visible: false};
 
