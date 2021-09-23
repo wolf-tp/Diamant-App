@@ -2,17 +2,8 @@ import React from 'react';
 import CarouselHome from './Carousel';
 import ProductHome from './ProductsHome';
 import SearchInput from 'app/components/group/SearchInput';
-import {IconCartCircle} from 'app/components/icons/Icons';
-import {
-	AreaContainer,
-	betweenContent,
-	centerItemsCss,
-	Container,
-	RowView,
-} from 'app/styles/globalStyled';
+import {AreaContainer, Container} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
-import Logo from 'app/components/Logo';
-import UserHeader from 'app/components/UserHeader';
 
 const Home = () => {
 	return (
@@ -29,10 +20,6 @@ const Home = () => {
 		</Container>
 	);
 };
-const RowBetween = styled(RowView)`
-	${betweenContent}
-	${centerItemsCss}
-`;
 const HeaderCarousel = styled(CarouselHome)``;
 
 const TouchSearch = styled.TouchableOpacity`

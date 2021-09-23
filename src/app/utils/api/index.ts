@@ -8,7 +8,7 @@ type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export const query = async <T, P>(
 	url: string,
 	method: Method,
-	params: P
+	params?: P
 ): Promise<T | undefined> => {
 	let response: Promise<AxiosResponse<T>>;
 	const originUrl = API_PREFIX + url;

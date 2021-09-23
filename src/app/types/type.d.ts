@@ -7,11 +7,18 @@ declare interface Result<T> {
 	results: T;
 }
 declare type Product = {
-	url?: string;
+	id?: number;
+	item_code?: string;
 	title?: string;
 	description?: string;
-	price?: string | number;
-	code: string;
+	unit_weight?: number;
+	packaging?: string;
+	dlc?: string;
+	gen_code?: string;
+	image?: string;
+	created_at?: string;
+	updated_at?: string;
+	is_favorite?: boolean;
 };
 declare type BannerData = {
 	title: string;
@@ -83,4 +90,16 @@ declare interface ProductDetail {
 	created_at?: Date;
 	updated_at?: Date;
 	amount?: number;
+}
+declare interface Categories {
+	id?: number;
+	name?: string;
+	image?: null;
+	description?: null;
+	type?: number | null;
+	created_at?: string;
+	updated_at?: string;
+	products?: Product[];
+	'sub-category'?: {[key: string]: Categories};
+	subCategories: Categories[];
 }

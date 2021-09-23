@@ -1,16 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'app/styles/styled';
-import {
-	Container,
-	RowBetween,
-	spaceTextHeader,
-	TextLarge,
-	textLargeCss,
-} from 'app/styles/globalStyled';
-import SearchInput from 'app/components/group/SearchInput';
-import CardStore from 'app/components/CardStore';
+import {Container, RowBetween, TextLarge} from 'app/styles/globalStyled';
 import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
-import {StyleSheet, TextStyle, ViewStyle} from 'react-native';
+import {TextStyle, ViewStyle} from 'react-native';
 import {getAppTheme} from 'app/styles/reducer';
 import {screenWidth} from 'app/styles/dimens';
 import {getTranslate} from 'app/locate/reducer';
@@ -19,54 +11,6 @@ import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import OrderCard from 'app/components/OrderCard';
 import {myTheme} from 'app/styles/theme';
 import Loading from 'app/components/Loading';
-
-const ExampleData = [
-	{
-		id: '1',
-		title: 'Frash Fruits & Vegetable',
-		sourceImage: 'title-login.png',
-	},
-	{
-		id: '2',
-		title: 'Frash Fruits & Vegetable',
-		sourceImage: 'title-login.png',
-	},
-	{
-		id: '3',
-		title: 'Frash Fruits & Vegetable',
-		sourceImage: 'title-login.png',
-	},
-	{
-		id: '4',
-		title: 'Frash Fruits & Vegetable',
-		sourceImage: 'title-login.png',
-	},
-	{
-		id: '5',
-		title: 'Frash Fruits & Vegetable',
-		sourceImage: 'title-login.png',
-	},
-	{
-		id: '6',
-		title: 'Frash Fruits & Vegetable',
-		sourceImage: 'title-login.png',
-	},
-	{
-		id: '7',
-		title: 'Frash Fruits & Vegetable',
-		sourceImage: 'title-login.png',
-	},
-	{
-		id: '8',
-		title: 'Frash Fruits & Vegetable',
-		sourceImage: 'title-login.png',
-	},
-	{
-		id: '9',
-		title: 'Frash Fruits & Vegetable',
-		sourceImage: 'title-login.png',
-	},
-];
 interface CartDataItem {
 	id: string;
 	title?: string;

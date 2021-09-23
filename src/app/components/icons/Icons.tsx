@@ -545,3 +545,21 @@ export const IconCartCircle = (props: SvgProps) => (
 		/>
 	</Svg>
 );
+export const IconFavoriteProduct = ({color, ...props}: SvgProps) => (
+	<Svg width={22} height={22} viewBox={'0 0 22 22'} fill={'none'} {...props}>
+		<Rect width={22} height={22} rx={7.33333} fill={color || '#262B33'} />
+		<G clipPath={'url(#clip0)'}>
+			<Path
+				d={
+					'M7.652 11.157l3.586 3.586 3.586-3.586a1.69 1.69 0 00-2.391-2.39l-1.195 1.195-1.196-1.195a1.69 1.69 0 00-2.39 2.39zm3.187-3.188l.399.398.398-.398a2.818 2.818 0 113.984 3.984l-3.983 3.985a.563.563 0 01-.798 0l-3.984-3.984a2.816 2.816 0 113.984-3.984z'
+				}
+				fill={'#fff'}
+			/>
+		</G>
+		<Defs>
+			<ClipPath id={'clip0'}>
+				<Path fill={'#fff'} transform={'translate(5.5 6.11)'} d={'M0 0H11V11H0z'} />
+			</ClipPath>
+		</Defs>
+	</Svg>
+);

@@ -1,10 +1,11 @@
 import {navigate} from 'app/navigation/rootNavigation';
 import {screenWidth} from 'app/styles/dimens';
 import {rowCss, TextMedium, TextSmall} from 'app/styles/globalStyled';
+import {getAppTheme} from 'app/styles/reducer';
 import styled from 'app/styles/styled';
 import React from 'react';
 import {ViewStyle} from 'react-native';
-import {IconCardPlus} from './icons/Icons';
+import {IconCardPlus, IconFavoriteProduct} from './icons/Icons';
 
 interface Props {
 	onPressPlus?: () => void;
@@ -12,16 +13,22 @@ interface Props {
 }
 
 const CardFood = ({style, ...props}: Props & Product) => {
-	const {title = '', description = '', url, code} = props;
+	const theme = getAppTheme();
+	const {title = '', description = '', image, item_code = '', is_favorite} = props;
 	return (
 		<Container style={style} activeOpacity={0.6} onPress={() => navigate('ProductDetail', props)}>
 			<ViewImage>
-				<ProductImage source={(url as any) || require('images/template/product.png')} />
+				<ProductImage
+					source={(image && {uri: image as any}) || require('images/template/product.png')}
+				/>
+				<TouchFavorite>
+					<IconFavoriteProduct color={is_favorite ? theme.colors.main : undefined} />
+				</TouchFavorite>
 			</ViewImage>
 			<ContainerContent>
 				<NameProduct>{title}</NameProduct>
 				<Description>{description}</Description>
-				<Description>CODE:{code}</Description>
+				<Description>CODE: {item_code.toUpperCase()}</Description>
 			</ContainerContent>
 			<TouchIcon>
 				<TouchPlusCard />
@@ -65,6 +72,11 @@ const TouchIcon = styled.TouchableOpacity`
 	position: absolute;
 	bottom: 10px;
 	right: 15px;
+`;
+const TouchFavorite = styled.TouchableOpacity`
+	position: absolute;
+	right: ${({theme}) => theme.scaping(1)};
+	top: ${({theme}) => theme.scaping(1)};
 `;
 
 export default CardFood;
