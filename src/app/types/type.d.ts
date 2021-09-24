@@ -21,8 +21,20 @@ declare type Product = {
 	is_favorite?: boolean;
 };
 declare type BannerData = {
-	title: string;
-	content: string;
+	id?: number;
+	admin_id?: number;
+	group_ids?: null;
+	user_ids?: string[];
+	product_id?: number | null;
+	category_id?: number | null;
+	title?: string;
+	content?: string;
+	start_date?: Date;
+	end_date?: Date;
+	type?: string;
+	created_at?: Date;
+	updated_at?: Date;
+	isLoading?: boolean;
 };
 declare interface Navigate<T> {
 	route?: Route<T>;
@@ -63,18 +75,20 @@ declare type UserInput = {
 declare type LogoutOption = {
 	tokenExpiration?: boolean;
 };
-declare interface ListOrders {
+declare type Favorite = {
 	id?: number;
-	code?: string;
 	user_id?: number;
 	products?: ProductDetail[];
+	created_at?: Date;
+	updated_at?: Date;
+};
+declare interface ListOrders extends Favorite {
+	code?: string;
 	date_of_delivery?: string;
 	comment?: string;
 	private_comment?: string;
 	status?: number;
 	delivery_men?: number;
-	created_at?: Date;
-	updated_at?: Date;
 }
 
 declare interface ProductDetail {
@@ -101,5 +115,9 @@ declare interface Categories {
 	updated_at?: string;
 	products?: Product[];
 	'sub-category'?: {[key: string]: Categories};
-	subCategories: Categories[];
+	subCategories?: Categories[];
+}
+declare interface CategorySubTitle {
+	categoryTitle?: string;
+	totalCount?: number;
 }

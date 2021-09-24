@@ -5,8 +5,6 @@ import {IconCartCircle} from './icons/Icons';
 import Logo from './Logo';
 import UserHeader from './UserHeader';
 
-interface Props {}
-
 const HeaderApp = (_: Props) => {
 	return (
 		<Container>

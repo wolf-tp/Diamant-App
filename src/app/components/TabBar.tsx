@@ -21,7 +21,6 @@ const CustomTabBar = (props: SceneRendererProps & {navigationState: NavigationSt
 	);
 };
 const styles = StyleSheet.create({
-	viewIndicator: {flex: 1, alignItems: 'center', backgroundColor: 'red'},
 	labelStyles: {
 		color: '#ffff',
 		textTransform: 'none',

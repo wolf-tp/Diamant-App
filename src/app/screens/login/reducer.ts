@@ -20,7 +20,7 @@ const authSlice = createSlice({
 	initialState: initModal,
 	name: 'auth',
 	reducers: {
-		logout: (_, action: PayloadAction<LogoutOption | undefined>) => {
+		logout: (_) => {
 			removeKey(ACCESS_TOKEN_STORAGE);
 			// action.payload?.tokenExpiration
 			return {status: 'none'};
@@ -49,6 +49,7 @@ export const {logout, loginStorage} = authSlice.actions;
 export const getUser = (state: RootState) => state.auth.user;
 export const getLoginStatus = (state: RootState) => state.auth.status;
 export const isLogin = (state: RootState) => !!state.auth.user?.token;
+export const getName = (state: RootState) => state.auth.user?.info?.user_name;
 
 const authReducer = authSlice.reducer;
 export default authReducer;

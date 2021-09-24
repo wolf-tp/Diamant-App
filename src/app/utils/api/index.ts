@@ -1,9 +1,10 @@
 import {API_PREFIX} from 'app/config';
-import {store} from 'app/redux/store';
+import {useAppDispatch} from 'app/redux/store/hooks';
 import {logout} from 'app/screens/login/reducer';
 import axios, {AxiosResponse} from 'axios';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
+axios.defaults.timeout = 2000;
 
 export const query = async <T, P>(
 	url: string,
@@ -17,7 +18,9 @@ export const query = async <T, P>(
 		case 'POST':
 			response = axios.post(originUrl, params);
 			break;
-
+		case 'PUT':
+			response = axios.put(originUrl, params);
+			break;
 		default:
 			response = axios.get(originUrl, {params});
 			break;
@@ -63,7 +66,7 @@ axios.interceptors.response.use(
 		console.log('Response === ', error.response.status);
 		//Logout when token fail
 		if (error.response.status === 401) {
-			store.dispatch(logout());
+			useAppDispatch()(logout());
 		}
 		// return Error object with Promise
 		return Promise.reject(error);

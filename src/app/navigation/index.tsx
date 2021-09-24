@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TouchableOpacity, StyleSheet} from 'react-native';
-import {BackHeader, IconFilter} from '../components/icons/Icons';
+import {IconFilter} from '../components/icons/Icons';
 import IntroApp from '../screens/intro';
 import LoginScreen from '../screens/login';
 import {navigationRef, popNavigate} from './rootNavigation';
@@ -12,12 +12,13 @@ import PlaceOrderSuccess from 'app/screens/PlaceOrder/success';
 import Tabs from './tabs';
 import {getAppTheme} from 'app/styles/reducer';
 import TrackingOrder from 'app/screens/TrackingOrder';
-import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
+import {useAppSelector} from 'app/redux/store/hooks';
 import {isLogin, loginStorage} from 'app/screens/login/reducer';
 import {getKey} from 'app/utils/storage';
 import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
 import SplashScreen from 'react-native-splash-screen';
 import HeaderApp from 'app/components/HeaderApp';
+import {store} from 'app/redux/store';
 
 export type RootStackParamList = {
 	Intro: undefined;
@@ -38,21 +39,18 @@ const Stack = createStackNavigator<RootStackParamList>();
 const notShowHeader = {headerShown: false};
 const scapingHeader = 15;
 
+(async () => {
+	const user = await getKey<LoginResult>(ACCESS_TOKEN_STORAGE);
+	store.dispatch(loginStorage(user));
+
+	setTimeout(() => {
+		SplashScreen.hide();
+	}, 300);
+})();
+
 const RootScreen = () => {
 	const themes = getAppTheme();
 	const isAuthorized = useAppSelector(isLogin);
-	const dispatch = useAppDispatch();
-
-	useEffect(() => {
-		(async () => {
-			const user = await getKey<LoginResult>(ACCESS_TOKEN_STORAGE);
-			dispatch(loginStorage(user));
-
-			setTimeout(() => {
-				SplashScreen.hide();
-			}, 300);
-		})();
-	}, [dispatch]);
 
 	return (
 		<NavigationContainer ref={navigationRef}>

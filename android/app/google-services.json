@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "866300570722",
+    "project_id": "diamant-dab47",
+    "storage_bucket": "diamant-dab47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866300570722:android:7f23e3d1d2a0585554753b",
+        "android_client_info": {
+          "package_name": "com.digital_unicorn.diamant_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866300570722-okp01s0ejfnp0rej0520218skcs7qq2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOq5jWxtpnxrIE0QVnSPL4RyVbYrgmQeM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866300570722-okp01s0ejfnp0rej0520218skcs7qq2r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "866300570722-p27t5uparsv339t919sbr260b2v595b5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.DiamantApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

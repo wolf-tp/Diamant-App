@@ -1,3 +1,5 @@
+import {useAppSelector} from 'app/redux/store/hooks';
+import {getName} from 'app/screens/login/reducer';
 import {centerItemsCss, RowView, TextMedium} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import React from 'react';
@@ -6,12 +8,13 @@ interface Props {}
 
 const AVATAR_SIZE = 50;
 const UserHeader = (_: Props) => {
+	const name = useAppSelector(getName);
 	return (
 		<Container>
 			<ContainerAvatar>
 				<Avatar source={require('images/template/avatar.png')} />
 			</ContainerAvatar>
-			<TextName>Anna Mis</TextName>
+			<TextName>{name || ''}</TextName>
 		</Container>
 	);
 };

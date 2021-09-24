@@ -16,6 +16,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8A22C3B36C1F41ED81A2A221 /* MontserratAlternates-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 329FC07A720648A9A88C5AD4 /* MontserratAlternates-Regular.ttf */; };
 		8BC0533C67AF0747C93DDF47 /* libPods-DiamantApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 299E1C8C0F0D3033100D977E /* libPods-DiamantApp.a */; };
+		B856685426FDD42400873454 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B856685326FDD42400873454 /* GoogleService-Info.plist */; };
 		B8E823AE26D64953000403F5 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E823AD26D64953000403F5 /* File.swift */; };
 		BE0DE389CC0141E9A699CD9B /* MontserratAlternates-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F5607C4284D4735BEA7E314 /* MontserratAlternates-SemiBold.ttf */; };
 /* End PBXBuildFile section */
@@ -47,6 +48,7 @@
 		7F5607C4284D4735BEA7E314 /* MontserratAlternates-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-SemiBold.ttf"; path = "../assets/fonts/MontserratAlternates-SemiBold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DiamantApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B647F58DE3CC62BE2143F33D /* Pods-DiamantApp-DiamantAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiamantApp-DiamantAppTests.debug.xcconfig"; path = "Target Support Files/Pods-DiamantApp-DiamantAppTests/Pods-DiamantApp-DiamantAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B856685326FDD42400873454 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B8E823AC26D64952000403F5 /* DiamantApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DiamantApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		B8E823AD26D64953000403F5 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		C03850D7F3977A2FBFE0D827 /* Pods-DiamantApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiamantApp.debug.xcconfig"; path = "Target Support Files/Pods-DiamantApp/Pods-DiamantApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				B856685326FDD42400873454 /* GoogleService-Info.plist */,
 				B8E823AD26D64953000403F5 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* DiamantApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -268,6 +271,7 @@
 				8A22C3B36C1F41ED81A2A221 /* MontserratAlternates-Regular.ttf in Resources */,
 				BE0DE389CC0141E9A699CD9B /* MontserratAlternates-SemiBold.ttf in Resources */,
 				38A0B72AC9DD49C6B13FD3B2 /* MontserratAlternates-SemiBoldItalic.ttf in Resources */,
+				B856685426FDD42400873454 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

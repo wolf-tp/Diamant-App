@@ -2,15 +2,48 @@
   package="com.digital_unicorn.diamant_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
-    <application
+    <application xmlns:tools="http://schemas.android.com/tools"
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/logo"
       android:roundIcon="@mipmap/logo"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
-      <activity
+      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
+        <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
+        <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
+        <service
+          android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
+          android:exported="false" >
+          <intent-filter>
+              <action android:name="com.google.firebase.MESSAGING_EVENT" />
+          </intent-filter>
+        </service>
+        <meta-data  android:name="com.dieam.reactnativepushnotification.notification_foreground"
+                    android:value="false"/>
+        <meta-data  android:name="com.dieam.reactnativepushnotification.notification_color"
+            android:resource="@android:color/white"/>
+        <meta-data android:name="com.dieam.reactnativepushnotification.notification_channel_description"
+            android:value="Diamant"/>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            tools:replace="android:value"
+            android:value="rn-push-notification-channel-id-4-300" />
+        <meta-data android:name="com.dieam.reactnativepushnotification.channel_create_default" android:value="true"/>
+
+
+        <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"

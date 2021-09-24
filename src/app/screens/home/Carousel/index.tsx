@@ -1,33 +1,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import Loading from 'app/components/Loading';
+import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {screenWidth} from 'app/styles/dimens';
 import {TextLarge, TextSmall} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import {fetchBanner, getBanner} from '../reducer';
 
 const CarouselCardWidth = screenWidth - 50;
 const CarouselCardHeight = (CarouselCardWidth * 160) / 450;
 
-interface Props {
-	data?: BannerData[];
-}
-
-const CarouselHome = ({data: dataProps}: Props) => {
-	const [data, setData] = useState<BannerData[]>([
-		{title: 'discount 30% all truffles items ', content: 'from Sep 09 to Sep 30'},
-		{title: 'discount 30% all truffles items ', content: 'from Sep 09 to Sep 30'},
-	]);
+const CarouselHome = () => {
+	const dataBanner = useAppSelector(getBanner);
+	const dispatch = useAppDispatch();
 	const [activeIndex, setActiveIndex] = useState(0);
 
 	useEffect(() => {
-		dataProps && setData(dataProps);
+		dispatch(fetchBanner());
 	}, []);
 
-	const _renderImage = ({item: {title, content}}: {item: BannerData}) => (
+	const _renderImage = ({item: {title, content, isLoading}}: {item: BannerData}) => (
 		<CarouselCard>
-			<TitleText>{title}</TitleText>
-			<Content>{content}</Content>
+			{!isLoading ? (
+				<>
+					<TitleText>{title}</TitleText>
+					<Content>{content}</Content>
+				</>
+			) : (
+				<Loading />
+			)}
 		</CarouselCard>
 	);
 
@@ -37,7 +40,7 @@ const CarouselHome = ({data: dataProps}: Props) => {
 				renderItem={_renderImage}
 				layoutCardOffset={9}
 				windowSize={1}
-				data={data}
+				data={dataBanner || [{isLoading: true}]}
 				containerCustomStyle={styles.container}
 				sliderWidth={CarouselCardWidth}
 				itemWidth={CarouselCardWidth}
@@ -54,7 +57,7 @@ const CarouselHome = ({data: dataProps}: Props) => {
 				inactiveDotStyle={styles.inActiveDot}
 				containerStyle={styles.containerStyle}
 				activeDotIndex={activeIndex}
-				dotsLength={data.length}
+				dotsLength={dataBanner?.length ?? 0}
 			/>
 		</View>
 	);
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
 	itemBanner: {width: '100%', height: '100%', resizeMode: 'stretch'},
 	dotStyle: {width: 10, backgroundColor: '#C89524', margin: 0},
 	inActiveDot: {width: 10, aspectRatio: 1, backgroundColor: '#C4C4C4'},
-	containerStyle: {position: 'absolute', width: '100%', bottom: 5, margin: 0, padding: 0},
+	containerStyle: {position: 'absolute', width: '100%', bottom: 0, margin: 0, padding: 0},
 });
 
 const CarouselCard = styled.TouchableOpacity`
@@ -86,7 +89,7 @@ const Content = styled(TextSmall)`
 	text-align: center;
 	margin-top: ${({theme}) => theme.scaping(2)};
 	color: ${({theme}) => theme.colors.text};
-	text-transform: uppercase;
+	padding-horizontal: ${({theme}) => theme.scaping(2)};
 `;
 
 export default CarouselHome;

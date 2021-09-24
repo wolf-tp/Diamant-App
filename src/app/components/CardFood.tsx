@@ -1,29 +1,51 @@
+import React, {useState, useEffect} from 'react';
 import {navigate} from 'app/navigation/rootNavigation';
+import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
+import {getPendingIdFavorite, toggleFavorite} from 'app/screens/home/reducer';
 import {screenWidth} from 'app/styles/dimens';
 import {rowCss, TextMedium, TextSmall} from 'app/styles/globalStyled';
 import {getAppTheme} from 'app/styles/reducer';
-import styled from 'app/styles/styled';
-import React from 'react';
+import styled, {css} from 'app/styles/styled';
 import {ViewStyle} from 'react-native';
 import {IconCardPlus, IconFavoriteProduct} from './icons/Icons';
 
 interface Props {
 	onPressPlus?: () => void;
 	style?: ViewStyle;
+	product?: Product;
 }
 
-const CardFood = ({style, ...props}: Props & Product) => {
+const CardFood = ({style, product, ...props}: Props) => {
 	const theme = getAppTheme();
-	const {title = '', description = '', image, item_code = '', is_favorite} = props;
+	const dispatch = useAppDispatch();
+	const [isLoadingFavorite, setIsLoading] = useState(false);
+
+	const isLoading = useAppSelector(getPendingIdFavorite) === product?.id;
+
+	useEffect(() => {
+		isLoading ? setIsLoading(true) : setTimeout(() => setIsLoading(false), 200);
+	}, [isLoading]);
+
+	const {title = '', description = '', image, item_code = '', is_favorite, id} = product || {};
 	return (
-		<Container style={style} activeOpacity={0.6} onPress={() => navigate('ProductDetail', props)}>
+		<Container style={style} activeOpacity={0.6} onPress={() => navigate('ProductDetail', product)}>
 			<ViewImage>
 				<ProductImage
 					source={(image && {uri: image as any}) || require('images/template/product.png')}
 				/>
-				<TouchFavorite>
-					<IconFavoriteProduct color={is_favorite ? theme.colors.main : undefined} />
-				</TouchFavorite>
+				{isLoadingFavorite ? (
+					<ViewIcon>
+						<Loading color={'white'} size={'small'} />
+					</ViewIcon>
+				) : (
+					<TouchFavorite
+						onPress={() => {
+							dispatch(toggleFavorite({product_id: id, ...props}));
+						}}
+					>
+						<IconFavoriteProduct color={is_favorite ? theme.colors.main : undefined} />
+					</TouchFavorite>
+				)}
 			</ViewImage>
 			<ContainerContent>
 				<NameProduct>{title}</NameProduct>
@@ -68,15 +90,22 @@ const ProductImage = styled.Image`
 	height: 100%;
 	resize-mode: contain;
 `;
+const touchIconCss = css`
+	position: absolute;
+	right: ${({theme}) => theme.scaping(1)};
+	top: ${({theme}) => theme.scaping(1)};
+`;
 const TouchIcon = styled.TouchableOpacity`
 	position: absolute;
 	bottom: 10px;
 	right: 15px;
 `;
-const TouchFavorite = styled.TouchableOpacity`
-	position: absolute;
-	right: ${({theme}) => theme.scaping(1)};
-	top: ${({theme}) => theme.scaping(1)};
+const ViewIcon = styled.View`
+	${touchIconCss}
 `;
+const TouchFavorite = styled.TouchableOpacity`
+	${touchIconCss}
+`;
+const Loading = styled.ActivityIndicator``;
 
 export default CardFood;

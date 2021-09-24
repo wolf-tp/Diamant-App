@@ -12,7 +12,7 @@ interface Props {}
 type HomeTabData = {
 	key: string;
 	title: string;
-	data: Product[];
+	data: Categories;
 };
 
 const ProductHome = (_: Props) => {
@@ -28,7 +28,7 @@ const ProductHome = (_: Props) => {
 			const _routers: HomeTabData[] = [];
 			categories.forEach((category) => {
 				const name = category.name || '';
-				_routers.push({key: name, title: name, data: category.products || []});
+				_routers.push({key: name, title: name, data: category || []});
 			});
 			setRoutes(_routers);
 		}
@@ -42,7 +42,11 @@ const ProductHome = (_: Props) => {
 
 	const renderScene = ({route}: SceneRendererProps & {route: HomeTabData}) => {
 		if (routes[index] === route) {
-			return isLoading ? <Loading /> : <ProductList data={route.data} />;
+			return isLoading ? (
+				<Loading />
+			) : (
+				<ProductList data={route.data.products} subCategories={route.data.subCategories} />
+			);
 		}
 
 		return null;
