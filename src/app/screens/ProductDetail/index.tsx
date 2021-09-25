@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Breadcrumb from 'app/components/Breadcrumb';
 import Button from 'app/components/Button';
 import CartProductDetail from 'app/components/CartProductDetail';
@@ -10,11 +10,21 @@ import {getParams} from 'app/navigation/rootNavigation';
 import {screenHeight} from 'app/styles/dimens';
 import {AreaContainer, betweenContent, RowView} from 'app/styles/globalStyled';
 import styled, {css} from 'app/styles/styled';
+import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
+import {getProduct} from './reducer';
+import {getTranslate} from 'app/locate/reducer';
 
 interface Props {}
 
 const ProductDetail = (props: Props & Navigate<Product>) => {
-	const {url, description, title} = getParams<Product>(props);
+	const {id} = getParams<Product>(props);
+	const dispatch = useAppDispatch();
+	const {product} = useAppSelector((state) => state.productDetail);
+	const {description, packaging, dlc, item_code, ...cartProduct} = product || {};
+	const getString = getTranslate();
+	useEffect(() => {
+		dispatch(getProduct(id));
+	}, [dispatch, id]);
 	return (
 		<AreaContainer>
 			<Logo />
@@ -24,34 +34,28 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 			</RowBetween>
 			<CustomBreadcrumb />
 			<Content>
-				<CartProduct />
+				<CartProduct {...cartProduct} />
 				<ScrollContainer>
 					<ScrollContent>
-						<CollapseView title={'Description'}>
-							<TextValue>
-								Tagliatelle prepared in an artisanal way with fresh products rigorously selected.
-								Tagliatelle prepared in an artisanal way with fresh products rigorously selected.
-								Tagliatelle prepared in an artisanal way with fresh products rigorously selected.
-								Tagliatelle prepared in an artisanal way with fresh products rigorously selected.
-								Tagliatelle prepared in an artisanal way with fresh products rigorously selected.
-							</TextValue>
+						<CollapseView title={getString('ProductDetail', 'Description')}>
+							<TextValue>{description}</TextValue>
 						</CollapseView>
-						<TextTitle>Code article</TextTitle>
-						<TextValue>GNO</TextValue>
+						<TextTitle>{getString('ProductDetail', 'CodeArticle')}</TextTitle>
+						<TextValue>{item_code}</TextValue>
 						<ListHorizontalText>
 							<ListVerticalText>
-								<TextTitle>PACKACKING</TextTitle>
-								<TextValue>Cx8</TextValue>
+								<TextTitle>{getString('ProductDetail', 'CodeArticle')}</TextTitle>
+								<TextValue>{packaging}</TextValue>
 							</ListVerticalText>
 							<ListVerticalText>
-								<TextTitle>DLC</TextTitle>
-								<TextValue>9 days</TextValue>
+								<TextTitle>{getString('ProductDetail', 'Dlc')}</TextTitle>
+								<TextValue>{dlc}</TextValue>
 							</ListVerticalText>
 						</ListHorizontalText>
 					</ScrollContent>
 				</ScrollContainer>
 				<ConfirmButton>
-					<TextButton>Ajouter au panier</TextButton>
+					<TextButton>{getString('ProductDetail', 'Submit')}</TextButton>
 				</ConfirmButton>
 			</Content>
 		</AreaContainer>

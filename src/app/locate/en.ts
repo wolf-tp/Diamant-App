@@ -37,6 +37,11 @@ const enData = {
 	ProductDetail: {
 		detail: 'Product Detail',
 		Nutritions: 'Nutritions',
+		GenCode: 'GenCode: ',
+		CodeArticle: 'Code article',
+		Dlc: 'DLC',
+		Submit: 'Ajouter au panier',
+		Description: 'Description',
 	},
 	Intro: {
 		WelcomeTo: 'Welcome to',

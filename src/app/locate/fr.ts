@@ -45,6 +45,12 @@ const frData = {
 	ProductDetail: {
 		detail: 'Product Detail',
 		Nutritions: 'Nutritions',
+		GenCode: 'GenCode: ',
+		CodeArticle: 'Code article',
+		Packacking: 'PACKACKING',
+		Dlc: 'DLC',
+		Submit: 'Ajouter au panier',
+		Description: 'Description',
 	},
 	Intro: {
 		WelcomeTo: 'Welcome to',

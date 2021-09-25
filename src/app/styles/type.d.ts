@@ -28,6 +28,7 @@ declare type ColorTheme = {
 	red_100: string;
 	gray_100: string;
 	gray_200: string;
+	gray_300: string;
 	textColor: string;
 	textColor_100: string;
 	background: string;

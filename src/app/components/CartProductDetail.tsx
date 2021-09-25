@@ -1,26 +1,33 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'app/styles/styled';
 import ImageProduct from './ImageProduct';
-
-const CartProductDetail = () => {
+import {getTranslate} from 'app/locate/reducer';
+interface Props {
+	id?: Number;
+	title: String;
+	unit_weight?: String;
+	gen_code: String;
+	image?: String | undefined;
+	is_favorite: Boolean;
+}
+type ProductDetailProps = Props | undefined;
+const CartProductDetail = (props: ProductDetailProps) => {
+	const getString = getTranslate();
 	return (
 		<CartContainer>
 			<LeftCart>
 				<ImageProduct />
 			</LeftCart>
 			<RightCart>
-				<Title>Tagliattes</Title>
+				<Title>{props?.title}</Title>
 				<ListButton>
 					<ChangeButton>
-						<TextButton>450G</TextButton>
-					</ChangeButton>
-					<ChangeButton>
-						<TextButton>450G</TextButton>
+						<TextButton>{props?.unit_weight || '0'}</TextButton>
 					</ChangeButton>
 				</ListButton>
 				<CodeContent>
-					<CodeTitle>Gencode: </CodeTitle>
-					<CodeValue>370090010347</CodeValue>
+					<CodeTitle>{getString('ProductDetail', 'GenCode')}</CodeTitle>
+					<CodeValue>{props?.gen_code}</CodeValue>
 				</CodeContent>
 			</RightCart>
 		</CartContainer>
@@ -58,7 +65,7 @@ const ListButton = styled.View`
 const TextButton = styled.Text`
 	color: ${({theme}) => theme.colors.white};
 `;
-const ChangeButton = styled.TouchableOpacity`
+const ChangeButton = styled.Text`
 	padding-horizontal: 18px;
 	padding-vertical: 8px;
 	margin-right: 14px;

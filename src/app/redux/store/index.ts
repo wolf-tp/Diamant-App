@@ -6,6 +6,7 @@ import modalReducer from 'app/components/modal/reducer';
 import authReducer from 'app/screens/login/reducer';
 import OrdersReducer from 'app/screens/ListOrders/reducer';
 import homeReducer from 'app/screens/home/reducer';
+import ProductReducer from 'app/screens/ProductDetail/reducer';
 
 export const store = configureStore({
 	reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
 		auth: authReducer,
 		orders: OrdersReducer,
 		home: homeReducer,
+		productDetail: ProductReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({

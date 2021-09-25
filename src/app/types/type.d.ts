@@ -121,3 +121,15 @@ declare interface CategorySubTitle {
 	categoryTitle?: string;
 	totalCount?: number;
 }
+declare interface DetailAProduct {
+	id: Number;
+	item_code: String;
+	title: String;
+	description?: String;
+	unit_weight: String;
+	packaging: String;
+	dlc: String;
+	gen_code: String;
+	image?: String;
+	is_favorite: Boolean;
+}
