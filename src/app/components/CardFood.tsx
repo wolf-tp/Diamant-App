@@ -13,9 +13,10 @@ interface Props {
 	onPressPlus?: () => void;
 	style?: ViewStyle;
 	product?: Product;
+	alwayFavorite?: boolean;
 }
 
-const CardFood = ({style, product, ...props}: Props) => {
+const CardFood = ({style, product, alwayFavorite, ...props}: Props) => {
 	const theme = getAppTheme();
 	const dispatch = useAppDispatch();
 	const [isLoadingFavorite, setIsLoading] = useState(false);
@@ -27,6 +28,7 @@ const CardFood = ({style, product, ...props}: Props) => {
 	}, [isLoading]);
 
 	const {title = '', description = '', image, item_code = '', is_favorite, id} = product || {};
+
 	return (
 		<Container style={style} activeOpacity={0.6} onPress={() => navigate('ProductDetail', product)}>
 			<ViewImage>
@@ -43,7 +45,9 @@ const CardFood = ({style, product, ...props}: Props) => {
 							dispatch(toggleFavorite({product_id: id, ...props}));
 						}}
 					>
-						<IconFavoriteProduct color={is_favorite ? theme.colors.main : undefined} />
+						<IconFavoriteProduct
+							color={is_favorite || alwayFavorite ? theme.colors.main : undefined}
+						/>
 					</TouchFavorite>
 				)}
 			</ViewImage>

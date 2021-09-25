@@ -26,3 +26,7 @@ declare type Upload = {
 	version_id?: string;
 	width?: number;
 };
+declare type TabData = {
+	key: string;
+	title: string;
+};

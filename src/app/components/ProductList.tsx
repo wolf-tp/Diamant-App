@@ -1,15 +1,18 @@
 import {RowBetween, TextLarge, TextMedium} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import React, {useEffect, useState} from 'react';
+import {ViewStyle} from 'react-native';
 import CardFood from './CardFood';
 
 interface Props {
 	data?: Product[];
 	subCategories?: Categories[];
+	alwayFavorite?: boolean;
+	style?: ViewStyle;
 }
 type ItemProduct = Product & CategorySubTitle;
 
-const ProductList = ({data = [], subCategories}: Props) => {
+const ProductList = ({data = [], subCategories, alwayFavorite, style}: Props) => {
 	const [listData, setListData] = useState<ItemProduct[]>([]);
 
 	useEffect(() => {
@@ -27,12 +30,13 @@ const ProductList = ({data = [], subCategories}: Props) => {
 		return item.categoryTitle ? (
 			<TitleCategoryComponent title={item.categoryTitle} count={item.totalCount} />
 		) : (
-			<CardProduct product={item} />
+			<CardProduct alwayFavorite={alwayFavorite} product={item} />
 		);
 	};
 
 	return (
 		<ListProductComponent
+			style={style}
 			data={listData || []}
 			showsVerticalScrollIndicator={false}
 			renderItem={renderItemProduct as any}

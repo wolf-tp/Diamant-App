@@ -14,8 +14,10 @@ const enData = {
 	Cart: {
 		Title: 'Cart',
 	},
-	Favourite: {
-		Title: 'Favourite',
+	Favorite: {
+		Title: 'Favorite',
+		tabFavorite: 'Favorite',
+		tabMostOrder: 'Most Order',
 	},
 	Login: {
 		Title: 'Welcome to store',

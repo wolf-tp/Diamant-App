@@ -22,8 +22,10 @@ const frData = {
 	Cart: {
 		Title: 'Cart',
 	},
-	Favourite: {
-		Title: 'Favourite',
+	Favorite: {
+		Title: 'Favorite',
+		tabFavorite: 'Mes favoris',
+		tabMostOrder: 'Le plus commandé',
 	},
 	Login: {
 		Title: 'Bienvenue à nouveau !',

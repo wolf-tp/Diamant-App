@@ -78,7 +78,7 @@ declare type LogoutOption = {
 declare type Favorite = {
 	id?: number;
 	user_id?: number;
-	products?: ProductDetail[];
+	products?: Product[];
 	created_at?: Date;
 	updated_at?: Date;
 };

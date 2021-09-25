@@ -1,12 +1,7 @@
-import {
-	IconNotification,
-	IconListOrders,
-	IconFavourite,
-	IconHome,
-} from 'app/components/icons/Icons';
+import {IconNotification, IconListOrders, IconFavorite, IconHome} from 'app/components/icons/Icons';
 import Notifications from 'app/screens/Notifications';
 import ListOrders from 'app/screens/ListOrders';
-import Favourite from 'app/screens/Favourite';
+import Favorite from 'app/screens/Favorite';
 import Home from 'app/screens/home';
 import {SvgProps} from 'react-native-svg';
 
@@ -22,9 +17,9 @@ const dataTab: TabScreen[] = [
 		Icon: IconListOrders,
 	},
 	{
-		name: 'Favourite',
-		component: Favourite,
-		Icon: IconFavourite,
+		name: 'Favorite',
+		component: Favorite,
+		Icon: IconFavorite,
 	},
 	{
 		name: 'Notifications',

@@ -74,7 +74,7 @@ export function IconCart({color, ...props}: SvgProps) {
 		</Svg>
 	);
 }
-export function IconFavourite({color, ...props}: SvgProps) {
+export function IconFavorite({color, ...props}: SvgProps) {
 	return (
 		<Svg width={25} height={25} fill={'none'} {...props}>
 			<G clipPath={'url(#a)'}>
