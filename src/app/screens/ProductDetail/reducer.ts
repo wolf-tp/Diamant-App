@@ -20,10 +20,13 @@ let initModal: {
 		is_favorite: true,
 	},
 };
-export const getProduct = createAsyncThunk('product/getProduct', async (userId: Number) => {
-	const res = await query<Result<DetailAProduct>, Number>(`/product/${userId}`, 'GET');
-	return res?.results;
-});
+export const getProduct = createAsyncThunk(
+	'product/getProduct',
+	async (userId: Number | undefined) => {
+		const res = await query<Result<DetailAProduct>, Number>(`/product/${userId}`, 'GET');
+		return res?.results;
+	}
+);
 
 const productSlice = createSlice({
 	initialState: initModal,

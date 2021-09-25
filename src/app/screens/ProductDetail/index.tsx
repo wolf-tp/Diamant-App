@@ -3,13 +3,11 @@ import Breadcrumb from 'app/components/Breadcrumb';
 import Button from 'app/components/Button';
 import CartProductDetail from 'app/components/CartProductDetail';
 import Collapse from 'app/components/Collapse';
-import {IconCartCircle} from 'app/components/icons/Icons';
-import Logo from 'app/components/Logo';
-import UserHeader from 'app/components/UserHeader';
-import {getParams} from 'app/navigation/rootNavigation';
+import {BackHeader} from 'app/components/icons/Icons';
+import {getParams, popNavigate} from 'app/navigation/rootNavigation';
 import {screenHeight} from 'app/styles/dimens';
-import {AreaContainer, betweenContent, RowView} from 'app/styles/globalStyled';
-import styled, {css} from 'app/styles/styled';
+import {AreaContainer, RowView} from 'app/styles/globalStyled';
+import styled from 'app/styles/styled';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {getProduct} from './reducer';
 import {getTranslate} from 'app/locate/reducer';
@@ -27,12 +25,12 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 	}, [dispatch, id]);
 	return (
 		<AreaContainer>
-			<Logo />
-			<RowBetween>
-				<UserHeader />
-				<IconCartCircle />
-			</RowBetween>
-			<CustomBreadcrumb />
+			<RowView>
+				<BackOpacity onPress={popNavigate}>
+					<BackHeader />
+				</BackOpacity>
+				<CustomBreadcrumb />
+			</RowView>
 			<Content>
 				<CartProduct {...cartProduct} />
 				<ScrollContainer>
@@ -61,9 +59,6 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 		</AreaContainer>
 	);
 };
-const scapingElement = css`
-	margin-bottom: ${({theme}) => theme.scaping(6)};
-`;
 const Content = styled.View`
 	background-color: ${({theme}) => theme.colors.card};
 	padding-horizontal: 12px;
@@ -91,12 +86,8 @@ const ListVerticalText = styled.View``;
 const CollapseView = styled(Collapse)`
 	color: ${({theme}) => theme.colors.white};
 `;
-const RowBetween = styled(RowView)`
-	${scapingElement}
-	${betweenContent}
-`;
 const CustomBreadcrumb = styled(Breadcrumb)`
-	margin-bottom: ${({theme}) => theme.scapingElement};
+	align-items: center;
 `;
 const ScrollContainer = styled.View`
 	height: ${screenHeight * 0.3}px;
@@ -113,6 +104,12 @@ const TextButton = styled.Text`
 `;
 const ScrollContent = styled.ScrollView`
 	height: 100px;
+`;
+const BackOpacity = styled.TouchableOpacity`
+	background-color: ${({theme}) => theme.colors.background};
+	margin-vertical: 15px;
+	margin-right: 5px;
+	border-radius: ${({theme}) => theme.borderRadius};
 `;
 
 export default ProductDetail;

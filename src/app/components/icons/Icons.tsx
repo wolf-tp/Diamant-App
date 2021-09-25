@@ -7,7 +7,7 @@ export function BackHeader(props: SvgProps) {
 		<Svg width={27} height={27} viewBox={'0 0 24 24'} fill={'none'} {...props}>
 			<Path
 				d={'M15 18l-6-6 6-6'}
-				stroke={'#111'}
+				stroke={'#fff'}
 				strokeWidth={2}
 				strokeLinecap={'round'}
 				strokeLinejoin={'round'}
