@@ -60,5 +60,9 @@ const frData = {
 		Description: 'Ger your groceries in as fast as one hour',
 		GetStart: 'Get started',
 	},
+	ConfirmOrder: {
+		description: 'Demande de commande envoyée ! \nVotre commande',
+		note: "Note sur l'ordre",
+	},
 };
 export default frData;

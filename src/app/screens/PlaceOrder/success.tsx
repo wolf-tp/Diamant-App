@@ -15,7 +15,7 @@ const PlaceOrderSuccess = () => {
 				<TitleText>Your Order has been accepted</TitleText>
 				<ContentText>Your items has been placed and is on it’s way to being processed</ContentText>
 				<BottomView>
-					<ButtonTrackingOrder>{'Tracking Order'}</ButtonTrackingOrder>
+					<ButtonConfirmOrder>{'Tracking Order'}</ButtonConfirmOrder>
 					<BackTouchableOpacity onPress={() => navigate('Home')}>
 						<BackText>Back to home</BackText>
 					</BackTouchableOpacity>
@@ -29,7 +29,7 @@ const BodyContent = styled(Container)`
 	flex: 1;
 	align-items: center;
 `;
-const ButtonTrackingOrder = styled(Button)`
+const ButtonConfirmOrder = styled(Button)`
 	margin-top: auto;
 	margin-bottom: 12px;
 	padding-vertical: 12px;

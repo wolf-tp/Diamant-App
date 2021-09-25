@@ -11,7 +11,7 @@ import ProductDetail from 'app/screens/ProductDetail';
 import PlaceOrderSuccess from 'app/screens/PlaceOrder/success';
 import Tabs from './tabs';
 import {getAppTheme} from 'app/styles/reducer';
-import TrackingOrder from 'app/screens/TrackingOrder';
+import TrackingOrder from 'app/screens/ConfirmOrder';
 import {useAppSelector} from 'app/redux/store/hooks';
 import {isLogin, loginStorage} from 'app/screens/login/reducer';
 import {getKey} from 'app/utils/storage';
