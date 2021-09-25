@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TouchableOpacity, StyleSheet} from 'react-native';
@@ -8,7 +8,7 @@ import LoginScreen from '../screens/login';
 import {navigationRef, popNavigate} from './rootNavigation';
 import ListProduct from 'app/screens/ListProduct';
 import ProductDetail from 'app/screens/ProductDetail';
-import PlaceOrderSuccess from 'app/screens/PlaceOrder/success';
+import OrderDetail from 'app/screens/OrderDetail';
 import Tabs from './tabs';
 import {getAppTheme} from 'app/styles/reducer';
 import TrackingOrder from 'app/screens/ConfirmOrder';
@@ -25,7 +25,7 @@ export type RootStackParamList = {
 	Home: undefined;
 	ListProduct: undefined;
 	ProductDetail: Product;
-	PlaceOrderSuccess: undefined;
+	OrderDetail: ListOrders;
 	FindStore: undefined;
 	ListOrders: undefined;
 	Cart: undefined;
@@ -62,7 +62,7 @@ const RootScreen = () => {
 						headerTitleStyle: styles.headerFont,
 						headerLeftContainerStyle: {paddingLeft: scapingHeader},
 					}}
-					initialRouteName={'Login' as keyof RootStackParamList}
+					initialRouteName={'Home' as keyof RootStackParamList}
 				>
 					<Stack.Screen name={'Home'} component={Tabs} />
 					<Stack.Screen options={notShowHeader} name={'Intro'} component={IntroApp} />
@@ -80,11 +80,7 @@ const RootScreen = () => {
 						component={ListProduct}
 					/>
 
-					<Stack.Screen
-						options={notShowHeader}
-						name={'PlaceOrderSuccess'}
-						component={PlaceOrderSuccess}
-					/>
+					<Stack.Screen name={'OrderDetail'} component={OrderDetail} />
 					<Stack.Screen
 						options={{
 							headerTitle: '',

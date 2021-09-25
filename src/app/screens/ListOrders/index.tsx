@@ -49,7 +49,7 @@ const ListOrders = () => {
 	return (
 		<Container>
 			<RowBetween>
-				<TitleText>Mes commandes</TitleText>
+				<TitleText>{getString('Orders', 'description')}</TitleText>
 				<DropDownPicker
 					open={open}
 					containerStyle={{width: screenWidth / 2.3}}

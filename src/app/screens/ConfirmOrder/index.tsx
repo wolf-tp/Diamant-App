@@ -1,3 +1,4 @@
+import ProductCardSmall from 'app/components/ProductCardSmall';
 import {getTranslate} from 'app/locate/reducer';
 import {screenWidth} from 'app/styles/dimens';
 import {
@@ -22,22 +23,7 @@ const ConfirmOrder = (_: Props) => {
 		<ScrollContainer>
 			<AreaContainer notPadding>
 				<TextDescription>{getString('ConfirmOrder', 'description')}</TextDescription>
-				{fakeData &&
-					fakeData.map((item) => (
-						<ContainerProductCard key={item.id}>
-							<ViewImage>
-								<ProductImage
-									source={
-										(item.image && {uri: item.image as any}) ||
-										require('images/template/product.png')
-									}
-								/>
-							</ViewImage>
-							<Amount paddingLeft>{item.amount}</Amount>
-							<Amount>X</Amount>
-							<NameProduct>{item.title}</NameProduct>
-						</ContainerProductCard>
-					))}
+				{fakeData && fakeData.map((item) => <ProductCardSmall key={item.id} {...item} />)}
 				<TextLargeComponent>
 					{getString('Orders', 'DeliveryDate')} : <TextContent>05 septembre 2021</TextContent>
 				</TextLargeComponent>

@@ -1,18 +1,21 @@
 import {isIOS} from 'app/styles/dimens';
 import React from 'react';
-import {Animated, TouchableOpacityProps} from 'react-native';
+import {Animated, TouchableOpacityProps, ViewStyle} from 'react-native';
 import styled from '../styles/styled';
 import {useToggleAnimate} from './animation/FadeAnimation';
 
-type ButtonProps = TouchableOpacityProps & InsideTouch;
+type ButtonProps = TouchableOpacityProps &
+	InsideTouch & {
+		containerStyles?: ViewStyle;
+	};
 
-const Button = ({style, ...props}: ButtonProps) => {
+const Button = ({style, containerStyles, ...props}: ButtonProps) => {
 	const {children, loading} = props;
 
 	const {interpolate} = useToggleAnimate({outputRange: [0, 1]});
 
 	return (
-		<ViewContainer style={[{opacity: interpolate}]}>
+		<ViewContainer style={[{opacity: interpolate}, containerStyles]}>
 			<Container activeOpacity={0.6} disabled={loading} style={style} {...props}>
 				{!loading ? (
 					typeof children === 'string' ? (

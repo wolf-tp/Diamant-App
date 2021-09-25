@@ -18,6 +18,8 @@ const frData = {
 		OrderCode: 'Code de commande',
 		DeliveryDate: 'Date de livraison',
 		ProductAmount: '{value} Products',
+		description: 'Mes commandes',
+		SeeOrder: 'Consulter',
 	},
 	Cart: {
 		Title: 'Cart',
