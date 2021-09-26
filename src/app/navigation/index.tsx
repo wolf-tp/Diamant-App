@@ -19,6 +19,7 @@ import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
 import SplashScreen from 'react-native-splash-screen';
 import HeaderApp from 'app/components/HeaderApp';
 import {store} from 'app/redux/store';
+import Cart from 'app/screens/Cart';
 
 export type RootStackParamList = {
 	Intro: undefined;
@@ -91,6 +92,14 @@ const RootScreen = () => {
 					/>
 					<Stack.Screen
 						options={{
+							headerTitle: '',
+							headerStyle: {backgroundColor: themes.colors.backgroundGray, ...styles.headerNoLine},
+						}}
+						name={'Cart'}
+						component={Cart}
+					/>
+					<Stack.Screen
+						options={{
 							headerStyle: {backgroundColor: themes.colors.background, ...styles.headerNoLine},
 							headerRight: () => (
 								<TouchableOpacity onPress={popNavigate}>
@@ -103,7 +112,6 @@ const RootScreen = () => {
 						component={TrackingOrder}
 					/>
 					<Stack.Screen options={notShowHeader} name={'ListOrders'} component={Tabs} />
-					<Stack.Screen options={notShowHeader} name={'Cart'} component={Tabs} />
 					<Stack.Screen options={notShowHeader} name={'Favorite'} component={Tabs} />
 				</Stack.Navigator>
 			) : (

@@ -51,5 +51,15 @@ const enData = {
 		Description: 'Ger your groceries in as fast as one hour',
 		GetStart: 'Get started',
 	},
+	DropUp: {
+		ChooseDate: 'Choose date delivery',
+		ChooseDifferenceDate: 'Choose difference delivery date',
+		Today: 'Today',
+		Tomorrow: 'Tomorrow',
+		Difference: 'Difference date',
+		OrderDate: 'Choice order date',
+		Note: 'Note',
+		Submit: 'Submit order',
+	},
 };
 export default enData;

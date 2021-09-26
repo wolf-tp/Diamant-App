@@ -1,4 +1,4 @@
-import {RowView, TextLarge, textLargeCss} from 'app/styles/globalStyled';
+import {RowView, TextSmall, textSmallCss} from 'app/styles/globalStyled';
 import styled, {css} from 'app/styles/styled';
 import React, {useEffect, useState} from 'react';
 import {IconMinusClean, IconPlusClean} from './icons/Icons';
@@ -50,33 +50,30 @@ const TouchQuantity = ({quantity: quantityProps, isInput}: Props) => {
 	);
 };
 
-const borderCss = css`
-	background-color: white;
-	border-radius: ${({theme}) => theme.borderRadiusStand};
-	border-width: 1px;
-	border-color: ${({theme}) => theme.colors.gray};
+const borderCss = css``;
+
+const Container = styled(RowView)`
+	border-radius: ${({theme}) => theme.borderRadiusSmall};
+	background-color: ${({theme}) => theme.colors.gray_400};
 `;
 
-const Container = styled(RowView)``;
-
 const QuantityView = styled.View<Props>`
-	width: 50px;
-	aspect-ratio: 1;
+	padding: 10px;
 	align-items: center;
 	justify-content: center;
 	${({isInput}) => (isInput ? borderCss : '')}
 `;
 const TouchIcon = styled.TouchableOpacity<Props & {left?: boolean}>`
-	aspect-ratio: ${({isInput}) => (!isInput ? 1 : 0.6)};
+	margin-horizontal: 10px;
 	justify-content: center;
 	${({left}) => (left ? 'margin-right' : 'margin-left')}: 5px;
 	${({left}) => (left ? '' : 'align-items: flex-end;')}
 	${({isInput}) => (!isInput ? 'align-items:center;' : '')}
     ${({isInput}) => (!isInput ? borderCss : '')}
 `;
-const QuantityText = styled(TextLarge)``;
+const QuantityText = styled(TextSmall)``;
 const QuantityInput = styled.TextInput`
-	${textLargeCss}
+	${textSmallCss}
 `;
 
 export default TouchQuantity;

@@ -73,5 +73,15 @@ const frData = {
 	Auth: {
 		Logout: 'Se déconnecter',
 	},
+	DropUp: {
+		ChooseDate: 'Veuillez choisir la date de livraison',
+		ChooseDifferenceDate: 'ou choisissez votre propre date de livraison',
+		Today: "Aujourd'hui",
+		Tomorrow: 'Jour suivant',
+		Difference: 'Est différent',
+		OrderDate: 'Choice order date',
+		Note: 'Note sur la commande',
+		Submit: "envoyer la demande d'ordre",
+	},
 };
 export default frData;

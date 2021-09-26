@@ -14,9 +14,11 @@ interface Props {
 	style?: ViewStyle;
 	product?: Product;
 	alwayFavorite?: boolean;
+	isDisabled?: boolean;
+	children?: React.ReactNode;
 }
 
-const CardFood = ({style, product, alwayFavorite, ...props}: Props) => {
+const CardFood = ({style, product, children, isDisabled, alwayFavorite, ...props}: Props) => {
 	const theme = getAppTheme();
 	const dispatch = useAppDispatch();
 	const [isLoadingFavorite, setIsLoading] = useState(false);
@@ -30,7 +32,12 @@ const CardFood = ({style, product, alwayFavorite, ...props}: Props) => {
 	const {title = '', description = '', image, item_code = '', is_favorite, id} = product || {};
 
 	return (
-		<Container style={style} activeOpacity={0.6} onPress={() => navigate('ProductDetail', product)}>
+		<Container
+			style={style}
+			activeOpacity={0.6}
+			disabled={isDisabled}
+			onPress={() => navigate('ProductDetail', product)}
+		>
 			<ViewImage>
 				<ProductImage
 					source={(image && {uri: image as any}) || require('images/template/product.png')}
@@ -56,9 +63,13 @@ const CardFood = ({style, product, alwayFavorite, ...props}: Props) => {
 				<Description>{description}</Description>
 				<Description>CODE: {item_code.toUpperCase()}</Description>
 			</ContainerContent>
-			<TouchIcon>
-				<TouchPlusCard />
-			</TouchIcon>
+			{children ? (
+				children
+			) : (
+				<TouchIcon>
+					<TouchPlusCard />
+				</TouchIcon>
+			)}
 		</Container>
 	);
 };
@@ -84,7 +95,6 @@ const Description = styled(TextSmall)`
 	font-weight: 400;
 	color: ${({theme}) => theme.colors.textGray};
 `;
-const TouchPlusCard = styled(IconCardPlus)``;
 const ViewImage = styled.View`
 	width: ${IMAGE_CARD_SIZE}px;
 	height: ${IMAGE_CARD_SIZE * 1.24}px;
@@ -99,16 +109,17 @@ const touchIconCss = css`
 	right: ${({theme}) => theme.scaping(1)};
 	top: ${({theme}) => theme.scaping(1)};
 `;
-const TouchIcon = styled.TouchableOpacity`
-	position: absolute;
-	bottom: 10px;
-	right: 15px;
-`;
 const ViewIcon = styled.View`
 	${touchIconCss}
 `;
 const TouchFavorite = styled.TouchableOpacity`
 	${touchIconCss}
+`;
+const TouchPlusCard = styled(IconCardPlus)``;
+const TouchIcon = styled.TouchableOpacity`
+	position: absolute;
+	bottom: 10px;
+	right: 15px;
 `;
 const Loading = styled.ActivityIndicator``;
 

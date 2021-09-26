@@ -4,6 +4,7 @@ import styled from 'app/styles/styled';
 import {IconCartCircle} from './icons/Icons';
 import Logo from './Logo';
 import UserHeader from './UserHeader';
+import {navigate} from 'app/navigation/rootNavigation';
 
 const HeaderApp = () => {
 	return (
@@ -13,7 +14,7 @@ const HeaderApp = () => {
 				{/* Left address view */}
 				<UserHeader />
 				{/* Avatar */}
-				<IconCartCircle />
+				<IconCartCircle onPress={() => navigate('Cart')} />
 			</RowBetween>
 		</Container>
 	);

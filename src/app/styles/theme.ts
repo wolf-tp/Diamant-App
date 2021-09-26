@@ -29,6 +29,7 @@ export const globalColor: ColorTheme = {
 	gray_200: '#F2F2F2',
 	gray_100: '#F7F7F7',
 	gray_300: '#262B33',
+	gray_400: '#22272F',
 	darkGray: '#545454',
 	textColor_100: '#4C4F4D',
 	orange_100: '#C89524',
