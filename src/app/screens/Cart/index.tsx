@@ -51,7 +51,7 @@ const CardProduct = styled(CardFood)`
 	margin-bottom: ${({theme}) => theme.scaping(2)};
 `;
 const ListContainer = styled.View`
-	height: ${screenHeight * 0.79}px;
+	height: ${screenHeight * 0.77}px;
 `;
 const ListProduct = styled.FlatList`
 	height: 100px;

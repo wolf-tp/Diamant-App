@@ -93,7 +93,7 @@ const ChooseDateButton = styled(Button)`
 	padding-horizontal: ${({theme}) => theme.scaping(10)};
 `;
 const CustomTouchArrow = styled(TouchArrow)`
-	padding: ${({theme}) => theme.scaping(2)};
+	padding: ${({theme}) => theme.scaping(3)};
 	background-color: ${({theme}) => theme.colors.background};
 `;
 const Title = styled.Text`
