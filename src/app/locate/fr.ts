@@ -66,5 +66,12 @@ const frData = {
 		description: 'Demande de commande envoyée ! \nVotre commande',
 		note: "Note sur l'ordre",
 	},
+	Notifications: {
+		StatusOrder: 'Statut commande',
+		MessageTab: 'Autres messages',
+	},
+	Auth: {
+		Logout: 'Se déconnecter',
+	},
 };
 export default frData;
