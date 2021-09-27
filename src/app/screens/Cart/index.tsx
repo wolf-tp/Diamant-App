@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'app/styles/styled';
 import {AreaContainer, Container} from 'app/styles/globalStyled';
 import CardFood from 'app/components/CardFood';
@@ -6,24 +6,29 @@ import TouchQuantity from 'app/components/TouchQuantity';
 import {TrashIcon} from 'app/components/icons/Icons';
 import DropUp from 'app/components/DropUp';
 import TouchArrow from 'app/components/TouchArrow';
-
-interface ProductsData {
-	id: Number;
-	user_id: Number;
-	products: ProductDetail[];
-}
+import {getCartProduct, getCartStatus, getProductList, updateAmountProduct} from './reducer';
+import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
+import Loading from 'app/components/Loading';
 
 const Cart = () => {
+	const dispatch = useAppDispatch();
+	const products = useAppSelector(getCartProduct);
+	const isLoadingListProduct = useAppSelector(getCartStatus) === 'loading';
 	const [isShowDateDelivery, setIsShowDateDelivery] = useState(false);
 	const showDeliveryModal = useCallback(() => {
 		setIsShowDateDelivery(!isShowDateDelivery);
 	}, [isShowDateDelivery]);
 
-	const renderItemProduct = ({item}: {item: Product}) => (
+	useEffect(() => {
+		dispatch(getProductList());
+	}, [dispatch]);
+	const renderItemProduct = ({item}: {item: ProductDetail}) => (
 		<CardProduct product={item} isDisabled={true}>
 			<TouchIcon>
-				<TouchQuantity />
-				<TouchRemoveView>
+				<TouchQuantity quantity={Number(item.amount)} />
+				<TouchRemoveView
+					onPress={() => dispatch(updateAmountProduct({product_id: item.id, amount: 0}))}
+				>
 					<TouchRemoveCard />
 				</TouchRemoveView>
 			</TouchIcon>
@@ -33,11 +38,15 @@ const Cart = () => {
 		<CartContainer>
 			<AreaContainer notPadding>
 				<ListContainer>
-					<ListProduct
-						data={dataExample.results.products}
-						renderItem={renderItemProduct as any}
-						keyExtractor={(_, _index) => `product_${_index.toString()}`}
-					/>
+					{isLoadingListProduct ? (
+						<Loading />
+					) : (
+						<ListProduct
+							data={products?.products}
+							renderItem={renderItemProduct as any}
+							keyExtractor={(_, _index) => `product_${_index.toString()}`}
+						/>
+					)}
 				</ListContainer>
 				<DropUp isShowModal={isShowDateDelivery} event={showDeliveryModal} />
 				<CustomTouchArrow event={showDeliveryModal} />
@@ -78,85 +87,3 @@ const CustomTouchArrow = styled(TouchArrow)`
 	background-color: ${({theme}) => theme.colors.background};
 `;
 export default Cart;
-
-const dataExample: Result<ProductsData> = {
-	status: 'OK',
-	results: {
-		id: 1,
-		user_id: 1,
-		products: [
-			{
-				id: 3,
-				item_code: 'item2',
-				title: 'coconut',
-				description: null,
-				unit_weight: null,
-				packaging: null,
-				dlc: null,
-				gen_code: 'gen2',
-				image: null,
-				amount: 2,
-			},
-			{
-				id: 4,
-				item_code: 'item3',
-				title: 'donut',
-				description: null,
-				unit_weight: null,
-				packaging: null,
-				dlc: null,
-				gen_code: 'gen3',
-				image: null,
-				amount: 2,
-			},
-			{
-				id: 3,
-				item_code: 'item2',
-				title: 'coconut',
-				description: null,
-				unit_weight: null,
-				packaging: null,
-				dlc: null,
-				gen_code: 'gen2',
-				image: null,
-				amount: 2,
-			},
-			{
-				id: 4,
-				item_code: 'item3',
-				title: 'donut',
-				description: null,
-				unit_weight: null,
-				packaging: null,
-				dlc: null,
-				gen_code: 'gen3',
-				image: null,
-				amount: 2,
-			},
-			{
-				id: 3,
-				item_code: 'item2',
-				title: 'coconut',
-				description: null,
-				unit_weight: null,
-				packaging: null,
-				dlc: null,
-				gen_code: 'gen2',
-				image: null,
-				amount: 2,
-			},
-			{
-				id: 4,
-				item_code: 'item3',
-				title: 'donut',
-				description: null,
-				unit_weight: null,
-				packaging: null,
-				dlc: null,
-				gen_code: 'gen3',
-				image: null,
-				amount: 2,
-			},
-		],
-	},
-};

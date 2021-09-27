@@ -12,7 +12,7 @@ import {IconCardPlus, IconFavoriteProduct} from './icons/Icons';
 interface Props {
 	onPressPlus?: () => void;
 	style?: ViewStyle;
-	product?: Product;
+	product?: Product | ProductDetail;
 	alwayFavorite?: boolean;
 	isDisabled?: boolean;
 	children?: React.ReactNode;

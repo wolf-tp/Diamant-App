@@ -103,7 +103,7 @@ declare interface ProductDetail {
 	image?: null;
 	created_at?: Date;
 	updated_at?: Date;
-	amount?: number;
+	amount?: string;
 }
 declare interface Categories {
 	id?: number;
@@ -132,4 +132,9 @@ declare interface DetailAProduct {
 	gen_code: String;
 	image?: String;
 	is_favorite: Boolean;
+}
+interface ProductList {
+	id: Number;
+	user_id: Number;
+	products: ProductDetail[];
 }

@@ -19,11 +19,11 @@ const TouchQuantity = ({quantity: quantityProps, isInput}: Props) => {
 		<Container>
 			<TouchIcon
 				isInput={isInput}
-				disabled={!quantity}
+				disabled={!(quantity - 1)}
 				left
 				onPress={() => setQuantity(quantity - 1)}
 			>
-				<IconMinusClean disabled={!quantity} />
+				<IconMinusClean disabled={!(quantity - 1)} />
 			</TouchIcon>
 
 			<QuantityView isInput={isInput}>

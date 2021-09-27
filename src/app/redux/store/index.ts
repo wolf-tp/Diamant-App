@@ -8,6 +8,7 @@ import OrdersReducer from 'app/screens/ListOrders/reducer';
 import homeReducer from 'app/screens/home/reducer';
 import ProductReducer from 'app/screens/ProductDetail/reducer';
 import favoriteReducer from 'app/screens/Favorite/reducers';
+import cartReducer from 'app/screens/Cart/reducer';
 
 export const store = configureStore({
 	reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
 		home: homeReducer,
 		productDetail: ProductReducer,
 		favorite: favoriteReducer,
+		cart: cartReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
