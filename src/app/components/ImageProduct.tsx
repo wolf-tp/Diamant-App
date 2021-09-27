@@ -1,27 +1,31 @@
 import React from 'react';
 import styled from 'app/styles/styled';
 import {IconHeart} from './icons/Icons';
+import {screenWidth} from 'app/styles/dimens';
+import {ViewStyle} from 'react-native';
 
 interface Props {
+	style?: ViewStyle;
 	image?: String;
 	is_favorite?: Boolean;
 }
 
-const ImageProduct = (props: Props) => {
-	return (
-		<ImageContainer>
-			<ProductImage source={props.image || require('images/product.png')} />
-			<ButtonIcon>
-				<IconHeart />
-			</ButtonIcon>
-		</ImageContainer>
-	);
-};
+const ImageProduct = (props: Props) => (
+	<ImageContainer style={props.style}>
+		<ProductImage source={props.image || require('images/product.png')} />
+		<ButtonIcon>
+			<IconHeart />
+		</ButtonIcon>
+	</ImageContainer>
+);
 
 export default ImageProduct;
+
+const IMAGE_SIZE = screenWidth / 2.5;
+
 const ImageContainer = styled.View`
-	width: 100%;
-	height: 100%;
+	width: ${IMAGE_SIZE}px;
+	height: ${IMAGE_SIZE}px;
 `;
 const ProductImage = styled.Image`
 	width: 100%;

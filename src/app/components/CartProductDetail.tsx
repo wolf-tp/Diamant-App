@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'app/styles/styled';
 import ImageProduct from './ImageProduct';
 import {getTranslate} from 'app/locate/reducer';
+import Button from './Button';
 interface Props {
 	id?: Number;
 	title: String;
@@ -15,15 +16,15 @@ const CartProductDetail = (props: ProductDetailProps) => {
 	const getString = getTranslate();
 	return (
 		<CartContainer>
-			<LeftCart>
-				<ImageProduct />
-			</LeftCart>
+			<ImageProductComponent />
 			<RightCart>
 				<Title>{props?.title}</Title>
-				<ListButton>
-					<ChangeButton>
-						<TextButton>{props?.unit_weight || '0'}</TextButton>
-					</ChangeButton>
+				<ListButton horizontal>
+					{fakeData.map((weight, indexWeight) => (
+						<ChangeButton key={indexWeight}>
+							<TextButton>{props?.unit_weight || weight}g</TextButton>
+						</ChangeButton>
+					))}
 				</ListButton>
 				<CodeContent>
 					<CodeTitle>{getString('ProductDetail', 'GenCode')}</CodeTitle>
@@ -38,9 +39,8 @@ const CartContainer = styled.View`
 	flex-direction: row;
 	padding-vertical: 10px;
 `;
-const RightCart = styled.View`
-	flex: 1;
-`;
+const RightCart = styled.View``;
+
 const CodeTitle = styled.Text`
 	color: ${({theme}) => theme.colors.orange_100};
 `;
@@ -53,23 +53,21 @@ const CodeContent = styled.View`
 	flex-direction: row;
 	margin-top: ${({theme}) => theme.scapingElement};
 `;
-const LeftCart = styled.View`
-	flex: 0.8;
+const ImageProductComponent = styled(ImageProduct)`
 	margin-right: 12px;
-	height: 150px;
 `;
-const ListButton = styled.View`
-	flex-direction: row;
+const ListButton = styled.ScrollView`
 	margin-top: ${({theme}) => theme.scapingElement};
 `;
 const TextButton = styled.Text`
 	color: ${({theme}) => theme.colors.white};
 `;
-const ChangeButton = styled.Text`
+const ChangeButton = styled(Button)`
 	padding-horizontal: 18px;
 	padding-vertical: 8px;
 	margin-right: 14px;
 	background-color: ${({theme}) => theme.colors.orange_100};
+	width: 100px;
 	border-radius: 8px;
 `;
 const Title = styled.Text`
@@ -77,4 +75,6 @@ const Title = styled.Text`
 	color: ${({theme}) => theme.colors.white};
 	margin-top: ${({theme}) => theme.scapingElement};
 `;
+
+const fakeData = [400, 900];
 export default CartProductDetail;

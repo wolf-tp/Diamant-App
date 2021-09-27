@@ -24,7 +24,7 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 		dispatch(getProduct(id));
 	}, [dispatch, id]);
 	return (
-		<AreaContainer>
+		<AreaContainer notPadding>
 			<RowView>
 				<BackOpacity onPress={popNavigate}>
 					<BackHeader />
@@ -52,9 +52,7 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 						</ListHorizontalText>
 					</ScrollContent>
 				</ScrollContainer>
-				<ConfirmButton>
-					<TextButton>{getString('ProductDetail', 'Submit')}</TextButton>
-				</ConfirmButton>
+				<ConfirmButton>{getString('ProductDetail', 'Submit')}</ConfirmButton>
 			</Content>
 		</AreaContainer>
 	);
@@ -97,10 +95,6 @@ const ScrollContainer = styled.View`
 const ConfirmButton = styled(Button)`
 	align-self: center;
 	padding-horizontal: 42px;
-`;
-const TextButton = styled.Text`
-	color: ${({theme}) => theme.colors.white};
-	font-size: ${({theme}) => theme.font.fontMedium};
 `;
 const ScrollContent = styled.ScrollView`
 	height: 100px;

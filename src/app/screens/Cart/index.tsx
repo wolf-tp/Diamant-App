@@ -1,10 +1,9 @@
 import React, {useCallback, useState} from 'react';
 import styled from 'app/styles/styled';
-import {Container} from 'app/styles/globalStyled';
+import {AreaContainer, Container} from 'app/styles/globalStyled';
 import CardFood from 'app/components/CardFood';
 import TouchQuantity from 'app/components/TouchQuantity';
 import {TrashIcon} from 'app/components/icons/Icons';
-import {screenHeight} from 'app/styles/dimens';
 import DropUp from 'app/components/DropUp';
 import TouchArrow from 'app/components/TouchArrow';
 
@@ -19,6 +18,7 @@ const Cart = () => {
 	const showDeliveryModal = useCallback(() => {
 		setIsShowDateDelivery(!isShowDateDelivery);
 	}, [isShowDateDelivery]);
+
 	const renderItemProduct = ({item}: {item: Product}) => (
 		<CardProduct product={item} isDisabled={true}>
 			<TouchIcon>
@@ -31,15 +31,17 @@ const Cart = () => {
 	);
 	return (
 		<CartContainer>
-			<ListContainer>
-				<ListProduct
-					data={dataExample.results.products}
-					renderItem={renderItemProduct as any}
-					keyExtractor={(_, _index) => `product_${_index.toString()}`}
-				/>
-			</ListContainer>
-			<DropUp isShowModal={isShowDateDelivery} event={showDeliveryModal} />
-			<CustomTouchArrow event={showDeliveryModal} />
+			<AreaContainer notPadding>
+				<ListContainer>
+					<ListProduct
+						data={dataExample.results.products}
+						renderItem={renderItemProduct as any}
+						keyExtractor={(_, _index) => `product_${_index.toString()}`}
+					/>
+				</ListContainer>
+				<DropUp isShowModal={isShowDateDelivery} event={showDeliveryModal} />
+				<CustomTouchArrow event={showDeliveryModal} />
+			</AreaContainer>
 		</CartContainer>
 	);
 };
@@ -51,7 +53,7 @@ const CardProduct = styled(CardFood)`
 	margin-bottom: ${({theme}) => theme.scaping(2)};
 `;
 const ListContainer = styled.View`
-	height: ${screenHeight * 0.77}px;
+	flex: 1;
 `;
 const ListProduct = styled.FlatList`
 	height: 100px;
@@ -73,7 +75,6 @@ const TouchIcon = styled.View`
 `;
 const CustomTouchArrow = styled(TouchArrow)`
 	transform: rotate(180deg);
-	padding: ${({theme}) => theme.scaping(2)};
 	background-color: ${({theme}) => theme.colors.background};
 `;
 export default Cart;
