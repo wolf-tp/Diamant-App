@@ -40,10 +40,9 @@ const DropUp = ({style, isShowModal, event}: Props) => {
 					<CustomTouchArrow event={event} />
 					<Container {...style}>
 						<Title>{getString('DropUp', 'ChooseDate')}</Title>
-						<CustomRowView horizontal showsHorizontalScrollIndicator={false}>
+						<CustomRowView>
 							<DateButton>{getString('DropUp', 'Today')}</DateButton>
 							<DateButton>{getString('DropUp', 'Today')}</DateButton>
-							<DateButton>{getString('DropUp', 'Difference')}</DateButton>
 						</CustomRowView>
 						<Title>{getString('DropUp', 'ChooseDifferenceDate')}</Title>
 						<ChooseDateButton onPress={() => setShow(true)}>
@@ -77,14 +76,15 @@ const DropUp = ({style, isShowModal, event}: Props) => {
 	);
 };
 const CustomModal = styled.Modal``;
-const CustomRowView = styled.ScrollView`
+const CustomRowView = styled.View`
 	margin-bottom: ${({theme}) => theme.scapingElement};
+	justify-content: space-between;
 	${rowCss}
 `;
 const DateButton = styled(Button)`
 	margin-right: ${({theme}) => theme.scaping(2)};
 	padding-vertical: ${({theme}) => theme.scaping(2)};
-	padding-horizontal: ${({theme}) => theme.scaping(3)};
+	padding-horizontal: ${({theme}) => theme.scaping(4.5)};
 `;
 const ChooseDateButton = styled(Button)`
 	align-self: center;
@@ -112,6 +112,7 @@ const CustomTextInput = styled.TextInput`
 	color: ${({theme}) => theme.colors.white};
 	padding-horizontal: ${({theme}) => theme.scaping(2)};
 	flex: 1;
+	text-align-vertical: top;
 `;
 const SubmitButton = styled(Button)`
 	margin-left: auto;

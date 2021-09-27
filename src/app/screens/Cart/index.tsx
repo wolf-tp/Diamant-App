@@ -84,6 +84,7 @@ const TouchIcon = styled.View`
 `;
 const CustomTouchArrow = styled(TouchArrow)`
 	transform: rotate(180deg);
+	margin-bottom: ${({theme}) => theme.scaping(3)};
 	background-color: ${({theme}) => theme.colors.background};
 `;
 export default Cart;
