@@ -139,3 +139,6 @@ interface ProductList {
 	products: ProductDetail[];
 }
 declare type IObject = {[key: string]: string};
+interface ListProductRequest {
+	[index: string]: number | {};
+}

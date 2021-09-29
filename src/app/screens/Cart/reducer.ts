@@ -30,6 +30,22 @@ export const updateAmountProduct = createAsyncThunk(
 		return res?.results;
 	}
 );
+interface OrderType {
+	products: {}[][];
+	date_of_delivery: string;
+	note?: string;
+}
+export const order = createAsyncThunk(
+	'cart/order',
+	async ({products, date_of_delivery, note}: OrderType) => {
+		const res = await query<Result<ProductList | undefined>, OrderType>('/order', 'POST', {
+			products,
+			date_of_delivery,
+			note,
+		});
+		return res?.results;
+	}
+);
 
 const getCartObjects = (products?: ProductList): IObject =>
 	products?.products.reduce((prevResultProduct, item) => {
@@ -63,14 +79,18 @@ const cartSlice = createSlice({
 					state.products = action.payload;
 					state.cartObject = getCartObjects(action.payload);
 				}
-			);
+			)
+			.addCase(order.fulfilled, (state, action: PayloadAction<ProductList | undefined>) => {
+				state.status = action.payload ? 'success' : 'failed';
+				state.products = action.payload;
+			});
 	},
 });
-export const getCartProduct = (state: RootState) => state.cart.products;
 export const getCartStatus = (state: RootState) => state.cart.status;
-export const getUpdateCartStatus = (state: RootState) => state.cart.status;
+export const getCartProduct = (state: RootState) => state.cart.products;
 export const getUpdateCartProducts = (state: RootState) => state.cart.products;
 export const getCartObject = (state: RootState) => state.cart.cartObject || {};
+export const getOrderProduct = (state: RootState) => state.cart.products;
 
 const cartReducer = cartSlice.reducer;
 export default cartReducer;

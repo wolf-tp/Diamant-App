@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styled from 'app/styles/styled';
 import {AreaContainer, Container} from 'app/styles/globalStyled';
 import CardFood from 'app/components/CardFood';
@@ -15,15 +15,27 @@ const Cart = () => {
 	const products = useAppSelector(getCartProduct);
 	const isLoadingListProduct = useAppSelector(getCartStatus) === 'loading';
 	const [isShowDateDelivery, setIsShowDateDelivery] = useState(false);
+	const [getListProduct, setGetListProduct] = useState<ListProductRequest>({});
 
 	const showDeliveryModal = useCallback(() => {
 		setIsShowDateDelivery(!isShowDateDelivery);
 	}, [isShowDateDelivery]);
 
+	useEffect(() => {
+		const productList = products?.products;
+		const array: ListProductRequest = {};
+		if (productList && productList.length > 0) {
+			productList.forEach((product) => {
+				array[product.id ?? -1] = Number(product.amount);
+			});
+			setGetListProduct(array);
+		}
+	}, [products]);
+
 	const renderItemProduct = ({item}: {item: ProductDetail}) => (
 		<CardProduct product={item} isDisabled={true}>
 			<TouchIcon>
-				<TouchQuantity quantity={Number(item.amount)} />
+				<TouchQuantity quantity={Number(item.amount)} id={item.id} listProduct={getListProduct} />
 				<TouchRemoveView
 					onPress={() => dispatch(updateAmountProduct({product_id: item.id, amount: 0}))}
 				>
@@ -46,7 +58,11 @@ const Cart = () => {
 						/>
 					)}
 				</ListContainer>
-				<DropUp isShowModal={isShowDateDelivery} event={showDeliveryModal} />
+				<DropUp
+					isShowModal={isShowDateDelivery}
+					event={showDeliveryModal}
+					listProduct={getListProduct}
+				/>
 				<CustomTouchArrow event={showDeliveryModal} />
 			</AreaContainer>
 		</CartContainer>

@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import {ViewProps} from 'react-native';
+import {getTranslate} from 'app/locate/reducer';
+import {getAppTheme} from 'app/styles/reducer';
+import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import styled from 'app/styles/styled';
@@ -12,22 +15,23 @@ import {
 	TextMediumLarge,
 } from 'app/styles/globalStyled';
 import TouchArrow from './TouchArrow';
-import {getTranslate} from 'app/locate/reducer';
-import {getAppTheme} from 'app/styles/reducer';
 import {getToday} from 'app/utilities/datetime';
+import {getCartStatus, order} from 'app/screens/Cart/reducer';
 interface Props {
 	style?: ViewProps;
 	isShowModal?: boolean;
 	event?: () => void;
+	listProduct: ListProductRequest;
 }
 
 type SelectDateType = 'today' | 'tomorrow' | 'anotherDay';
 
-const DropUp = ({style, isShowModal, event}: Props) => {
+const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 	const getString = getTranslate();
+	const dispatch = useAppDispatch();
+	const isLoadingSubmit = useAppSelector(getCartStatus) === 'loading';
 	const theme = getAppTheme();
-
-	const [value, onChangeText] = useState('');
+	const [text, onChangeText] = useState('');
 	const [selectDate, setSelectDate] = useState<SelectDateType>('today');
 	const [show, setShow] = useState(false);
 	const [date, setDate] = useState({
@@ -97,12 +101,23 @@ const DropUp = ({style, isShowModal, event}: Props) => {
 							<CustomTextInput
 								maxLength={240}
 								onChangeText={(text) => onChangeText(text)}
-								value={value}
+								value={text}
 								multiline
 								numberOfLines={8}
 							/>
 						</TextInputView>
-						<SubmitButton>{getString('DropUp', 'Submit')}</SubmitButton>
+						<SubmitButton
+							loading={isLoadingSubmit}
+							onPress={() => {
+								const result = Object.keys(listProduct).map((key: string) => [
+									Number(key),
+									listProduct[key],
+								]);
+								dispatch(order({products: result, date_of_delivery: date.dateString, note: text}));
+							}}
+						>
+							{getString('DropUp', 'Submit')}
+						</SubmitButton>
 						{show && (
 							<DateTimePicker
 								testID={'dateTimePicker'}

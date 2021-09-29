@@ -6,14 +6,22 @@ import {IconMinusClean, IconPlusClean} from './icons/Icons';
 interface Props {
 	quantity?: number;
 	isInput?: boolean;
+	id?: number;
+	listProduct?: ListProductRequest;
 }
 
-const TouchQuantity = ({quantity: quantityProps, isInput}: Props) => {
+const TouchQuantity = ({quantity: quantityProps, isInput, id, listProduct}: Props) => {
 	const [quantity, setQuantity] = useState(1);
-
 	useEffect(() => {
 		setQuantity(quantityProps || 1);
 	}, [quantityProps]);
+
+	const changeValue = (value: number) => {
+		if (listProduct && id) {
+			listProduct[id] = value;
+		}
+		setQuantity(value);
+	};
 
 	return (
 		<Container>
@@ -21,7 +29,7 @@ const TouchQuantity = ({quantity: quantityProps, isInput}: Props) => {
 				isInput={isInput}
 				disabled={!(quantity - 1)}
 				left
-				onPress={() => setQuantity(quantity - 1)}
+				onPress={() => changeValue(quantity - 1)}
 			>
 				<IconMinusClean disabled={!(quantity - 1)} />
 			</TouchIcon>
@@ -32,7 +40,7 @@ const TouchQuantity = ({quantity: quantityProps, isInput}: Props) => {
 						maxLength={2}
 						value={quantity.toString()}
 						keyboardType={'numeric'}
-						onChangeText={(text) => setQuantity(+text || 1)}
+						onChangeText={(text) => changeValue(+text || 1)}
 					/>
 				) : (
 					<QuantityText>{quantity}</QuantityText>
@@ -42,7 +50,7 @@ const TouchQuantity = ({quantity: quantityProps, isInput}: Props) => {
 			<TouchIcon
 				isInput={isInput}
 				disabled={quantity >= 99}
-				onPress={() => setQuantity(quantity + 1)}
+				onPress={() => changeValue(quantity + 1)}
 			>
 				<IconPlusClean disabled={quantity >= 99} />
 			</TouchIcon>
