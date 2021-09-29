@@ -8,6 +8,7 @@ import {getAppTheme} from 'app/styles/reducer';
 import styled, {css} from 'app/styles/styled';
 import {ViewStyle} from 'react-native';
 import {IconCardPlus, IconFavoriteProduct} from './icons/Icons';
+import {isValidImage} from 'app/utilities';
 
 interface Props {
 	onPressPlus?: () => void;
@@ -39,8 +40,11 @@ const CardFood = ({style, product, children, isDisabled, alwayFavorite, ...props
 			onPress={() => navigate('ProductDetail', product)}
 		>
 			<ViewImage>
+				{/* <LoadingImageProduct color={'white'} size={'small'} /> */}
 				<ProductImage
-					source={(image && {uri: image as any}) || require('images/template/product.png')}
+					source={
+						(isValidImage(image) && {uri: image as any}) || require('images/template/product.png')
+					}
 				/>
 				{isLoadingFavorite ? (
 					<ViewIcon>
@@ -103,6 +107,9 @@ const ProductImage = styled.Image`
 	width: 100%;
 	height: 100%;
 	resize-mode: contain;
+`;
+const LoadingImageProduct = styled.ActivityIndicator`
+	flex: 1;
 `;
 const touchIconCss = css`
 	position: absolute;

@@ -33,35 +33,5 @@ const CardProduct = styled(CardFood)`
 const ListProductComponent = styled.FlatList`
 	flex: 1;
 `;
-const fakeData = [
-	{
-		url: require('images/template/product.png'),
-		title: 'Tagliattes',
-		description:
-			'Tagliatelles préparés de façon artisanale à base de produits frais rigoureusement sélectionnés.',
-		code: 'TAG',
-	},
-	{
-		url: require('images/template/product.png'),
-		title: 'Tagliattes',
-		description:
-			'Tagliatelles préparés de façon artisanale à base de produits frais rigoureusement sélectionnés.',
-		code: 'TAG',
-	},
-	{
-		url: require('images/template/product.png'),
-		title: 'Tagliattes',
-		description:
-			'Tagliatelles préparés de façon artisanale à base de produits frais rigoureusement sélectionnés.',
-		code: 'TAG',
-	},
-	{
-		url: require('images/template/product.png'),
-		title: 'Tagliattes',
-		description:
-			'Tagliatelles préparés de façon artisanale à base de produits frais rigoureusement sélectionnés.',
-		code: 'TAG',
-	},
-];
 
 export default ListProduct;

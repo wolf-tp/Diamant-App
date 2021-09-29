@@ -9,6 +9,7 @@ import {
 	TabBarItem,
 } from 'react-native-tab-view';
 import {myTheme} from 'app/styles/theme';
+import {screenWidth} from 'app/styles/dimens';
 
 const CustomTabBar = ({
 	isRounded,
@@ -52,11 +53,12 @@ const CustomTabBar = ({
 		/>
 	);
 };
+
 const styles = StyleSheet.create({
 	labelStyles: {
 		color: '#ffff',
 		textTransform: 'none',
-		fontSize: 16,
+		fontSize: screenWidth > 390 ? 16 : 13,
 		width: '100%',
 		textAlign: 'center',
 		fontWeight: '500',

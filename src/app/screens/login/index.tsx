@@ -12,12 +12,14 @@ import TextboxInput from 'app/components/group/TextboxInput';
 import Button from 'app/components/Button';
 import {useForm} from 'app/components/hooks/useForm';
 import {getTranslate} from 'app/locate/reducer';
-import ReactNativeBiometrics from 'react-native-biometrics';
+import ReactNativeBiometrics, {BiometryType} from 'react-native-biometrics';
 import * as Keychain from 'react-native-keychain';
 import {getLoginStatus, getUser, loginAuth} from './reducer';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
 import {setKey} from 'app/utils/storage';
+import {AppState, AppStateStatus} from 'react-native';
+import {showModal} from 'app/components/modal/reducer';
 
 const Login = () => {
 	const getString = getTranslate();
@@ -26,6 +28,7 @@ const Login = () => {
 	const user = useAppSelector(getUser);
 
 	const [changeSecurePassword, setChangeSecurePassword] = useState(true);
+	const [typeBiometry, setTypeBiometry] = useState<BiometryType | undefined>(undefined);
 	const {handleSubmit, handleChange, data, errors} = useForm<{email: string; password: string}>({
 		validations: {
 			email: {
@@ -71,7 +74,15 @@ const Login = () => {
 					console.log("Keychain couldn't be accessed!", error);
 				}
 			}
+			return;
 		}
+		dispatch(
+			showModal({
+				status: 'ERROR',
+				title: 'Biometrics',
+				message: 'Biometrics must not be enabled or unsupported on this device.',
+			})
+		);
 	};
 
 	const onPressSecurePassword = useCallback(() => {
@@ -79,10 +90,22 @@ const Login = () => {
 	}, [changeSecurePassword]);
 
 	useEffect(() => {
+		const listener = (state: AppStateStatus) => {
+			if (state === 'active') {
+				ReactNativeBiometrics.isSensorAvailable().then(({biometryType}) => {
+					setTypeBiometry(biometryType);
+				});
+			}
+		};
+		AppState.addEventListener('change', listener);
+
 		if (user && Object.keys(data).length) {
 			generateAccount();
 			setKey(ACCESS_TOKEN_STORAGE, user);
 		}
+		return () => {
+			AppState.removeEventListener('change', listener);
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user]);
 
@@ -126,9 +149,9 @@ const Login = () => {
 						<FingerIconCustom />
 						<TextCaption>
 							{getString('Login', 'LoginBy')}
-							<TextOrange>{getString('Login', 'FingerId')}</TextOrange>
-							{getString('Login', 'or')}
-							<TextOrange>{getString('Login', 'FaceId')}</TextOrange>
+							<TextOrange>
+								{getString('Login', typeBiometry === 'FaceID' ? 'FaceId' : 'FingerId')}
+							</TextOrange>
 						</TextCaption>
 					</FingerTouchOpacity>
 				</ContainerLogin>

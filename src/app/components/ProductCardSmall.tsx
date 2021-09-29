@@ -1,7 +1,7 @@
 import {screenWidth} from 'app/styles/dimens';
 import {cartCss, centerItemsCss, RowView, TextMediumLarge} from 'app/styles/globalStyled';
 import styled, {css} from 'app/styles/styled';
-import {getImageCardHeight} from 'app/utilities';
+import {getImageCardHeight, isValidImage} from 'app/utilities';
 import React from 'react';
 import {ViewProps} from 'react-native';
 
@@ -10,7 +10,7 @@ interface Props {
 	isDarkBackground?: boolean;
 }
 
-const ProductCardSmall = (props: ProductDetail & Props) => {
+const ProductCardSmall = ({image, ...props}: ProductDetail & Props) => {
 	return (
 		<ContainerProductCard
 			key={props.id}
@@ -20,7 +20,7 @@ const ProductCardSmall = (props: ProductDetail & Props) => {
 			<ViewImage>
 				<ProductImage
 					source={
-						(props.image && {uri: props.image as any}) || require('images/template/product.png')
+						(isValidImage(image) && {uri: image as any}) || require('images/template/product.png')
 					}
 				/>
 			</ViewImage>

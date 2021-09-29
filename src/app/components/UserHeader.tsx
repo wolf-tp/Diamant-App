@@ -58,35 +58,40 @@ const UserHeader = ({headerHeight}: Props) => {
 				<Avatar source={require('images/template/avatar.png')} />
 			</ContainerAvatar>
 			<TextName>{name || ''}</TextName>
-			<Modal
-				style={{position: 'absolute', margin: 0}}
-				animationIn={'fadeIn'}
-				animationOut={'fadeOut'}
-				isVisible={openAvatar}
-				backdropOpacity={0}
-				onBackdropPress={toggle}
-			>
-				<UserViewAnimation isOpen={openAvatar} style={animationViewStyle}>
-					<ContainerAvatar onTouchEnd={toggle}>
-						<Avatar source={require('images/template/avatar.png')} />
-					</ContainerAvatar>
-					<TouchOptionAvatar
-						onPress={() =>
-							dispatch(
-								showModal({
-									status: 'ERROR',
-									title: getString('Auth', 'Logout'),
-									message: getString('Auth', 'LogoutContentPopup'),
-									positiveButton: {onPress: () => dispatch(logoutAuth())},
-									negativeButton: {},
-								})
-							)
-						}
-					>
-						<TextOptionAvatar>{getString('Auth', 'Logout')}</TextOptionAvatar>
-					</TouchOptionAvatar>
-				</UserViewAnimation>
-			</Modal>
+			{openAvatar && (
+				<Modal
+					style={{position: 'absolute', margin: 0}}
+					animationIn={'fadeIn'}
+					animationOut={'fadeOut'}
+					isVisible={openAvatar}
+					backdropOpacity={0}
+					onBackdropPress={toggle}
+				>
+					<UserViewAnimation isOpen={openAvatar} style={animationViewStyle}>
+						<ContainerAvatar onTouchEnd={toggle}>
+							<Avatar source={require('images/template/avatar.png')} />
+						</ContainerAvatar>
+						<TouchOptionAvatar
+							onPress={() => {
+								toggle();
+								setTimeout(() => {
+									dispatch(
+										showModal({
+											status: 'ERROR',
+											title: getString('Auth', 'Logout'),
+											message: getString('Auth', 'LogoutContentPopup'),
+											positiveButton: {onPress: () => dispatch(logoutAuth())},
+											negativeButton: {},
+										})
+									);
+								}, 500);
+							}}
+						>
+							<TextOptionAvatar>{getString('Auth', 'Logout')}</TextOptionAvatar>
+						</TouchOptionAvatar>
+					</UserViewAnimation>
+				</Modal>
+			)}
 		</Container>
 	);
 };

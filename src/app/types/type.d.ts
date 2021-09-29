@@ -100,7 +100,7 @@ declare interface ProductDetail {
 	packaging?: null;
 	dlc?: null;
 	gen_code?: string;
-	image?: null;
+	image?: string;
 	created_at?: Date;
 	updated_at?: Date;
 	amount?: string;
