@@ -5,10 +5,9 @@ import {
 	BottomTabBarProps,
 } from '@react-navigation/bottom-tabs';
 import dataTab from './tabData';
-import {isIphoneX} from 'react-native-iphone-x-helper';
 import styled from 'app/styles/styled';
 import {globalColor} from 'app/styles/theme';
-import {isIOS} from 'app/styles/dimens';
+import {BOTTOM_TAB_HEIGHT} from 'app/constants';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,7 +17,7 @@ const Tabs = () => {
 		<Tab.Navigator
 			tabBarOptions={{
 				style: {
-					height: isIOS && isIphoneX() ? 90 : 60,
+					height: BOTTOM_TAB_HEIGHT,
 					borderTopWidth: 0,
 				},
 			}}

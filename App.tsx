@@ -6,6 +6,7 @@ import ThemeProvider from 'app/styles';
 import ModalPopup from 'app/components/modal';
 import {StatusBar} from 'react-native';
 import {myTheme} from 'app/styles/theme';
+import ToastCart from 'app/components/ToastCart';
 
 interface Props {}
 
@@ -16,6 +17,7 @@ const App = (_props: Props) => {
 				<StatusBar barStyle={'light-content'} backgroundColor={myTheme.colors.background} />
 				<RootScreen />
 				<ModalPopup />
+				<ToastCart />
 			</ThemeProvider>
 		</Provider>
 	);

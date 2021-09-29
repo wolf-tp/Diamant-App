@@ -23,6 +23,7 @@ const frData = {
 	},
 	Cart: {
 		Title: 'Cart',
+		AddProductToCart: 'Vous avez ajouté avec succès {value} produit',
 	},
 	Favorite: {
 		Title: 'Favorite',

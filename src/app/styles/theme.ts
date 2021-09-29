@@ -41,6 +41,7 @@ export const globalColor: ColorTheme = {
 	text: '#ECECEC',
 	textGray: '#999999',
 	card: '#141921',
+	toastBackground: '#2F3032',
 };
 
 export const myTheme: ThemeInterface = {

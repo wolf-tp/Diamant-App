@@ -41,4 +41,5 @@ declare type ColorTheme = {
 	text: string;
 	textGray: string;
 	card: string;
+	toastBackground: string;
 };

@@ -9,6 +9,8 @@ import styled, {css} from 'app/styles/styled';
 import {ViewStyle} from 'react-native';
 import {IconCardPlus, IconFavoriteProduct} from './icons/Icons';
 import {isValidImage} from 'app/utilities';
+import {showToast} from './ToastCart/reducer';
+import {getTranslate, replaceText} from 'app/locate/reducer';
 
 interface Props {
 	onPressPlus?: () => void;
@@ -21,6 +23,7 @@ interface Props {
 
 const CardFood = ({style, product, children, isDisabled, alwayFavorite, ...props}: Props) => {
 	const theme = getAppTheme();
+	const getString = getTranslate();
 	const dispatch = useAppDispatch();
 	const [isLoadingFavorite, setIsLoading] = useState(false);
 
@@ -70,7 +73,19 @@ const CardFood = ({style, product, children, isDisabled, alwayFavorite, ...props
 			{children ? (
 				children
 			) : (
-				<TouchIcon>
+				<TouchIcon
+					onPress={() => {
+						dispatch(
+							showToast({
+								message: replaceText(getString('Cart', 'AddProductToCart'), 1),
+								button: {
+									children: getString('Cart', 'Title'),
+									onPress: () => navigate('Cart'),
+								},
+							})
+						);
+					}}
+				>
 					<TouchPlusCard />
 				</TouchIcon>
 			)}
