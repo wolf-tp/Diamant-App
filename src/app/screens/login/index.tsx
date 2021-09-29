@@ -89,7 +89,7 @@ const Login = () => {
 	return (
 		<KeyboardContainer notPadding scrollEnabled={false}>
 			<ParentContainer>
-				<ContainerLogin>
+				<ContainerLogin notPadding>
 					<ContainerImage>
 						<ImageHeader source={require('images/image_diamant.png')} />
 					</ContainerImage>

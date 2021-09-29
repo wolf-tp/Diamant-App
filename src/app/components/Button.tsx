@@ -1,13 +1,18 @@
 import {isIOS} from 'app/styles/dimens';
 import React from 'react';
-import {Animated, TouchableOpacityProps, ViewStyle} from 'react-native';
+import {Animated, Omit, TouchableOpacityProps, ViewStyle} from 'react-native';
 import styled from '../styles/styled';
 import {useToggleAnimate} from './animation/FadeAnimation';
 
-type ButtonProps = TouchableOpacityProps &
-	InsideTouch & {
-		containerStyles?: ViewStyle;
-	};
+export type ButtonProps = Omit<
+	TouchableOpacityProps &
+		InsideTouch & {
+			containerStyles?: ViewStyle;
+		},
+	'onPress'
+> & {
+	onPress?: () => void;
+};
 
 const Button = ({style, containerStyles, ...props}: ButtonProps) => {
 	const {children, loading} = props;

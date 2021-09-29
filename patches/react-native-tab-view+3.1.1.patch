@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-tab-view/src/TabBarItem.tsx b/node_modules/react-native-tab-view/src/TabBarItem.tsx
+index 80d2e1c..e5c5398 100644
+--- a/node_modules/react-native-tab-view/src/TabBarItem.tsx
++++ b/node_modules/react-native-tab-view/src/TabBarItem.tsx
+@@ -231,7 +231,7 @@ export default class TabBarItem<T extends Route> extends React.Component<
+ 
+     return (
+       <PlatformPressable
+-        android_ripple={{ borderless: true }}
++        android_ripple={{ radius:5 }}
+         testID={getTestID(scene)}
+         accessible={getAccessible(scene)}
+         accessibilityLabel={accessibilityLabel}

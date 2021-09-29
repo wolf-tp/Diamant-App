@@ -59,7 +59,7 @@ export const shadowElement = css`
 				border-width: 0.2px;
 				shadow-radius: 12px;
 				shadow-offset: 0px 4px;
-				shadow-opacity: 1;
+				shadow-opacity: 0.2;
 		  `}
 	margin-bottom: 5px;
 	margin-horizontal: 5px;

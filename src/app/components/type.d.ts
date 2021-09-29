@@ -30,3 +30,4 @@ declare type TabData = {
 	key: string;
 	title: string;
 };
+declare type StatusModal = 'SUCCESS' | 'INFO' | 'ERROR';

@@ -1,4 +1,5 @@
 export const light_theme = {};
+export const SCAPING_CONTAINER = 25;
 
 const globalFont = {
 	fontFamily: 'Montserrat Alternates',
@@ -18,7 +19,7 @@ const globalScaping: ScapingTheme = {
 	borderRadiusSmall: '12px',
 	scaping: (num: number) => `${num * 5}px`,
 	scapingNumber: (num: number) => num * 5,
-	scapingContainer: '25px',
+	scapingContainer: SCAPING_CONTAINER + 'px',
 };
 export const globalColor: ColorTheme = {
 	gray: '#E2E2E2',

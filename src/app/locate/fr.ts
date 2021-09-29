@@ -72,6 +72,7 @@ const frData = {
 	},
 	Auth: {
 		Logout: 'Se déconnecter',
+		LogoutContentPopup: 'Voulez-vous vous déconnecter de votre compte ?',
 	},
 	DropUp: {
 		ChooseDate: 'Veuillez choisir la date de livraison',
