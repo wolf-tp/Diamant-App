@@ -6,31 +6,41 @@ import TouchQuantity from 'app/components/TouchQuantity';
 import {TrashIcon} from 'app/components/icons/Icons';
 import DropUp from 'app/components/DropUp';
 import TouchArrow from 'app/components/TouchArrow';
-import {getCartProduct, getCartStatus, updateAmountProduct} from './reducer';
+import {getCartProduct, getCartStatus, getProductList, updateAmountProduct} from './reducer';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import Loading from 'app/components/Loading';
+import {RefreshControl} from 'react-native';
 
 const Cart = () => {
 	const dispatch = useAppDispatch();
 	const products = useAppSelector(getCartProduct);
-	const isLoadingListProduct = useAppSelector(getCartStatus) === 'loading';
+	const isLoadingListProduct = useAppSelector(getCartStatus);
 	const [isShowDateDelivery, setIsShowDateDelivery] = useState(false);
 	const [getListProduct, setGetListProduct] = useState<ListProductRequest>({});
+	const [refreshing, setRefreshing] = useState(false);
+
+	const onRefresh = useCallback(() => {
+		setRefreshing(true);
+		dispatch(getProductList());
+	}, [dispatch]);
 
 	const showDeliveryModal = useCallback(() => {
 		setIsShowDateDelivery(!isShowDateDelivery);
 	}, [isShowDateDelivery]);
 
 	useEffect(() => {
-		const productList = products?.products;
-		const array: ListProductRequest = {};
-		if (productList && productList.length > 0) {
-			productList.forEach((product) => {
-				array[product.id ?? -1] = Number(product.amount);
-			});
-			setGetListProduct(array);
+		if (isLoadingListProduct === 'success') {
+			setRefreshing(false);
+			const productList = products?.products;
+			const array: ListProductRequest = {};
+			if (productList && productList.length > 0) {
+				productList.forEach((product) => {
+					array[product.id ?? -1] = Number(product.amount);
+				});
+				setGetListProduct(array);
+			}
 		}
-	}, [products]);
+	}, [products, isLoadingListProduct]);
 
 	const renderItemProduct = ({item}: {item: ProductDetail}) => (
 		<CardProduct product={item} isDisabled={true}>
@@ -48,10 +58,11 @@ const Cart = () => {
 		<CartContainer>
 			<AreaContainer notPadding>
 				<ListContainer>
-					{isLoadingListProduct ? (
+					{isLoadingListProduct === 'loading' ? (
 						<Loading />
 					) : (
 						<ListProduct
+							refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 							data={products?.products}
 							renderItem={renderItemProduct as any}
 							keyExtractor={(_, _index) => `product_${_index.toString()}`}

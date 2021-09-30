@@ -84,6 +84,8 @@ const frData = {
 		OrderDate: 'Choice order date',
 		Note: 'Note sur la commande',
 		Submit: "envoyer la demande d'ordre",
+		SubmitFailTitle: 'La commande a échoué',
+		SubmitFailMessage: 'Veuillez réessayer ou contacter le service client',
 	},
 };
 export default frData;

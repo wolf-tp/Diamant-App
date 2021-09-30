@@ -3,8 +3,10 @@ import ProductList from 'app/components/ProductList';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
 
+type OrderStatus = 'OrderSuccess' | 'OrderError' | 'OrderLoading';
+
 let initCart: {
-	status?: Status;
+	status?: Status | OrderStatus;
 	products?: ProductList;
 	cartObject?: IObject;
 } = {
@@ -33,15 +35,15 @@ export const updateAmountProduct = createAsyncThunk(
 interface OrderType {
 	products: {}[][];
 	date_of_delivery: string;
-	note?: string;
+	comment?: string;
 }
 export const order = createAsyncThunk(
 	'cart/order',
-	async ({products, date_of_delivery, note}: OrderType) => {
+	async ({products, date_of_delivery, comment}: OrderType) => {
 		const res = await query<Result<ProductList | undefined>, OrderType>('/order', 'POST', {
 			products,
 			date_of_delivery,
-			note,
+			comment,
 		});
 		return res?.results;
 	}
@@ -58,7 +60,11 @@ const getCartObjects = (products?: ProductList): IObject =>
 const cartSlice = createSlice({
 	initialState: initCart,
 	name: 'Cart',
-	reducers: {},
+	reducers: {
+		cleanReducer: (state) => {
+			state.status = 'none';
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getProductList.pending, (state) => {
@@ -80,8 +86,11 @@ const cartSlice = createSlice({
 					state.cartObject = getCartObjects(action.payload);
 				}
 			)
+			.addCase(order.pending, (state) => {
+				state.status = 'OrderLoading';
+			})
 			.addCase(order.fulfilled, (state, action: PayloadAction<ProductList | undefined>) => {
-				state.status = action.payload ? 'success' : 'failed';
+				state.status = action.payload ? 'OrderSuccess' : 'OrderError';
 				state.products = action.payload;
 			});
 	},
@@ -92,5 +101,6 @@ export const getUpdateCartProducts = (state: RootState) => state.cart.products;
 export const getCartObject = (state: RootState) => state.cart.cartObject || {};
 export const getOrderProduct = (state: RootState) => state.cart.products;
 
+export const {cleanReducer} = cartSlice.actions;
 const cartReducer = cartSlice.reducer;
 export default cartReducer;

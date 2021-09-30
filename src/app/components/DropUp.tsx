@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ViewProps} from 'react-native';
 import {getTranslate} from 'app/locate/reducer';
 import {getAppTheme} from 'app/styles/reducer';
+import {navigate} from 'app/navigation/rootNavigation';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
@@ -16,7 +17,8 @@ import {
 } from 'app/styles/globalStyled';
 import TouchArrow from './TouchArrow';
 import {getToday} from 'app/utilities/datetime';
-import {getCartStatus, order} from 'app/screens/Cart/reducer';
+import {cleanReducer, getCartStatus, order} from 'app/screens/Cart/reducer';
+import {showModal} from './modal/reducer';
 interface Props {
 	style?: ViewProps;
 	isShowModal?: boolean;
@@ -29,7 +31,7 @@ type SelectDateType = 'today' | 'tomorrow' | 'anotherDay';
 const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 	const getString = getTranslate();
 	const dispatch = useAppDispatch();
-	const isLoadingSubmit = useAppSelector(getCartStatus) === 'loading';
+	const getStatus = useAppSelector(getCartStatus);
 	const theme = getAppTheme();
 	const [text, onChangeText] = useState('');
 	const [selectDate, setSelectDate] = useState<SelectDateType>('today');
@@ -38,6 +40,24 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 		date: getToday,
 		dateString: moment(getToday).format('YYYY-MM-DD'),
 	});
+
+	useEffect(() => {
+		if (getStatus === 'OrderError') {
+			dispatch(
+				showModal({
+					status: 'ERROR',
+					title: getString('DropUp', 'SubmitFailTitle'),
+					message: getString('DropUp', 'SubmitFailMessage'),
+				})
+			);
+		} else if (getStatus === 'OrderSuccess') {
+			if (event) {
+				event();
+			}
+			dispatch(cleanReducer());
+			navigate('TrackingOrder');
+		}
+	}, [getStatus, dispatch, getString, event]);
 
 	const onChange = (events: any, selectedDate: any) => {
 		const currentDate = selectedDate || date;
@@ -107,13 +127,15 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 							/>
 						</TextInputView>
 						<SubmitButton
-							loading={isLoadingSubmit}
+							loading={getStatus === 'OrderLoading'}
 							onPress={() => {
 								const result = Object.keys(listProduct).map((key: string) => [
 									Number(key),
 									listProduct[key],
 								]);
-								dispatch(order({products: result, date_of_delivery: date.dateString, note: text}));
+								dispatch(
+									order({products: result, date_of_delivery: date.dateString, comment: text})
+								);
 							}}
 						>
 							{getString('DropUp', 'Submit')}
