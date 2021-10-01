@@ -13,26 +13,36 @@ import {
 } from 'app/styles/globalStyled';
 import TouchArrow from './TouchArrow';
 import {getTranslate} from 'app/locate/reducer';
+import {getAppTheme} from 'app/styles/reducer';
+import {getToday} from 'app/utilities/datetime';
 interface Props {
 	style?: ViewProps;
 	isShowModal?: boolean;
 	event?: () => void;
 }
 
+type SelectDateType = 'today' | 'tomorrow' | 'anotherDay';
+
 const DropUp = ({style, isShowModal, event}: Props) => {
 	const getString = getTranslate();
+	const theme = getAppTheme();
+
 	const [value, onChangeText] = useState('');
+	const [selectDate, setSelectDate] = useState<SelectDateType>('today');
+	const [show, setShow] = useState(false);
 	const [date, setDate] = useState({
-		date: new Date(),
-		dateString: moment(new Date()).format('YYYY/MM/DD'),
+		date: getToday,
+		dateString: moment(getToday).format('YYYY-MM-DD'),
 	});
 
-	const [show, setShow] = useState(false);
 	const onChange = (events: any, selectedDate: any) => {
 		const currentDate = selectedDate || date;
 		setShow(false);
-		setDate({date: currentDate, dateString: moment(currentDate).format('YYYY-MM-DD')});
+		if (currentDate.dateString !== date.dateString) {
+			setDate({date: currentDate, dateString: moment(currentDate).format('YYYY-MM-DD')});
+		}
 	};
+
 	return (
 		<CustomModal animationType={'slide'} visible={isShowModal}>
 			<AreaContainer>
@@ -41,11 +51,45 @@ const DropUp = ({style, isShowModal, event}: Props) => {
 					<Container {...style}>
 						<Title>{getString('DropUp', 'ChooseDate')}</Title>
 						<CustomRowView>
-							<DateButton>{getString('DropUp', 'Today')}</DateButton>
-							<DateButton>{getString('DropUp', 'Today')}</DateButton>
+							<DateButton
+								style={{
+									backgroundColor:
+										selectDate === 'today' ? theme.colors.orange_100 : theme.colors.gray_300,
+								}}
+								onPress={() => {
+									let today = getToday;
+									setSelectDate('today');
+									setDate({date: today, dateString: moment(today).format('YYYY-MM-DD')});
+								}}
+							>
+								{getString('DropUp', 'Today')}
+							</DateButton>
+							<DateButton
+								style={{
+									backgroundColor:
+										selectDate === 'tomorrow' ? theme.colors.orange_100 : theme.colors.gray_300,
+								}}
+								onPress={() => {
+									let tomorrow = new Date();
+									tomorrow.setDate(getToday.getDate() + 1);
+									setSelectDate('tomorrow');
+									setDate({date: tomorrow, dateString: moment(tomorrow).format('YYYY-MM-DD')});
+								}}
+							>
+								{getString('DropUp', 'Today')}
+							</DateButton>
 						</CustomRowView>
 						<Title>{getString('DropUp', 'ChooseDifferenceDate')}</Title>
-						<ChooseDateButton onPress={() => setShow(true)}>
+						<ChooseDateButton
+							style={{
+								backgroundColor:
+									selectDate === 'anotherDay' ? theme.colors.orange_100 : theme.colors.gray_300,
+							}}
+							onPress={() => {
+								setShow(true);
+								setSelectDate('anotherDay');
+							}}
+						>
 							{getString('DropUp', 'OrderDate')}
 						</ChooseDateButton>
 						<Title>{getString('DropUp', 'Note')}</Title>
@@ -67,6 +111,7 @@ const DropUp = ({style, isShowModal, event}: Props) => {
 								is24Hour={true}
 								display={'default'}
 								onChange={onChange}
+								minimumDate={getToday}
 							/>
 						)}
 					</Container>

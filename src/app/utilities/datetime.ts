@@ -17,6 +17,6 @@ export const getDateDisplay = (date?: string) => {
 		return '';
 	}
 	const originDate = new Date(date.replace(' ', 'T'));
-
 	return `${originDate.getDate()} ${frMonth[originDate.getMonth()]} ${originDate.getFullYear()}`;
 };
+export const getToday = new Date();
