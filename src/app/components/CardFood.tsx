@@ -11,6 +11,7 @@ import {IconCardPlus, IconFavoriteProduct} from './icons/Icons';
 import {isValidImage} from 'app/utilities';
 import {showToast} from './ToastCart/reducer';
 import {getTranslate, replaceText} from 'app/locate/reducer';
+import {getCartObject, updateAmountProduct} from 'app/screens/Cart/reducer';
 
 interface Props {
 	onPressPlus?: () => void;
@@ -28,6 +29,7 @@ const CardFood = ({style, product, children, isDisabled, alwayFavorite, ...props
 	const [isLoadingFavorite, setIsLoading] = useState(false);
 
 	const isLoading = useAppSelector(getPendingIdFavorite) === product?.id;
+	const cartAmount = useAppSelector(getCartObject);
 
 	useEffect(() => {
 		isLoading ? setIsLoading(true) : setTimeout(() => setIsLoading(false), 200);
@@ -75,6 +77,12 @@ const CardFood = ({style, product, children, isDisabled, alwayFavorite, ...props
 			) : (
 				<TouchIcon
 					onPress={() => {
+						dispatch(
+							updateAmountProduct({
+								product_id: id,
+								amount: Number(cartAmount[id || ''] || 0) + 1,
+							})
+						);
 						dispatch(
 							showToast({
 								message: replaceText(getString('Cart', 'AddProductToCart'), 1),

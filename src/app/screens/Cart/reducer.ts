@@ -6,6 +6,7 @@ import {query} from 'app/utils/api';
 let initCart: {
 	status?: Status;
 	products?: ProductList;
+	cartObject?: IObject;
 } = {
 	status: 'none',
 	products: {
@@ -24,14 +25,19 @@ export const getProductList = createAsyncThunk('cart/getProductList', async () =
 });
 export const updateAmountProduct = createAsyncThunk(
 	'cart/updateAmountProduct',
-	async ({product_id, amount}: UpdateType) => {
-		const res = await query<Result<ProductList | undefined>, UpdateType>('/cart', 'PUT', {
-			product_id,
-			amount,
-		});
+	async (params: UpdateType) => {
+		const res = await query<Result<ProductList | undefined>, UpdateType>('/cart', 'PUT', params);
 		return res?.results;
 	}
 );
+
+const getCartObjects = (products?: ProductList): IObject =>
+	products?.products.reduce((prevResultProduct, item) => {
+		return {
+			...prevResultProduct,
+			[item.id || '']: item.amount,
+		};
+	}, {}) as IObject;
 
 const cartSlice = createSlice({
 	initialState: initCart,
@@ -47,6 +53,7 @@ const cartSlice = createSlice({
 				(state, action: PayloadAction<ProductList | undefined>) => {
 					state.status = action.payload ? 'success' : 'failed';
 					state.products = action.payload;
+					state.cartObject = getCartObjects(action.payload);
 				}
 			)
 			.addCase(
@@ -54,6 +61,7 @@ const cartSlice = createSlice({
 				(state, action: PayloadAction<ProductList | undefined>) => {
 					state.status = action.payload ? 'success' : 'failed';
 					state.products = action.payload;
+					state.cartObject = getCartObjects(action.payload);
 				}
 			);
 	},
@@ -62,6 +70,7 @@ export const getCartProduct = (state: RootState) => state.cart.products;
 export const getCartStatus = (state: RootState) => state.cart.status;
 export const getUpdateCartStatus = (state: RootState) => state.cart.status;
 export const getUpdateCartProducts = (state: RootState) => state.cart.products;
+export const getCartObject = (state: RootState) => state.cart.cartObject || {};
 
 const cartReducer = cartSlice.reducer;
 export default cartReducer;

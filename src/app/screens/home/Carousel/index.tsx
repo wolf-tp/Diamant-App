@@ -22,7 +22,7 @@ const CarouselHome = () => {
 	}, []);
 
 	const _renderImage = ({item: {title, content, isLoading}}: {item: BannerData}) => (
-		<CarouselCard>
+		<CarouselCard activeOpacity={0.6}>
 			{!isLoading ? (
 				<>
 					<TitleText>{title}</TitleText>

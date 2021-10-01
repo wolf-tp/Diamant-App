@@ -138,3 +138,4 @@ interface ProductList {
 	user_id: Number;
 	products: ProductDetail[];
 }
+declare type IObject = {[key: string]: string};

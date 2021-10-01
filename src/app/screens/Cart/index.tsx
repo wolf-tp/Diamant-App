@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'app/styles/styled';
 import {AreaContainer, Container} from 'app/styles/globalStyled';
 import CardFood from 'app/components/CardFood';
@@ -6,7 +6,7 @@ import TouchQuantity from 'app/components/TouchQuantity';
 import {TrashIcon} from 'app/components/icons/Icons';
 import DropUp from 'app/components/DropUp';
 import TouchArrow from 'app/components/TouchArrow';
-import {getCartProduct, getCartStatus, getProductList, updateAmountProduct} from './reducer';
+import {getCartProduct, getCartStatus, updateAmountProduct} from './reducer';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import Loading from 'app/components/Loading';
 
@@ -15,13 +15,11 @@ const Cart = () => {
 	const products = useAppSelector(getCartProduct);
 	const isLoadingListProduct = useAppSelector(getCartStatus) === 'loading';
 	const [isShowDateDelivery, setIsShowDateDelivery] = useState(false);
+
 	const showDeliveryModal = useCallback(() => {
 		setIsShowDateDelivery(!isShowDateDelivery);
 	}, [isShowDateDelivery]);
 
-	useEffect(() => {
-		dispatch(getProductList());
-	}, [dispatch]);
 	const renderItemProduct = ({item}: {item: ProductDetail}) => (
 		<CardProduct product={item} isDisabled={true}>
 			<TouchIcon>
