@@ -12,6 +12,7 @@ import {isValidImage} from 'app/utilities';
 import {showToast} from './ToastCart/reducer';
 import {getTranslate, replaceText} from 'app/locate/reducer';
 import {getCartObject, updateAmountProduct} from 'app/screens/Cart/reducer';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
 	onPressPlus?: () => void;
@@ -45,12 +46,7 @@ const CardFood = ({style, product, children, isDisabled, alwayFavorite, ...props
 			onPress={() => navigate('ProductDetail', product)}
 		>
 			<ViewImage>
-				{/* <LoadingImageProduct color={'white'} size={'small'} /> */}
-				<ProductImage
-					source={
-						(isValidImage(image) && {uri: image as any}) || require('images/template/product.png')
-					}
-				/>
+				<UrlImage source={isValidImage(image)} />
 				{isLoadingFavorite ? (
 					<ViewIcon>
 						<Loading color={'white'} size={'small'} />
@@ -125,19 +121,19 @@ const Description = styled(TextSmall)`
 const ViewImage = styled.View`
 	width: ${IMAGE_CARD_SIZE}px;
 	height: ${IMAGE_CARD_SIZE * 1.24}px;
+	overflow: hidden;
+	border-radius: ${({theme}) => theme.scaping(1.5)};
 `;
-const ProductImage = styled.Image`
+const UrlImage = styled(FastImage)`
 	width: 100%;
-	height: 100%;
-	resize-mode: contain;
-`;
-const LoadingImageProduct = styled.ActivityIndicator`
-	flex: 1;
+	height: 95%;
+	resize-mode: stretch;
 `;
 const touchIconCss = css`
 	position: absolute;
 	right: ${({theme}) => theme.scaping(1)};
 	top: ${({theme}) => theme.scaping(1)};
+	border-radius: ${({theme}) => theme.scaping(5)};
 `;
 const ViewIcon = styled.View`
 	${touchIconCss}

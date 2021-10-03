@@ -4,6 +4,7 @@ import styled, {css} from 'app/styles/styled';
 import {getImageCardHeight, isValidImage} from 'app/utilities';
 import React from 'react';
 import {ViewProps} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
 	style?: ViewProps;
@@ -18,11 +19,7 @@ const ProductCardSmall = ({image, ...props}: ProductDetail & Props) => {
 			isDarkBackground={props.isDarkBackground}
 		>
 			<ViewImage>
-				<ProductImage
-					source={
-						(isValidImage(image) && {uri: image as any}) || require('images/template/product.png')
-					}
-				/>
+				<ProductImage source={isValidImage(image)} />
 			</ViewImage>
 			<Amount paddingLeft>{props.amount}</Amount>
 			<Amount>X</Amount>
@@ -53,10 +50,10 @@ const ViewImage = styled.View`
 	width: ${IMAGE_CARD_WIDTH}px;
 	height: ${IMAGE_CARD_HEIGHT}px;
 `;
-const ProductImage = styled.Image`
+const ProductImage = styled(FastImage)`
 	width: 100%;
 	height: 100%;
-	resize-mode: contain;
+	resize-mode: stretch;
 `;
 
 const ContainerProductCard = styled(RowView)<{isDarkBackground?: boolean}>`
