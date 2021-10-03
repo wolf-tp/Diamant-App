@@ -1,11 +1,14 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
+import ProductDetail from '../ProductDetail';
 
 let initState: {
 	history: {status?: Status; data?: ListOrders};
+	listProduct: {status?: Status; data?: ProductDetail[]};
 } = {
 	history: {},
+	listProduct: {},
 };
 
 export const fetchHistoryOrder = createAsyncThunk(
@@ -13,6 +16,13 @@ export const fetchHistoryOrder = createAsyncThunk(
 	async (input: HistoryOrderInput) => {
 		const res = await query<Result<ListOrders>, HistoryOrderInput>('/order/history', 'POST', input);
 		return res?.results;
+	}
+);
+export const fetHistoryProducts = createAsyncThunk(
+	'orders/fetHistoryProducts',
+	async (orderId: string) => {
+		const res = await query<Result<ListOrders>, string>(`/order/${orderId}`, 'GET', orderId);
+		return res?.results.products;
 	}
 );
 
@@ -31,12 +41,24 @@ const OrdersSlice = createSlice({
 					state.history.status = action.payload ? 'success' : 'failed';
 					state.history.data = action.payload;
 				}
+			)
+			.addCase(fetHistoryProducts.pending, (state) => {
+				state.listProduct.status = 'loading';
+			})
+			.addCase(
+				fetHistoryProducts.fulfilled,
+				(state, {payload}: PayloadAction<ProductDetail[] | undefined>) => {
+					state.listProduct.status = payload ? 'failed' : 'success';
+					state.listProduct.data = payload;
+				}
 			);
 	},
 });
 
 export const getStatusHistoryOrder = (state: RootState) => state.orders.history.status;
 export const getDataHistoryOrder = (state: RootState) => state.orders.history.data;
+export const getStatusHistoryProducts = (state: RootState) => state.orders.listProduct.status;
+export const getDataHistoryProducts = (state: RootState) => state.orders.listProduct.data;
 
 const OrdersReducer = OrdersSlice.reducer;
 export default OrdersReducer;

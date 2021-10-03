@@ -15,7 +15,7 @@ const toastSlice = createSlice({
 	name: 'modal',
 	reducers: {
 		showToast: (state, action: PayloadAction<ToastContent>) => {
-			return {...action.payload, visible: true};
+			return state.visible ? state : {...action.payload, visible: true};
 		},
 		hideToast: (state) => ({...state, visible: false}),
 	},

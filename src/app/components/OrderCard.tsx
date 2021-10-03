@@ -1,5 +1,11 @@
 import {getTranslate, replaceText} from 'app/locate/reducer';
 import {navigate} from 'app/navigation/rootNavigation';
+import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
+import {
+	fetHistoryProducts,
+	getDataHistoryProducts,
+	getStatusHistoryProducts,
+} from 'app/screens/ListOrders/reducer';
 import {
 	cartCss,
 	RowBetween,
@@ -10,10 +16,11 @@ import {
 } from 'app/styles/globalStyled';
 import styled, {css} from 'app/styles/styled';
 import {getDateDisplay} from 'app/utilities/datetime';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ViewStyle} from 'react-native';
 import Button from './Button';
 import {IconEyeOpen} from './icons/Icons';
+import Loading from './Loading';
 import ProductCardSmall from './ProductCardSmall';
 
 interface Props {
@@ -22,8 +29,16 @@ interface Props {
 
 const OrderCard = (props: ListOrders & Props) => {
 	const getString = getTranslate();
-	const {code, date_of_delivery, products, isExpanded} = props;
+	const dispatch = useAppDispatch();
+	const statusProducts = useAppSelector(getStatusHistoryProducts);
+	const listProducts = useAppSelector(getDataHistoryProducts);
 
+	useEffect(() => {
+		props.isExpanded && dispatch(fetHistoryProducts(props.id));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	const {code, date_of_delivery, isExpanded, products} = props;
 	const containerButtonStyles: ViewStyle = {flex: 0, marginRight: 10};
 	const ContainerComponent = isExpanded ? ScrollContainer : Container;
 
@@ -50,8 +65,13 @@ const OrderCard = (props: ListOrders & Props) => {
 					</LargeButtonText>
 				</ButtonDetail>
 			</ContainerButton>
-			{isExpanded &&
-				products?.map((item) => <ProductCard key={item.id} {...item} isDarkBackground />)}
+			{isExpanded ? (
+				statusProducts === 'loading' ? (
+					<Loading />
+				) : (
+					listProducts?.map((item) => <ProductCard key={item.id} {...item} isDarkBackground />)
+				)
+			) : null}
 		</ContainerComponent>
 	);
 };

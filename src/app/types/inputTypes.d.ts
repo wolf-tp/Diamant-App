@@ -4,3 +4,7 @@ declare type HistoryOrderInput = {
 declare type UpdateFavorite = {
 	product_id?: number;
 };
+declare type ToggleFavoritePayload = {
+	listProductHome: Categories[] | undefined;
+	favoriteList: Product[] | undefined;
+};

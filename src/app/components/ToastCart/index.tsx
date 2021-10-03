@@ -31,16 +31,18 @@ const ToastCart = (_: Props) => {
 	}, [visible]);
 
 	return (
-		<Container style={{display: visible ? 'flex' : 'none'}}>
-			<ContainerView style={{opacity: interpolate}}>
-				<TextMediumLarge>{message}</TextMediumLarge>
-				{textButton && (
-					<UnderlineButton {...propsButton}>
-						<TextButton>{textButton}</TextButton>
-					</UnderlineButton>
-				)}
-			</ContainerView>
-		</Container>
+		visible && (
+			<Container style={{display: visible ? 'flex' : 'none'}}>
+				<ContainerView style={{opacity: interpolate}}>
+					<TextMediumLarge>{message}</TextMediumLarge>
+					{textButton && (
+						<UnderlineButton {...propsButton}>
+							<TextButton>{textButton}</TextButton>
+						</UnderlineButton>
+					)}
+				</ContainerView>
+			</Container>
+		)
 	);
 };
 const Container = styled.SafeAreaView`
