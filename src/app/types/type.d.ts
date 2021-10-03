@@ -138,6 +138,15 @@ interface ProductList {
 	user_id: Number;
 	products: ProductDetail[];
 }
+interface Order {
+	id: Number;
+	user_id: Number;
+	code: string;
+	date_of_delivery: string;
+	comment?: string;
+	products: ProductDetail[];
+}
+
 declare type IObject = {[key: string]: string};
 interface ListProductRequest {
 	[index: string]: number | {};

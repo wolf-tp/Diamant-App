@@ -17,7 +17,7 @@ import {
 } from 'app/styles/globalStyled';
 import TouchArrow from './TouchArrow';
 import {getToday} from 'app/utilities/datetime';
-import {cleanReducer, getCartStatus, order} from 'app/screens/Cart/reducer';
+import {cleanReducer, getCartStatus, getOrder, order} from 'app/screens/Cart/reducer';
 import {showModal} from './modal/reducer';
 interface Props {
 	style?: ViewProps;
@@ -32,6 +32,7 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 	const getString = getTranslate();
 	const dispatch = useAppDispatch();
 	const getStatus = useAppSelector(getCartStatus);
+	const myOrder = useAppSelector(getOrder);
 	const theme = getAppTheme();
 	const [text, onChangeText] = useState('');
 	const [selectDate, setSelectDate] = useState<SelectDateType>('today');
@@ -55,9 +56,9 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 				event();
 			}
 			dispatch(cleanReducer());
-			navigate('TrackingOrder');
+			navigate('TrackingOrder', myOrder);
 		}
-	}, [getStatus, dispatch, getString, event]);
+	}, [getStatus, dispatch, getString, event, myOrder]);
 
 	const onChange = (events: any, selectedDate: any) => {
 		const currentDate = selectedDate || date;

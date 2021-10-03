@@ -32,7 +32,7 @@ export type RootStackParamList = {
 	Cart: undefined;
 	Favorite: undefined;
 	Login: undefined;
-	TrackingOrder: undefined;
+	TrackingOrder: Order | undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();

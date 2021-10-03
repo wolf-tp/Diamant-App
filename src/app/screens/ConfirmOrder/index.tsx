@@ -1,5 +1,6 @@
 import ProductCardSmall from 'app/components/ProductCardSmall';
 import {getTranslate} from 'app/locate/reducer';
+import {getParams} from 'app/navigation/rootNavigation';
 import {screenWidth} from 'app/styles/dimens';
 import {
 	AreaContainer,
@@ -13,26 +14,26 @@ import {
 } from 'app/styles/globalStyled';
 import styled, {css} from 'app/styles/styled';
 import {getImageCardHeight} from 'app/utilities';
+import moment from 'moment';
 import React from 'react';
 
 interface Props {}
 
-const ConfirmOrder = (_: Props) => {
+const ConfirmOrder = (props: Props & Navigate<Order>) => {
+	const {products, date_of_delivery, comment} = getParams<Order>(props);
 	const getString = getTranslate();
 	return (
 		<ScrollContainer>
 			<AreaContainer notPadding>
 				<TextDescription>{getString('ConfirmOrder', 'description')}</TextDescription>
-				{fakeData && fakeData.map((item) => <ProductCardSmall key={item.id} {...item} />)}
+				{products && products.map((item) => <ProductCardSmall key={item.id} {...item} />)}
 				<TextLargeComponent>
-					{getString('Orders', 'DeliveryDate')} : <TextContent>05 septembre 2021</TextContent>
+					{getString('Orders', 'DeliveryDate')} :{' '}
+					<TextContent>{moment(date_of_delivery).format('LL')}</TextContent>
 				</TextLargeComponent>
 				<TextLargeComponent>{getString('ConfirmOrder', 'note')} :</TextLargeComponent>
 				<NoteCard>
-					<NoteText>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Non risus at nec aliquam sit
-						vel habitasse.
-					</NoteText>
+					<NoteText>{comment}</NoteText>
 				</NoteCard>
 			</AreaContainer>
 		</ScrollContainer>
@@ -76,6 +77,7 @@ const NoteCard = styled.View`
 `;
 const NoteText = styled(TextSmall)`
 	color: ${({theme}) => theme.colors.text};
+	padding-horizontal: ${({theme}) => theme.scaping(2)};
 `;
 
 const ViewImage = styled.View`

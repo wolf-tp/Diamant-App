@@ -9,6 +9,7 @@ let initCart: {
 	status?: Status | OrderStatus;
 	products?: ProductList;
 	cartObject?: IObject;
+	order?: Order;
 } = {
 	status: 'none',
 	products: {
@@ -40,7 +41,7 @@ interface OrderType {
 export const order = createAsyncThunk(
 	'cart/order',
 	async ({products, date_of_delivery, comment}: OrderType) => {
-		const res = await query<Result<ProductList | undefined>, OrderType>('/order', 'POST', {
+		const res = await query<Result<Order | undefined>, OrderType>('/order', 'POST', {
 			products,
 			date_of_delivery,
 			comment,
@@ -89,9 +90,9 @@ const cartSlice = createSlice({
 			.addCase(order.pending, (state) => {
 				state.status = 'OrderLoading';
 			})
-			.addCase(order.fulfilled, (state, action: PayloadAction<ProductList | undefined>) => {
+			.addCase(order.fulfilled, (state, action: PayloadAction<Order | undefined>) => {
 				state.status = action.payload ? 'OrderSuccess' : 'OrderError';
-				state.products = action.payload;
+				state.order = action.payload;
 			});
 	},
 });
@@ -99,7 +100,7 @@ export const getCartStatus = (state: RootState) => state.cart.status;
 export const getCartProduct = (state: RootState) => state.cart.products;
 export const getUpdateCartProducts = (state: RootState) => state.cart.products;
 export const getCartObject = (state: RootState) => state.cart.cartObject || {};
-export const getOrderProduct = (state: RootState) => state.cart.products;
+export const getOrder = (state: RootState) => state.cart.order;
 
 export const {cleanReducer} = cartSlice.actions;
 const cartReducer = cartSlice.reducer;
