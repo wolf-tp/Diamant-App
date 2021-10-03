@@ -146,8 +146,29 @@ interface Order {
 	comment?: string;
 	products: ProductDetail[];
 }
+declare interface StatusOrder extends Order {
+	bill_number?: number;
+	private_comment?: string;
+	status?: number;
+	delivery_men?: number;
+}
 
 declare type IObject = {[key: string]: string};
 interface ListProductRequest {
 	[index: string]: number | {};
+}
+declare interface Notifications {
+	id?: number;
+	admin_id?: number;
+	group_ids?: null;
+	user_ids?: string[];
+	product_id?: null;
+	category_id?: number;
+	title?: string;
+	content?: string;
+	start_date?: null;
+	end_date?: null;
+	type?: string;
+	created_at?: string;
+	updated_at?: string;
 }

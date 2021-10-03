@@ -6,10 +6,12 @@ let initModal: {
 	categories: {status?: Status; data?: Categories[]};
 	favorite: {pendingID?: number};
 	banner: {status?: Status; data?: BannerData[]};
+	countCart?: number;
 } = {
 	categories: {},
 	favorite: {},
 	banner: {},
+	countCart: 0,
 };
 type PayloadFavorite = [undefined | number, Favorite | undefined];
 
@@ -48,6 +50,10 @@ export const fetchBanner = createAsyncThunk('home/fetchBanner', async (params: u
 	const res = await query<Result<BannerData>, undefined>('/messages', 'GET', params);
 	return res?.results;
 });
+export const fetchCountCart = createAsyncThunk('home/fetchCountCart', async () => {
+	const res = await query<Result<number>, undefined>('/cart/count', 'GET');
+	return res?.results;
+});
 
 const getFavoriteCategories = (category?: Categories, idFavorite?: number) => {
 	return category?.products?.map((product) => {
@@ -59,7 +65,11 @@ const getFavoriteCategories = (category?: Categories, idFavorite?: number) => {
 const homeSlice = createSlice({
 	initialState: initModal,
 	name: 'home',
-	reducers: {},
+	reducers: {
+		incrementCartCount: (state) => {
+			state.countCart = (state.countCart ?? 0) + 1;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchCategories.pending, (state) => {
@@ -93,14 +103,20 @@ const homeSlice = createSlice({
 			})
 			.addCase(fetchBanner.fulfilled, (state, action: PayloadAction<BannerData | undefined>) => {
 				state.banner.data = action.payload;
+			})
+			.addCase(fetchCountCart.fulfilled, (state, action: PayloadAction<number | undefined>) => {
+				state.countCart = action.payload;
 			});
 	},
 });
+
+export const {incrementCartCount} = homeSlice.actions;
 
 export const getDataCategories = (state: RootState) => state.home.categories.data;
 export const getStatusCategories = (state: RootState) => state.home.categories.status;
 export const getPendingIdFavorite = (state: RootState) => state.home.favorite.pendingID;
 export const getBanner = (state: RootState) => state.home.banner.data;
+export const getCartCount = (state: RootState) => state.home.countCart;
 
 const homeReducer = homeSlice.reducer;
 export default homeReducer;

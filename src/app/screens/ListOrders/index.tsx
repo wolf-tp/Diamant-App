@@ -69,7 +69,7 @@ const ListOrders = () => {
 			<ListOrderComponent
 				// eslint-disable-next-line react-native/no-inline-styles
 				style={{display: isLoading ? 'none' : 'flex'}}
-				data={data || []}
+				data={(data || []) as any}
 				showsVerticalScrollIndicator={false}
 				renderItem={renderItemProduct as any}
 				keyExtractor={(_, _index) => `product_${_index.toString()}`}

@@ -10,6 +10,7 @@ import ProductReducer from 'app/screens/ProductDetail/reducer';
 import favoriteReducer from 'app/screens/Favorite/reducers';
 import cartReducer from 'app/screens/Cart/reducer';
 import toastReducer from 'app/components/ToastCart/reducer';
+import statusReducer from 'app/screens/Notifications/reducer';
 
 export const store = configureStore({
 	reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
 		favorite: favoriteReducer,
 		cart: cartReducer,
 		toast: toastReducer,
+		others: statusReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({

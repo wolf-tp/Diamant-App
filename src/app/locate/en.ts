@@ -86,5 +86,11 @@ const enData = {
 		SubmitFailTitle: 'La commande a échoué',
 		SubmitFailMessage: 'Veuillez réessayer ou contacter le service client',
 	},
+	Other: {
+		NewOrder: 'Your order has been accepted!',
+		InPreparation: 'Your order is being prepared!',
+		Delayed: 'Your order is being delayed!',
+		Process: 'Your order has been successfully delivered!',
+	},
 };
 export default enData;

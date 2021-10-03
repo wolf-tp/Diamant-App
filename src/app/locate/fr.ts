@@ -87,5 +87,11 @@ const frData = {
 		SubmitFailTitle: 'La commande a échoué',
 		SubmitFailMessage: 'Veuillez réessayer ou contacter le service client',
 	},
+	Other: {
+		NewOrder: 'Votre commande a été acceptée !',
+		InPreparation: 'Votre commande est en préparation !',
+		Delayed: 'Votre commande est retardée !',
+		Process: 'Votre commande a été livrée avec succès !',
+	},
 };
 export default frData;

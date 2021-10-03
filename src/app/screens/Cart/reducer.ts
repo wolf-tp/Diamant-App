@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import ProductList from 'app/components/ProductList';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
+import {incrementCartCount} from '../home/reducer';
 
 type OrderStatus = 'OrderSuccess' | 'OrderError' | 'OrderLoading';
 
@@ -28,7 +29,8 @@ export const getProductList = createAsyncThunk('cart/getProductList', async () =
 });
 export const updateAmountProduct = createAsyncThunk(
 	'cart/updateAmountProduct',
-	async (params: UpdateType) => {
+	async (params: UpdateType, {dispatch}) => {
+		params.amount === 1 && dispatch(incrementCartCount());
 		const res = await query<Result<ProductList | undefined>, UpdateType>('/cart', 'PUT', params);
 		return res?.results;
 	}
