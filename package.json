@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "app-install": "yarn install && cd ios && pod install && cd ..",
     "android_build_debug": "rm -f android/app/build/outputs/apk/debug/* &&  cd android && ./gradlew app:assembleDebug && cd .. && mkdir -p output && cp -f android/app/build/outputs/apk/debug/*.apk ./output",
-    "android_build_release": "cd android && ./gradlew clean && ./gradlew app:assembleRelease && cd .. && mkdir -p output && cp -f android/app/build/outputs/apk/release/*.apk ./output",
+    "android_build_release": "cd android && ./gradlew clean && ./gradlew app:assembleRelease",
     "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
     "ios11": "react-native run-ios --simulator=\"iPhone 11\""
   },

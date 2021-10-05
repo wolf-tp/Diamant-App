@@ -24,7 +24,7 @@ import Cart from 'app/screens/Cart';
 export type RootStackParamList = {
 	Intro: undefined;
 	Home: undefined;
-	ListProduct: undefined;
+	ListProduct: number;
 	ProductDetail: Product;
 	OrderDetail: ListOrders;
 	FindStore: undefined;
