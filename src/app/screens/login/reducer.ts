@@ -1,8 +1,9 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'app/redux/store';
 import {query, setTokenAxios} from 'app/utils/api';
-import {removeKey} from 'app/utils/storage';
+import {removeKey, setKey} from 'app/utils/storage';
 import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
+import * as Keychain from 'react-native-keychain';
 
 let initModal: {
 	status?: Status;
@@ -13,6 +14,8 @@ let initModal: {
 
 export const loginAuth = createAsyncThunk('auth/loginAuth', async (user: UserInput) => {
 	const res = await query<LoginResponse, UserInput>('/login', 'POST', user);
+	res?.results && Keychain.setGenericPassword(user.user_name as string, user.password as string);
+
 	return res?.results;
 });
 export const logoutAuth = createAsyncThunk('auth/logoutAuth', async () => {
@@ -42,6 +45,7 @@ const authSlice = createSlice({
 			.addCase(loginAuth.fulfilled, (state, action: PayloadAction<LoginResult | undefined>) => {
 				state.status = action.payload ? 'success' : 'failed';
 
+				setKey(ACCESS_TOKEN_STORAGE, action.payload);
 				setTokenAxios(action.payload?.token);
 
 				state.user = action.payload;

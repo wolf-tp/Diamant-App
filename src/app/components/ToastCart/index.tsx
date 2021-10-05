@@ -30,20 +30,18 @@ const ToastCart = (_: Props) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [visible]);
 
-	return (
-		visible && (
-			<Container style={{display: visible ? 'flex' : 'none'}}>
-				<ContainerView style={{opacity: interpolate}}>
-					<TextMediumLarge>{message}</TextMediumLarge>
-					{textButton && (
-						<UnderlineButton {...propsButton}>
-							<TextButton>{textButton}</TextButton>
-						</UnderlineButton>
-					)}
-				</ContainerView>
-			</Container>
-		)
-	);
+	return visible ? (
+		<Container style={{display: visible ? 'flex' : 'none'}}>
+			<ContainerView style={{opacity: interpolate}}>
+				<TextMediumLarge>{message}</TextMediumLarge>
+				{textButton && (
+					<UnderlineButton {...propsButton}>
+						<TextButton>{textButton}</TextButton>
+					</UnderlineButton>
+				)}
+			</ContainerView>
+		</Container>
+	) : null;
 };
 const Container = styled.SafeAreaView`
 	position: absolute;
