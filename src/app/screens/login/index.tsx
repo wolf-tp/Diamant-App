@@ -39,8 +39,6 @@ const Login = () => {
 			},
 		},
 	});
-	const generateAccount = () =>
-		Keychain.setGenericPassword(data.email as string, data.password as string);
 
 	const onPressLogin = () => {
 		if (!Object.keys(handleSubmit()).length) {
@@ -98,11 +96,6 @@ const Login = () => {
 			}
 		};
 		AppState.addEventListener('change', listener);
-
-		if (user && Object.keys(data).length) {
-			generateAccount();
-			setKey(ACCESS_TOKEN_STORAGE, user);
-		}
 		return () => {
 			AppState.removeEventListener('change', listener);
 		};
