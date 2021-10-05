@@ -112,6 +112,13 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
+def getDate() {
+    return new Date().format('yyMMdd')
+}
+
+def getTime() {
+    return new Date().format('HHmm')
+}
 /**
  * Whether to enable the Hermes VM.
  *
@@ -135,6 +142,13 @@ android {
         applicationId "com.digital_unicorn.diamant_app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+
+
+        def buildDate = (getDate() as Integer)
+        def buildTime = (getTime() as String)
+
+        setProperty("archivesBaseName", "Diamant-$buildDate.$buildTime") 
+
         versionCode 1
         versionName "1.0"
     }

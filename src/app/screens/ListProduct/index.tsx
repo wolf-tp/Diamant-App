@@ -8,7 +8,7 @@ import styled from 'app/styles/styled';
 type Props = StackScreenProps<RootStackParamList, 'ListProduct'>;
 
 const ListProduct = (props: Props) => {
-	const renderItemProduct = ({item}: {item: Product}) => <CardProduct {...item} />;
+	const renderItemProduct = ({item}: {item: ProductDetail}) => <CardProduct {...item} />;
 
 	useEffect(() => {
 		props.navigation.setOptions({headerTitle: 'Beverages'});
@@ -17,7 +17,7 @@ const ListProduct = (props: Props) => {
 	return (
 		<AreaContainer>
 			<ListProductComponent
-				data={fakeData}
+				data={[]}
 				showsVerticalScrollIndicator={false}
 				renderItem={renderItemProduct as any}
 				keyExtractor={(_, _index) => `product_${_index.toString()}`}
