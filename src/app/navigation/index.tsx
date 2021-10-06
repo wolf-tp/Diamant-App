@@ -1,7 +1,6 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import IntroApp from '../screens/settings';
 import LoginScreen from '../screens/login';
 import {navigationRef} from './rootNavigation';
 import Tabs from './tabs';
@@ -23,6 +22,7 @@ export type RootStackParamList = {
 	Favorite: undefined;
 	Login: undefined;
 	Notifications: undefined;
+	Setting: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();

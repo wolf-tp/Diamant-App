@@ -3,13 +3,13 @@ const frData = {
 		And: 'And',
 	},
 	Home: {
-		Title: 'Home',
+		Title: 'Produits',
 		Question: 'What is you like to eat?',
 		SeeAll: 'See all',
 		SearchStore: 'Search for Store',
 	},
 	Orders: {
-		Title: 'ListOrders',
+		Title: 'Commandes',
 		FilterMonth: 'Mois actuel',
 		ThreeMonth: 'il y a 3 mois',
 		SixMonth: 'il y a 6 mois',
@@ -26,7 +26,7 @@ const frData = {
 		AddProductToCart: 'Vous avez ajouté avec succès {value} produit',
 	},
 	Favorite: {
-		Title: 'Favorite',
+		Title: 'Favoris',
 		tabFavorite: 'Mes favoris',
 		tabMostOrder: 'Le plus commandé',
 	},
@@ -68,6 +68,7 @@ const frData = {
 		note: "Note sur l'ordre",
 	},
 	Notifications: {
+		Title: 'Notifications',
 		StatusOrder: 'Statut commande',
 		MessageTab: 'Autres messages',
 	},
@@ -92,6 +93,9 @@ const frData = {
 		InPreparation: 'Votre commande est en préparation !',
 		Delayed: 'Votre commande est retardée !',
 		Process: 'Votre commande a été livrée avec succès !',
+	},
+	Setting: {
+		TurnNotification: 'Activer les notifications',
 	},
 };
 export default frData;

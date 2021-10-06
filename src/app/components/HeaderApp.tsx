@@ -7,22 +7,36 @@ import {
 	TextSmall,
 } from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
-import {IconCartCircle} from './icons/Icons';
+import {IconCartCircle, IconSetting} from './icons/Icons';
 import Logo from './Logo';
 import UserHeader from './UserHeader';
-import {navigate} from 'app/navigation/rootNavigation';
+import {navigate, navigationRef} from 'app/navigation/rootNavigation';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {fetchCountCart, getCartCount} from 'app/screens/home/reducer';
+import {RootStackParamList} from 'app/navigation';
 
 const HeaderApp = () => {
 	const dispatch = useAppDispatch();
 	const countCart = useAppSelector(getCartCount);
+	const [isShowSetting, setIsShowSetting] = useState(false);
+
 	useEffect(() => {
 		dispatch(fetchCountCart());
+		//callback listener show setting icon
+		const listenerSettingNavigation = () =>
+			setIsShowSetting(
+				navigationRef.current?.getCurrentRoute()?.name ===
+					('Notifications' as keyof RootStackParamList)
+			);
+
+		navigationRef.current?.addListener('state', listenerSettingNavigation);
+
+		return () => navigationRef.current?.removeListener('state', listenerSettingNavigation);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const [headerHeight, setHeaderHeight] = useState(0);
+
 	return (
 		<Container onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}>
 			<Logo />
@@ -30,14 +44,18 @@ const HeaderApp = () => {
 				{/* Left address view */}
 				<UserHeader headerHeight={headerHeight} />
 				{/* Avatar */}
-				<ViewCart>
-					<IconCartCircle onPress={() => navigate('Cart')} />
-					{countCart ? (
-						<Badge>
-							<TextBadge>{countCart}</TextBadge>
-						</Badge>
-					) : null}
-				</ViewCart>
+				<RowView>
+					{isShowSetting ? <IconSettingComponent onPress={() => navigate('Setting')} /> : null}
+
+					<ViewCart>
+						<IconCartCircle onPress={() => navigate('Cart')} />
+						{countCart ? (
+							<Badge>
+								<TextBadge>{countCart}</TextBadge>
+							</Badge>
+						) : null}
+					</ViewCart>
+				</RowView>
 			</RowBetween>
 		</Container>
 	);
@@ -63,6 +81,9 @@ const TextBadge = styled(TextSmall)`
 	font-weight: bold;
 	align-self: center;
 	position: absolute;
+`;
+const IconSettingComponent = styled(IconSetting)`
+	margin-right: ${({theme}) => theme.scaping(2)};
 `;
 const ViewCart = styled.View``;
 
