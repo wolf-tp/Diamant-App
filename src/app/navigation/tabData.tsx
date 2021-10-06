@@ -8,17 +8,18 @@ import Login from 'app/screens/login';
 import Notifications from 'app/screens/Notifications';
 import OrderDetail from 'app/screens/OrderDetail';
 import ProductDetail from 'app/screens/ProductDetail';
+import Setting from 'app/screens/settings';
 import {SvgProps} from 'react-native-svg';
 import {RootStackParamList} from '.';
 
 const dataTab: TabScreen[] = [
 	{
-		name: 'Produits',
+		name: 'Home',
 		Icon: IconHome,
 		listChild: ['Home', 'Cart', 'ProductDetail', 'ListProduct'],
 	},
 	{
-		name: 'List oders',
+		name: 'Orders',
 		Icon: IconListOrders,
 		listChild: ['ListOrders', 'Cart', 'OrderDetail'],
 	},
@@ -30,7 +31,7 @@ const dataTab: TabScreen[] = [
 	{
 		name: 'Notifications',
 		Icon: IconNotification,
-		listChild: ['Notifications', 'Cart'],
+		listChild: ['Notifications', 'Cart', 'Setting'],
 	},
 ];
 
@@ -44,6 +45,7 @@ export const Screens: {[key in keyof RootStackParamList]: any} = {
 	Login: Login,
 	OrderDetail: OrderDetail,
 	ProductDetail: ProductDetail,
+	Setting: Setting,
 };
 
 export interface ListChildScreen {

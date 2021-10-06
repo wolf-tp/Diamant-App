@@ -3,7 +3,7 @@ const enData = {
 		And: 'And',
 	},
 	Home: {
-		Title: 'Home',
+		Title: 'Products',
 		Question: 'What is you like to eat?',
 		SeeAll: 'See all',
 		SearchStore: 'Search for Store',
@@ -67,6 +67,7 @@ const enData = {
 		note: 'Note on order',
 	},
 	Notifications: {
+		Title: 'Notifications',
 		StatusOrder: 'Order Status',
 		MessageTab: 'Other messages',
 	},
@@ -91,6 +92,9 @@ const enData = {
 		InPreparation: 'Your order is being prepared!',
 		Delayed: 'Your order is being delayed!',
 		Process: 'Your order has been successfully delivered!',
+	},
+	Setting: {
+		TurnNotification: 'Turn on notifications',
 	},
 };
 export default enData;

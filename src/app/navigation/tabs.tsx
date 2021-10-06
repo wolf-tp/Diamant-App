@@ -9,12 +9,14 @@ import styled from 'app/styles/styled';
 import {globalColor} from 'app/styles/theme';
 import {BOTTOM_TAB_HEIGHT} from 'app/constants';
 import StackScreen from './StackScreen';
+import {getTranslate} from 'app/locate/reducer';
 
 export const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({props}: {props: BottomTabBarProps}) => <ContainerBottomTab {...props} />;
 
 const Tabs = () => {
+	const getString = getTranslate();
 	return (
 		<Tab.Navigator
 			tabBarOptions={{
@@ -39,7 +41,9 @@ const Tabs = () => {
 						component={ongetChild}
 						{...item}
 						options={{
-							tabBarLabel: ({focused}) => <LabelTab focused={focused}>{item.name}</LabelTab>,
+							tabBarLabel: ({focused}) => (
+								<LabelTab focused={focused}>{getString(item.name as any, 'Title')}</LabelTab>
+							),
 							tabBarIcon: ({focused}) => (
 								<item.Icon color={globalColor[focused ? 'bottomBarFocus' : 'bottomBarUnFocus']} />
 							),
