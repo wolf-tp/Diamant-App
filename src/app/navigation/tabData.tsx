@@ -14,22 +14,26 @@ import {RootStackParamList} from '.';
 
 const dataTab: TabScreen[] = [
 	{
-		name: 'Home',
+		name: 'HomeStack',
+		title: 'Home',
 		Icon: IconHome,
 		listChild: ['Home', 'Cart', 'ProductDetail', 'ListProduct'],
 	},
 	{
-		name: 'Orders',
+		name: 'OrdersStack',
+		title: 'Orders',
 		Icon: IconListOrders,
 		listChild: ['ListOrders', 'Cart', 'OrderDetail'],
 	},
 	{
-		name: 'Favorite',
+		name: 'FavoriteStack',
+		title: 'Favorite',
 		Icon: IconFavorite,
 		listChild: ['Favorite', 'Cart'],
 	},
 	{
-		name: 'Notifications',
+		name: 'NotificationsStack',
+		title: 'Notifications',
 		Icon: IconNotification,
 		listChild: ['Notifications', 'Cart', 'Setting'],
 	},
@@ -53,6 +57,7 @@ export interface ListChildScreen {
 }
 interface TabScreen extends ListChildScreen {
 	name: string;
+	title: string;
 	Icon: (props: SvgProps) => JSX.Element;
 }
 export default dataTab;

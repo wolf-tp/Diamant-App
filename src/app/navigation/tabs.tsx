@@ -42,7 +42,7 @@ const Tabs = () => {
 						{...item}
 						options={{
 							tabBarLabel: ({focused}) => (
-								<LabelTab focused={focused}>{getString(item.name as any, 'Title')}</LabelTab>
+								<LabelTab focused={focused}>{getString(item.title as any, 'Title')}</LabelTab>
 							),
 							tabBarIcon: ({focused}) => (
 								<item.Icon color={globalColor[focused ? 'bottomBarFocus' : 'bottomBarUnFocus']} />

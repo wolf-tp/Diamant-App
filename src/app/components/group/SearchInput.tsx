@@ -14,10 +14,7 @@ const SearchInput = (props: SearchInputProps) => {
 	const {interpolate} = useToggleAnimate({outputRange: [-screenWidth, 0]});
 
 	return (
-		<Container
-			pointerEvents={!props.editable ? 'none' : undefined}
-			style={{transform: [{translateX: interpolate}]}}
-		>
+		<Container style={{transform: [{translateX: interpolate}]}}>
 			<InputSearch
 				{...props}
 				placeholder={'Recherche de produit'}
@@ -32,6 +29,7 @@ const InputSearch = styled.TextInput<SearchInputProps>`
 	border-radius: ${({theme}) => theme.borderRadius};
 	min-height: 50px;
 	padding: 12px;
+	color: ${({theme}) => theme.colors.text};
 	${({leftIcon}) => (!leftIcon ? '' : 'padding-left:40px')}
 	font-size: 15px;
 `;

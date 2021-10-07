@@ -4,13 +4,14 @@ import {Container, RowBetween, TextLarge} from 'app/styles/globalStyled';
 import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
 import {TextStyle, ViewStyle} from 'react-native';
 import {getAppTheme} from 'app/styles/reducer';
-import {screenWidth} from 'app/styles/dimens';
+import {isIOS, screenWidth} from 'app/styles/dimens';
 import {getTranslate} from 'app/locate/reducer';
 import {fetchHistoryOrder, getDataHistoryOrder, getStatusHistoryOrder} from './reducer';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import OrderCard from 'app/components/OrderCard';
 import {myTheme} from 'app/styles/theme';
 import Loading from 'app/components/Loading';
+import RefreshList from 'app/components/RefreshList';
 interface CartDataItem {
 	id: string;
 	title?: string;
@@ -33,8 +34,11 @@ const ListOrders = () => {
 	]);
 
 	useEffect(() => {
-		dispatch(fetchHistoryOrder({range: value}));
+		getHistoryOrder();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [value, dispatch]);
+
+	const getHistoryOrder = () => dispatch(fetchHistoryOrder({range: value}));
 
 	const stylesText: TextStyle = {color: theme.colors.text, fontSize: 18, fontWeight: '600'};
 	const container: ViewStyle = {
@@ -45,6 +49,7 @@ const ListOrders = () => {
 	const renderItemProduct = ({item}: {item: ListOrders}) => {
 		return <OrderCard {...item} />;
 	};
+	const refreshProps = {refreshing: isLoading, onRefresh: getHistoryOrder};
 
 	return (
 		<Container>
@@ -65,15 +70,15 @@ const ListOrders = () => {
 					theme={'DARK'}
 				/>
 			</RowBetween>
-			{isLoading && <Loading />}
 			<ListOrderComponent
 				// eslint-disable-next-line react-native/no-inline-styles
-				style={{display: isLoading ? 'none' : 'flex'}}
+				refreshControl={isIOS ? <RefreshList {...refreshProps} /> : undefined}
 				data={(data || []) as any}
 				showsVerticalScrollIndicator={false}
 				renderItem={renderItemProduct as any}
 				keyExtractor={(_, _index) => `product_${_index.toString()}`}
 				contentContainerStyle={{paddingBottom: myTheme.scapingNumber(2)}}
+				{...refreshProps}
 			/>
 		</Container>
 	);

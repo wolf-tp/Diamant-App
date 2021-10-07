@@ -1,37 +1,40 @@
-import React, {useEffect} from 'react';
-import CardFood from 'app/components/CardFood';
+import React, {useEffect, useCallback} from 'react';
 import {RootStackParamList} from 'app/navigation';
 import {AreaContainer} from 'app/styles/globalStyled';
 import {StackScreenProps} from '@react-navigation/stack';
 import styled from 'app/styles/styled';
+import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
+import {fetchCategoryProducts, getDataCategoryProducts, getStatusCategoryProducts} from './reducer';
+import ProductList from 'app/components/ProductList';
 
 type Props = StackScreenProps<RootStackParamList, 'ListProduct'>;
 
 const ListProduct = (props: Props) => {
-	const renderItemProduct = ({item}: {item: ProductDetail}) => <CardProduct {...item} />;
+	const dispatch = useAppDispatch();
+	const isLoading = useAppSelector(getStatusCategoryProducts) === 'loading';
+	const listProducts = useAppSelector(getDataCategoryProducts);
 
 	useEffect(() => {
-		props.navigation.setOptions({headerTitle: 'Beverages'});
-	}, [props.navigation]);
+		fetchDataCategory();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	const fetchDataCategory = useCallback(() => {
+		const {id} = props.route.params;
+		id && dispatch(fetchCategoryProducts(id));
+	}, [dispatch, props.route.params]);
 
 	return (
 		<AreaContainer>
-			<ListProductComponent
-				data={[]}
-				showsVerticalScrollIndicator={false}
-				renderItem={renderItemProduct as any}
-				keyExtractor={(_, _index) => `product_${_index.toString()}`}
+			<ProductListComponent
+				data={listProducts || []}
+				refreshing={isLoading}
+				onRefresh={fetchDataCategory}
 			/>
 		</AreaContainer>
 	);
 };
-
-const CardProduct = styled(CardFood)`
-	flex: 0.5;
-	margin-bottom: ${({theme}) => theme.scapingElement};
+const ProductListComponent = styled(ProductList)`
+	margin-top: ${({theme}) => theme.scaping(2)};
 `;
-const ListProductComponent = styled.FlatList`
-	flex: 1;
-`;
-
 export default ListProduct;

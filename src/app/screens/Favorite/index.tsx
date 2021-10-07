@@ -12,7 +12,6 @@ import {
 	getStatusFavorite,
 	getStatusMostOrder,
 } from './reducers';
-import Loading from 'app/components/Loading';
 import {getTranslate} from 'app/locate/reducer';
 
 const Favorite = () => {
@@ -27,9 +26,12 @@ const Favorite = () => {
 	const mostOrderListData = useAppSelector(getDataMostOrder);
 
 	useEffect(() => {
-		dispatch(fetchFavorite());
-		dispatch(fetchMostOrder());
-	}, [dispatch]);
+		getFavorite();
+		getMostOrder();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+	const getFavorite = () => dispatch(fetchFavorite());
+	const getMostOrder = () => dispatch(fetchMostOrder());
 
 	return (
 		<FavoriteTab
@@ -38,12 +40,17 @@ const Favorite = () => {
 				{key: 'MostOrder', title: getString('Favorite', 'tabMostOrder')},
 			]}
 			routeScene={[
-				isLoadingFavorite ? (
-					<Loading />
-				) : (
-					<ProductListComponent alwayFavorite data={favoriteListData || []} />
-				),
-				isLoadingMostOrder ? <Loading /> : <ProductListComponent data={mostOrderListData || []} />,
+				<ProductListComponent
+					refreshing={isLoadingFavorite}
+					onRefresh={getFavorite}
+					alwayFavorite
+					data={favoriteListData || []}
+				/>,
+				<ProductListComponent
+					refreshing={isLoadingMostOrder}
+					onRefresh={getMostOrder}
+					data={mostOrderListData || []}
+				/>,
 			]}
 		/>
 	);

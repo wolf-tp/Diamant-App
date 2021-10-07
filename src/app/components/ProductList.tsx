@@ -1,18 +1,31 @@
+import {getTranslate} from 'app/locate/reducer';
+import {navigate} from 'app/navigation/rootNavigation';
+import {isIOS} from 'app/styles/dimens';
 import {RowBetween, TextLarge, TextMedium} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import React, {useEffect, useState} from 'react';
-import {ViewStyle} from 'react-native';
+import {RefreshControl, ViewStyle} from 'react-native';
 import CardFood from './CardFood';
+import RefreshList from './RefreshList';
 
 interface Props {
 	data?: Product[];
 	subCategories?: Categories[];
 	alwayFavorite?: boolean;
 	style?: ViewStyle;
+	refreshing?: boolean;
+	onRefresh?: () => void;
 }
 type ItemProduct = Product & CategorySubTitle;
 
-const ProductList = ({data = [], subCategories, alwayFavorite, style}: Props) => {
+const ProductList = ({
+	data = [],
+	subCategories,
+	alwayFavorite,
+	style,
+	refreshing,
+	onRefresh,
+}: Props) => {
 	const [listData, setListData] = useState<ItemProduct[]>([]);
 
 	useEffect(() => {
@@ -20,7 +33,11 @@ const ProductList = ({data = [], subCategories, alwayFavorite, style}: Props) =>
 		_listData.push(...data);
 
 		subCategories?.forEach((category) => {
-			_listData.push({categoryTitle: category.name, totalCount: category.products?.length ?? 0});
+			_listData.push({
+				categoryTitle: category.name,
+				totalCount: category.products?.length ?? 0,
+				id: category.id,
+			});
 			_listData.push(...(category.products || []));
 		});
 		setListData(_listData);
@@ -28,28 +45,32 @@ const ProductList = ({data = [], subCategories, alwayFavorite, style}: Props) =>
 
 	const renderItemProduct = ({item}: {item: ItemProduct}) => {
 		return item.categoryTitle ? (
-			<TitleCategoryComponent title={item.categoryTitle} count={item.totalCount} />
+			<TitleCategoryComponent title={item.categoryTitle} count={item.totalCount} id={item.id} />
 		) : (
 			<CardProduct alwayFavorite={alwayFavorite} product={item} />
 		);
 	};
+	const refreshProps = {refreshing, onRefresh};
 
 	return (
 		<ListProductComponent
+			refreshControl={isIOS ? <RefreshList {...refreshProps} /> : undefined}
 			style={style}
 			data={listData || []}
 			showsVerticalScrollIndicator={false}
 			renderItem={renderItemProduct as any}
 			keyExtractor={(_, _index) => `product_${_index.toString()}`}
+			keyboardShouldPersistTaps={'handled'}
+			{...refreshProps}
 		/>
 	);
 };
 
-type TitleCategoryProps = {title: string; count: number | undefined; onPress?: () => void};
-const TitleCategoryComponent = ({title, count}: TitleCategoryProps) => (
+type TitleCategoryProps = {title: string; count: number | undefined; id?: number};
+const TitleCategoryComponent = ({title, count, id}: TitleCategoryProps) => (
 	<RowBetweenTitle>
 		<TextTitleCategoryComponent>{title}</TextTitleCategoryComponent>
-		<TouchModeCategoryComponent>
+		<TouchModeCategoryComponent activeOpacity={0.6} onPress={() => navigate('ListProduct', {id})}>
 			<MoreTitleCategoryComponent>{`Voir tous (${count})`}</MoreTitleCategoryComponent>
 		</TouchModeCategoryComponent>
 	</RowBetweenTitle>
@@ -69,7 +90,9 @@ const TouchModeCategoryComponent = styled.TouchableOpacity`
 	border-bottom-color: ${({theme}) => theme.colors.main};
 	border-bottom-width: 1px;
 `;
-
+const ListContainer = styled.SafeAreaView`
+	flex: 1;
+`;
 const ListProductComponent = styled.FlatList`
 	flex: 1;
 `;

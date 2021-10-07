@@ -17,9 +17,7 @@ const Home = () => {
 	return (
 		<Container>
 			<AreaContainer notPadding>
-				<TouchSearch activeOpacity={0.6}>
-					<SearchInput editable={false} />
-				</TouchSearch>
+				<SearchInput />
 				{/* Banner Card */}
 				<HeaderCarousel />
 				{/* Tabhome */}
@@ -29,9 +27,5 @@ const Home = () => {
 	);
 };
 const HeaderCarousel = styled(CarouselHome)``;
-
-const TouchSearch = styled.TouchableOpacity`
-	margin-vertical: ${({theme}) => theme.scaping(1)};
-`;
 
 export default Home;

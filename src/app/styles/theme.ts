@@ -1,5 +1,5 @@
 export const light_theme = {};
-export const SCAPING_CONTAINER = 25;
+export const SCAPING_CONTAINER = 15;
 
 const globalFont = {
 	fontFamily: 'Montserrat Alternates',

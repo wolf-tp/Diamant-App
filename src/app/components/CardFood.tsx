@@ -23,7 +23,7 @@ interface Props {
 	children?: React.ReactNode;
 }
 
-const CardFood = ({style, product, children, isDisabled, alwayFavorite, ...props}: Props) => {
+const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite, ...props}: Props) => {
 	const theme = getAppTheme();
 	const getString = getTranslate();
 	const dispatch = useAppDispatch();
@@ -36,14 +36,14 @@ const CardFood = ({style, product, children, isDisabled, alwayFavorite, ...props
 		isLoading ? setIsLoading(true) : setTimeout(() => setIsLoading(false), 200);
 	}, [isLoading]);
 
-	const {title = '', description = '', image, item_code = '', is_favorite, id} = product || {};
+	const {title = '', description = '', image, item_code = '', is_favorite, id} = product;
 
 	return (
 		<Container
 			style={style}
 			activeOpacity={0.6}
 			disabled={isDisabled}
-			onPress={() => navigate('ProductDetail', product)}
+			onPress={() => navigate('ProductDetail', product as Product)}
 		>
 			<ViewImage>
 				<UrlImage source={isValidImage(image)} />
@@ -64,8 +64,10 @@ const CardFood = ({style, product, children, isDisabled, alwayFavorite, ...props
 				)}
 			</ViewImage>
 			<ContainerContent>
-				<NameProduct>{title}</NameProduct>
-				<Description>{description}</Description>
+				<NameProduct numberOfLines={1}>{title}</NameProduct>
+				<Description ellipsizeMode={'tail'} numberOfLines={3}>
+					{description}
+				</Description>
 				<Description>CODE: {item_code.toUpperCase()}</Description>
 			</ContainerContent>
 			{children ? (
@@ -144,7 +146,7 @@ const TouchFavorite = styled.TouchableOpacity`
 const TouchPlusCard = styled(IconCardPlus)``;
 const TouchIcon = styled.TouchableOpacity`
 	position: absolute;
-	bottom: 10px;
+	bottom: 5px;
 	right: 15px;
 `;
 const Loading = styled.ActivityIndicator``;

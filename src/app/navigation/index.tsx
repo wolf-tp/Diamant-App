@@ -14,7 +14,7 @@ import {store} from 'app/redux/store';
 
 export type RootStackParamList = {
 	Home: undefined;
-	ListProduct: undefined;
+	ListProduct: {id: string | number | undefined};
 	ProductDetail: Product;
 	OrderDetail: ListOrders;
 	ListOrders: undefined;

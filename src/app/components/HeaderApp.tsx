@@ -14,20 +14,22 @@ import {navigate, navigationRef} from 'app/navigation/rootNavigation';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {fetchCountCart, getCartCount} from 'app/screens/home/reducer';
 import {RootStackParamList} from 'app/navigation';
+import {BreadCrumbArray} from './Breadcrumb';
 
 const HeaderApp = () => {
 	const dispatch = useAppDispatch();
 	const countCart = useAppSelector(getCartCount);
 	const [isShowSetting, setIsShowSetting] = useState(false);
+	const [showBreadCrumb, setShowBreadCrumb] = useState(false);
 
 	useEffect(() => {
 		dispatch(fetchCountCart());
 		//callback listener show setting icon
-		const listenerSettingNavigation = () =>
-			setIsShowSetting(
-				navigationRef.current?.getCurrentRoute()?.name ===
-					('Notifications' as keyof RootStackParamList)
-			);
+		const listenerSettingNavigation = () => {
+			const navName = navigationRef.current?.getCurrentRoute()?.name;
+			setIsShowSetting(navName === ('Notifications' as keyof RootStackParamList));
+			setShowBreadCrumb(navName === ('ListProduct' as keyof RootStackParamList));
+		};
 
 		navigationRef.current?.addListener('state', listenerSettingNavigation);
 
@@ -42,7 +44,12 @@ const HeaderApp = () => {
 			<Logo />
 			<RowBetween>
 				{/* Left address view */}
-				<UserHeader headerHeight={headerHeight} />
+				{showBreadCrumb ? (
+					<BreadCrumbArray isDoubleArray data={[{title: 'Category'}, {title: 'sub-category'}]} />
+				) : (
+					<UserHeader headerHeight={headerHeight} />
+				)}
+
 				{/* Avatar */}
 				<RowView>
 					{isShowSetting ? <IconSettingComponent onPress={() => navigate('Setting')} /> : null}

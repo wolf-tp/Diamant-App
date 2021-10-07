@@ -78,7 +78,7 @@ declare type LogoutOption = {
 declare type Favorite = {
 	id?: number;
 	user_id?: number;
-	products?: ProductDetail[];
+	products?: Product[];
 	created_at?: Date;
 	updated_at?: Date;
 };
@@ -103,6 +103,7 @@ declare interface ProductDetail {
 	image?: string;
 	created_at?: Date;
 	updated_at?: Date;
+	is_favorite?: boolean;
 	amount?: string;
 }
 declare interface Categories {

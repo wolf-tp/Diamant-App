@@ -4,13 +4,14 @@ import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {screenWidth} from 'app/styles/dimens';
 import {TextLarge, TextSmall} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
+import {SCAPING_CONTAINER} from 'app/styles/theme';
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {fetchBanner, getBanner} from '../reducer';
 
-const CarouselCardWidth = screenWidth - 50;
-const CarouselCardHeight = (CarouselCardWidth * 160) / 450;
+const CarouselCardWidth = screenWidth - SCAPING_CONTAINER * 2;
+const CarouselCardHeight = (CarouselCardWidth * 140) / 450;
 
 const CarouselHome = () => {
 	const dataBanner = useAppSelector(getBanner);
@@ -26,7 +27,9 @@ const CarouselHome = () => {
 			{!isLoading ? (
 				<>
 					<TitleText>{title}</TitleText>
-					<Content>{content}</Content>
+					<Content numberOfLines={3} ellipsizeMode={'tail'}>
+						{content}
+					</Content>
 				</>
 			) : (
 				<Loading />
@@ -64,11 +67,17 @@ const CarouselHome = () => {
 };
 
 const styles = StyleSheet.create({
-	container: {marginVertical: 20},
+	container: {marginTop: 15},
 	itemBanner: {width: '100%', height: '100%', resizeMode: 'stretch'},
-	dotStyle: {width: 10, backgroundColor: '#C89524', margin: 0},
+	dotStyle: {width: 10, backgroundColor: '#C89524', margin: 0, padding: 0},
 	inActiveDot: {width: 10, aspectRatio: 1, backgroundColor: '#C4C4C4'},
-	containerStyle: {position: 'absolute', width: '100%', bottom: 0, margin: 0, padding: 0},
+	containerStyle: {
+		position: 'absolute',
+		width: '100%',
+		bottom: -20,
+		margin: 0,
+		padding: 0,
+	},
 });
 
 const CarouselCard = styled.TouchableOpacity`
@@ -81,13 +90,14 @@ const CarouselCard = styled.TouchableOpacity`
 	justify-content: center;
 `;
 const TitleText = styled(TextLarge)`
+	margin-top: -${CarouselCardHeight / 6}px;
 	text-align: center;
 	color: ${({theme}) => theme.colors.text};
 	text-transform: uppercase;
 `;
 const Content = styled(TextSmall)`
 	text-align: center;
-	margin-top: ${({theme}) => theme.scaping(2)};
+	margin-top: ${({theme}) => theme.scaping(1)};
 	color: ${({theme}) => theme.colors.text};
 	padding-horizontal: ${({theme}) => theme.scaping(2)};
 `;

@@ -103,53 +103,51 @@ const Login = () => {
 	}, [user]);
 
 	return (
-		<KeyboardContainer notPadding scrollEnabled={false}>
-			<ParentContainer>
-				<ContainerLogin notPadding>
-					<ContainerImage>
-						<ImageHeader source={require('images/image_diamant.png')} />
-					</ContainerImage>
+		<ParentContainer>
+			<ContainerLogin notPadding>
+				<ContainerImage>
+					<ImageHeader source={require('images/image_diamant.png')} />
+				</ContainerImage>
 
-					<BodyTop>
-						<TextLogin>{getString('Login', 'Title')}</TextLogin>
-					</BodyTop>
+				<BodyTop>
+					<TextLogin>{getString('Login', 'Title')}</TextLogin>
+				</BodyTop>
 
-					<TextboxInput
-						placeholder={getString('Login', 'Email')}
-						value={data.email as string}
-						handleChange={handleChange('email')}
-						error={errors.email}
+				<TextboxInput
+					placeholder={getString('Login', 'Email')}
+					value={data.email as string}
+					handleChange={handleChange('email')}
+					error={errors.email}
+				/>
+				<PasswordView
+					secureTextEntry={changeSecurePassword}
+					value={data.password as string}
+					placeholder={getString('Login', 'Password')}
+					handleChange={handleChange('password')}
+					error={statusLogin === 'failed' ? getString('Login', 'LoginFailed') : errors.password}
+				>
+					<EyePassword isPress={changeSecurePassword} onPress={onPressSecurePassword} />
+				</PasswordView>
+
+				<LoginBottom>
+					<CustomButton
+						loading={statusLogin === 'loading'}
+						children={getString('Login', 'Continue')}
+						onPress={onPressLogin}
 					/>
-					<PasswordView
-						secureTextEntry={changeSecurePassword}
-						value={data.password as string}
-						placeholder={getString('Login', 'Password')}
-						handleChange={handleChange('password')}
-						error={statusLogin === 'failed' ? getString('Login', 'LoginFailed') : errors.password}
-					>
-						<EyePassword isPress={changeSecurePassword} onPress={onPressSecurePassword} />
-					</PasswordView>
+				</LoginBottom>
 
-					<LoginBottom>
-						<CustomButton
-							loading={statusLogin === 'loading'}
-							children={getString('Login', 'Continue')}
-							onPress={onPressLogin}
-						/>
-					</LoginBottom>
-
-					<FingerTouchOpacity onPress={fingerID}>
-						<FingerIconCustom />
-						<TextCaption>
-							{getString('Login', 'LoginBy')}
-							<TextOrange>
-								{getString('Login', typeBiometry === 'FaceID' ? 'FaceId' : 'FingerId')}
-							</TextOrange>
-						</TextCaption>
-					</FingerTouchOpacity>
-				</ContainerLogin>
-			</ParentContainer>
-		</KeyboardContainer>
+				<FingerTouchOpacity onPress={fingerID}>
+					<FingerIconCustom />
+					<TextCaption>
+						{getString('Login', 'LoginBy')}
+						<TextOrange>
+							{getString('Login', typeBiometry === 'FaceID' ? 'FaceId' : 'FingerId')}
+						</TextOrange>
+					</TextCaption>
+				</FingerTouchOpacity>
+			</ContainerLogin>
+		</ParentContainer>
 	);
 };
 const ContainerLogin = styled(AreaContainer)`

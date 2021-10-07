@@ -1,6 +1,7 @@
 const enData = {
 	Global: {
 		And: 'And',
+		PullToRefresh: 'Tirer pour rafraîchir',
 	},
 	Home: {
 		Title: 'Products',
