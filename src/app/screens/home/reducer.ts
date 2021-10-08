@@ -47,7 +47,7 @@ export const toggleFavorite = createAsyncThunk(
 );
 
 export const fetchBanner = createAsyncThunk('home/fetchBanner', async (params: undefined) => {
-	const res = await query<Result<BannerData>, undefined>('/messages', 'GET', params);
+	const res = await query<Result<BannerData[]>, undefined>('/messages', 'GET', params);
 	return res?.results;
 });
 export const fetchCountCart = createAsyncThunk('home/fetchCountCart', async () => {
@@ -101,7 +101,7 @@ const homeSlice = createSlice({
 
 				state.favorite.pendingID = undefined;
 			})
-			.addCase(fetchBanner.fulfilled, (state, action: PayloadAction<BannerData | undefined>) => {
+			.addCase(fetchBanner.fulfilled, (state, action: PayloadAction<BannerData[] | undefined>) => {
 				state.banner.data = action.payload;
 			})
 			.addCase(fetchCountCart.fulfilled, (state, action: PayloadAction<number | undefined>) => {

@@ -1,6 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
+import {toggleFavorite} from '../home/reducer';
+type PayloadFavorite = [undefined | number, Favorite | undefined];
 
 let initModal: {
 	status?: Status;
@@ -40,9 +42,16 @@ const productSlice = createSlice({
 			.addCase(getProduct.fulfilled, (state, action: PayloadAction<DetailAProduct | undefined>) => {
 				state.status = action.payload ? 'success' : 'failed';
 				state.product = action.payload;
+			})
+			.addCase(toggleFavorite.fulfilled, (state, action: PayloadAction<PayloadFavorite>) => {
+				if (state.product && action.payload) {
+					const [id] = action.payload;
+					state.product?.id === id && (state.product.is_favorite = !state.product?.is_favorite);
+				}
 			});
 	},
 });
 export const getProductDetail = (state: RootState) => state.productDetail;
+
 const ProductReducer = productSlice.reducer;
 export default ProductReducer;

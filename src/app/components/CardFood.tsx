@@ -1,18 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {navigate} from 'app/navigation/rootNavigation';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
-import {getPendingIdFavorite, toggleFavorite} from 'app/screens/home/reducer';
 import {screenWidth} from 'app/styles/dimens';
 import {rowCss, TextMedium, TextSmall} from 'app/styles/globalStyled';
-import {getAppTheme} from 'app/styles/reducer';
 import styled, {css} from 'app/styles/styled';
 import {ViewStyle} from 'react-native';
-import {IconCardPlus, IconFavoriteProduct} from './icons/Icons';
-import {isValidImage} from 'app/utilities';
+import {IconCardPlus} from './icons/Icons';
 import {showToast} from './ToastCart/reducer';
 import {getTranslate, replaceText} from 'app/locate/reducer';
 import {getCartObject, updateAmountProduct} from 'app/screens/Cart/reducer';
 import FastImage from 'react-native-fast-image';
+import ImageProduct from './ImageProduct';
 
 interface Props {
 	onPressPlus?: () => void;
@@ -24,19 +22,12 @@ interface Props {
 }
 
 const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite, ...props}: Props) => {
-	const theme = getAppTheme();
 	const getString = getTranslate();
 	const dispatch = useAppDispatch();
-	const [isLoadingFavorite, setIsLoading] = useState(false);
 
-	const isLoading = useAppSelector(getPendingIdFavorite) === product?.id;
 	const cartAmount = useAppSelector(getCartObject);
 
-	useEffect(() => {
-		isLoading ? setIsLoading(true) : setTimeout(() => setIsLoading(false), 200);
-	}, [isLoading]);
-
-	const {title = '', description = '', image, item_code = '', is_favorite, id} = product;
+	const {title = '', description = '', item_code = '', id, is_favorite, info} = product;
 
 	return (
 		<Container
@@ -45,24 +36,7 @@ const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite, ...
 			disabled={isDisabled}
 			onPress={() => navigate('ProductDetail', product as Product)}
 		>
-			<ViewImage>
-				<UrlImage source={isValidImage(image)} />
-				{isLoadingFavorite ? (
-					<ViewIcon>
-						<Loading color={'white'} size={'small'} />
-					</ViewIcon>
-				) : (
-					<TouchFavorite
-						onPress={() => {
-							dispatch(toggleFavorite({product_id: id, ...props}));
-						}}
-					>
-						<IconFavoriteProduct
-							color={is_favorite || alwayFavorite ? theme.colors.main : undefined}
-						/>
-					</TouchFavorite>
-				)}
-			</ViewImage>
+			<ImageProduct {...product} is_favorite={alwayFavorite || is_favorite} />
 			<ContainerContent>
 				<NameProduct numberOfLines={1}>{title}</NameProduct>
 				<Description ellipsizeMode={'tail'} numberOfLines={3}>
@@ -75,21 +49,24 @@ const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite, ...
 			) : (
 				<TouchIcon
 					onPress={() => {
-						dispatch(
-							updateAmountProduct({
-								product_id: id,
-								amount: Number(cartAmount[id || ''] || 0) + 1,
-							})
-						);
-						dispatch(
-							showToast({
-								message: replaceText(getString('Cart', 'AddProductToCart'), 1),
-								button: {
-									children: getString('Cart', 'Title'),
-									onPress: () => navigate('Cart'),
-								},
-							})
-						);
+						if (info.length) {
+							dispatch(
+								updateAmountProduct({
+									product_id: id,
+									amount: Number(cartAmount[id || ''] || 0) + 1,
+									info_id: info[0].id,
+								})
+							);
+							dispatch(
+								showToast({
+									message: replaceText(getString('Cart', 'AddProductToCart'), 1),
+									button: {
+										children: getString('Cart', 'Title'),
+										onPress: () => navigate('Cart'),
+									},
+								})
+							);
+						}
 					}}
 				>
 					<TouchPlusCard />

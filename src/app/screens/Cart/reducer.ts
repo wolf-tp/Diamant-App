@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import ProductList from 'app/components/ProductList';
+import {navigate} from 'app/navigation/rootNavigation';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
 import {incrementCartCount} from '../home/reducer';
@@ -22,6 +23,7 @@ let initCart: {
 interface UpdateType {
 	product_id?: Number;
 	amount?: Number;
+	info_id?: number;
 }
 export const getProductList = createAsyncThunk('cart/getProductList', async () => {
 	const res = await query<Result<ProductList | undefined>, undefined>('/cart', 'GET');
@@ -51,6 +53,15 @@ export const order = createAsyncThunk(
 		return res?.results;
 	}
 );
+export const reOrder = createAsyncThunk('cart/reOrder', async (params: {products: number[][]}) => {
+	const res = await query<Result<Order | undefined>, {products: number[][]}>(
+		'/cart/reOrder',
+		'PUT',
+		params
+	);
+	navigate('Cart');
+	return res?.results;
+});
 
 const getCartObjects = (products?: ProductList): IObject =>
 	products?.products.reduce((prevResultProduct, item) => {
@@ -95,6 +106,14 @@ const cartSlice = createSlice({
 			.addCase(order.fulfilled, (state, action: PayloadAction<Order | undefined>) => {
 				state.status = action.payload ? 'OrderSuccess' : 'OrderError';
 				state.order = action.payload;
+			})
+			.addCase(reOrder.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(reOrder.fulfilled, (state, action: PayloadAction<ProductList | undefined>) => {
+				state.status = action.payload ? 'success' : 'failed';
+				state.products = action.payload;
+				state.cartObject = getCartObjects(action.payload);
 			});
 	},
 });

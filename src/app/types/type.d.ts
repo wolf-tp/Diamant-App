@@ -19,7 +19,16 @@ declare type Product = {
 	created_at?: string;
 	updated_at?: string;
 	is_favorite?: boolean;
+	info: Info[];
 };
+declare interface Info {
+	id: number;
+	unit_weight: string;
+	packaging: string;
+	gen_code: string;
+	created_at: Date;
+	updated_at: Date;
+}
 declare type BannerData = {
 	id?: number;
 	admin_id?: number;
@@ -105,6 +114,7 @@ declare interface ProductDetail {
 	updated_at?: Date;
 	is_favorite?: boolean;
 	amount?: string;
+	info: Info;
 }
 declare interface Categories {
 	id?: number;

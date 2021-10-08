@@ -35,14 +35,15 @@ interface PropsArray extends Props {
 		title: string;
 		onPress?: () => void;
 	}[];
+	isPadding?: boolean;
 	isDoubleArray?: boolean;
 }
 
-export const BreadCrumbArray = ({style, data, isDoubleArray}: PropsArray) => {
+export const BreadCrumbArray = ({style, data, isDoubleArray, isPadding}: PropsArray) => {
 	const theme = getAppTheme();
 	const TextComponent = isDoubleArray ? TextSmallCrumb : TextCrumb;
 	return (
-		<ContainerView style={style}>
+		<ContainerView isPadding={isPadding} style={style}>
 			<BackOpacity onPress={popNavigate}>
 				<BackHeader />
 			</BackOpacity>
@@ -66,8 +67,8 @@ export const BreadCrumbArray = ({style, data, isDoubleArray}: PropsArray) => {
 		</ContainerView>
 	);
 };
-const ContainerView = styled.View`
-	padding-vertical: 8px;
+const ContainerView = styled.View<{isPadding?: boolean}>`
+	${({isPadding}) => (isPadding ? 'padding-vertical: 8px;' : '')}
 	flex-direction: row;
 	${centerItemsCss}
 `;

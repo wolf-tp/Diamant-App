@@ -1,6 +1,7 @@
 import {getTranslate, replaceText} from 'app/locate/reducer';
 import {navigate} from 'app/navigation/rootNavigation';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
+import {reOrder} from 'app/screens/Cart/reducer';
 import {
 	fetHistoryProducts,
 	getDataHistoryProducts,
@@ -42,6 +43,17 @@ const OrderCard = (props: ListOrders & Props) => {
 	const containerButtonStyles: ViewStyle = {flex: 0, marginRight: 10};
 	const ContainerComponent = isExpanded ? ScrollContainer : Container;
 
+	const actionPress = () => {
+		if (!isExpanded) {
+			navigate('OrderDetail', props);
+			return;
+		}
+		const listProductInput =
+			listProducts?.map((item) => [item.id!, parseInt(item.amount || '0', 10)!, item.info.id!]) ||
+			[];
+		dispatch(reOrder({products: listProductInput}));
+	};
+
 	return (
 		<ContainerComponent isExpanded={isExpanded}>
 			<Line title={getString('Orders', 'OrderCode')} content={code} />
@@ -55,10 +67,7 @@ const OrderCard = (props: ListOrders & Props) => {
 						? 'Liste des produits'
 						: replaceText(getString('Orders', 'ProductAmount'), products?.length ?? 0)}
 				</BottomText>
-				<ButtonDetail
-					onPress={() => navigate('OrderDetail', props)}
-					containerStyles={containerButtonStyles}
-				>
+				<ButtonDetail onPress={actionPress} containerStyles={containerButtonStyles}>
 					{!isExpanded ? <IconEyeOpen /> : (undefined as any)}
 					<LargeButtonText>
 						{isExpanded ? 'Re-commande' : getString('Orders', 'SeeOrder')}
@@ -124,4 +133,4 @@ const Content = styled(TextSmall)`
 	font-weight: 400;
 `;
 
-export default OrderCard;
+export default React.memo(OrderCard);

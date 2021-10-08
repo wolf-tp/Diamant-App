@@ -3,22 +3,26 @@ import styled from 'app/styles/styled';
 import ImageProduct from './ImageProduct';
 import {getTranslate} from 'app/locate/reducer';
 import Button from './Button';
+import {RowView} from 'app/styles/globalStyled';
 interface Props {
-	id?: Number;
-	title: String;
-	unit_weight?: String;
-	gen_code: String;
-	image?: String | undefined;
-	is_favorite: Boolean;
+	id?: number;
+	title: string;
+	unit_weight?: string;
+	gen_code: string;
+	image?: string | undefined;
+	is_favorite: boolean;
 }
 type ProductDetailProps = Props | undefined;
 const CartProductDetail = (props: ProductDetailProps) => {
 	const getString = getTranslate();
 	return (
 		<CartContainer>
-			<ImageProductComponent />
+			<ImageProductComponent {...props} isLargeAvatar />
 			<RightCart>
-				<Title>{props?.title}</Title>
+				<RowTitle>
+					<Title>{props?.title}</Title>
+				</RowTitle>
+
 				<ListButton horizontal>
 					{fakeData.map((weight, indexWeight) => (
 						<ChangeButton key={indexWeight}>
@@ -35,11 +39,11 @@ const CartProductDetail = (props: ProductDetailProps) => {
 	);
 };
 
-const CartContainer = styled.View`
-	flex-direction: row;
+const CartContainer = styled(RowView)`
 	padding-vertical: 10px;
 `;
 const RightCart = styled.View``;
+const RowTitle = styled(RowView)``;
 
 const CodeTitle = styled.Text`
 	color: ${({theme}) => theme.colors.orange_100};
@@ -71,6 +75,7 @@ const ChangeButton = styled(Button)`
 	border-radius: 8px;
 `;
 const Title = styled.Text`
+	flex: 1;
 	font-size: ${({theme}) => theme.font.fontLarge};
 	color: ${({theme}) => theme.colors.white};
 	margin-top: ${({theme}) => theme.scapingElement};

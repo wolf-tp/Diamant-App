@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import Breadcrumb from 'app/components/Breadcrumb';
+import Breadcrumb, {BreadCrumbArray} from 'app/components/Breadcrumb';
 import Button from 'app/components/Button';
 import CartProductDetail from 'app/components/CartProductDetail';
 import Collapse from 'app/components/Collapse';
@@ -11,13 +11,14 @@ import styled from 'app/styles/styled';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {getProduct} from './reducer';
 import {getTranslate} from 'app/locate/reducer';
+import Loading from 'app/components/Loading';
 
 interface Props {}
 
 const ProductDetail = (props: Props & Navigate<Product>) => {
 	const {id} = getParams<Product>(props);
 	const dispatch = useAppDispatch();
-	const {product} = useAppSelector((state) => state.productDetail);
+	const {product, status} = useAppSelector((state) => state.productDetail);
 	const {description, packaging, dlc, item_code, ...cartProduct} = product || {};
 	const getString = getTranslate();
 	useEffect(() => {
@@ -25,35 +26,38 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 	}, [dispatch, id]);
 	return (
 		<AreaContainer notPadding>
-			<RowView>
-				<BackOpacity onPress={popNavigate}>
-					<BackHeader />
-				</BackOpacity>
-				<CustomBreadcrumb />
-			</RowView>
-			<Content>
-				<CartProduct {...cartProduct} />
-				<ScrollContainer>
-					<ScrollContent>
-						<CollapseView title={getString('ProductDetail', 'Description')}>
-							<TextValue>{description}</TextValue>
-						</CollapseView>
-						<TextTitle>{getString('ProductDetail', 'CodeArticle')}</TextTitle>
-						<TextValue>{item_code}</TextValue>
-						<ListHorizontalText>
-							<ListVerticalText>
-								<TextTitle>{getString('ProductDetail', 'CodeArticle')}</TextTitle>
-								<TextValue>{packaging}</TextValue>
-							</ListVerticalText>
-							<ListVerticalText>
-								<TextTitle>{getString('ProductDetail', 'Dlc')}</TextTitle>
-								<TextValue>{dlc}</TextValue>
-							</ListVerticalText>
-						</ListHorizontalText>
-					</ScrollContent>
-				</ScrollContainer>
-				<ConfirmButton>{getString('ProductDetail', 'Submit')}</ConfirmButton>
-			</Content>
+			<BreadCrumbArray
+				isPadding
+				isDoubleArray
+				data={[{title: 'Category'}, {title: 'sub-category'}]}
+			/>
+			{status === 'loading' ? (
+				<Loading />
+			) : (
+				<Content>
+					<CartProduct {...cartProduct} />
+					<ScrollContainer>
+						<ScrollContent>
+							<CollapseView title={getString('ProductDetail', 'Description')}>
+								<TextValue>{description}</TextValue>
+							</CollapseView>
+							<TextTitle>{getString('ProductDetail', 'CodeArticle')}</TextTitle>
+							<TextValue>{item_code}</TextValue>
+							<ListHorizontalText>
+								<ListVerticalText>
+									<TextTitle>{getString('ProductDetail', 'CodeArticle')}</TextTitle>
+									<TextValue>{packaging}</TextValue>
+								</ListVerticalText>
+								<ListVerticalText>
+									<TextTitle>{getString('ProductDetail', 'Dlc')}</TextTitle>
+									<TextValue>{dlc}</TextValue>
+								</ListVerticalText>
+							</ListHorizontalText>
+						</ScrollContent>
+					</ScrollContainer>
+					<ConfirmButton>{getString('ProductDetail', 'Submit')}</ConfirmButton>
+				</Content>
+			)}
 		</AreaContainer>
 	);
 };
@@ -84,9 +88,6 @@ const ListVerticalText = styled.View``;
 const CollapseView = styled(Collapse)`
 	color: ${({theme}) => theme.colors.white};
 `;
-const CustomBreadcrumb = styled(Breadcrumb)`
-	align-items: center;
-`;
 const ScrollContainer = styled.View`
 	height: ${screenHeight * 0.3}px;
 	margin-bottom: ${({theme}) => theme.scapingElement};
@@ -99,11 +100,4 @@ const ConfirmButton = styled(Button)`
 const ScrollContent = styled.ScrollView`
 	height: 100px;
 `;
-const BackOpacity = styled.TouchableOpacity`
-	background-color: ${({theme}) => theme.colors.background};
-	margin-vertical: 15px;
-	margin-right: 5px;
-	border-radius: ${({theme}) => theme.borderRadius};
-`;
-
 export default ProductDetail;

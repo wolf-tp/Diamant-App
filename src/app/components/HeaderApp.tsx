@@ -45,7 +45,11 @@ const HeaderApp = () => {
 			<RowBetween>
 				{/* Left address view */}
 				{showBreadCrumb ? (
-					<BreadCrumbArray isDoubleArray data={[{title: 'Category'}, {title: 'sub-category'}]} />
+					<BreadCrumbArray
+						isPadding
+						isDoubleArray
+						data={[{title: 'Category'}, {title: 'sub-category'}]}
+					/>
 				) : (
 					<UserHeader headerHeight={headerHeight} />
 				)}
