@@ -101,8 +101,12 @@ const homeSlice = createSlice({
 
 				state.favorite.pendingID = undefined;
 			})
+			.addCase(fetchBanner.pending, (state) => {
+				state.banner.status = 'loading';
+			})
 			.addCase(fetchBanner.fulfilled, (state, action: PayloadAction<BannerData[] | undefined>) => {
 				state.banner.data = action.payload;
+				state.banner.status = action.payload ? 'success' : 'failed';
 			})
 			.addCase(fetchCountCart.fulfilled, (state, action: PayloadAction<number | undefined>) => {
 				state.countCart = action.payload;
@@ -115,6 +119,7 @@ export const {incrementCartCount} = homeSlice.actions;
 export const getDataCategories = (state: RootState) => state.home.categories.data;
 export const getStatusCategories = (state: RootState) => state.home.categories.status;
 export const getPendingIdFavorite = (state: RootState) => state.home.favorite.pendingID;
+export const getStatusBanner = (state: RootState) => state.home.categories.status;
 export const getBanner = (state: RootState) => state.home.banner.data;
 export const getCartCount = (state: RootState) => state.home.countCart;
 

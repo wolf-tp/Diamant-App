@@ -19,7 +19,7 @@ declare type Product = {
 	created_at?: string;
 	updated_at?: string;
 	is_favorite?: boolean;
-	info: Info[];
+	info?: Info[];
 };
 declare interface Info {
 	id: number;
@@ -114,7 +114,7 @@ declare interface ProductDetail {
 	updated_at?: Date;
 	is_favorite?: boolean;
 	amount?: string;
-	info: Info;
+	info?: Info;
 }
 declare interface Categories {
 	id?: number;

@@ -49,7 +49,7 @@ const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite, ...
 			) : (
 				<TouchIcon
 					onPress={() => {
-						if (info.length) {
+						if (info?.length) {
 							dispatch(
 								updateAmountProduct({
 									product_id: id,

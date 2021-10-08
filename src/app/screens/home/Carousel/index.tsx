@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Loading from 'app/components/Loading';
+import {navigate} from 'app/navigation/rootNavigation';
+import {store} from 'app/redux/store';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {screenWidth} from 'app/styles/dimens';
 import {TextLarge, TextSmall} from 'app/styles/globalStyled';
@@ -8,13 +10,17 @@ import {SCAPING_CONTAINER} from 'app/styles/theme';
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {fetchBanner, getBanner} from '../reducer';
+import {fetchBanner, getBanner, getDataCategories, getStatusBanner} from '../reducer';
 
 const CarouselCardWidth = screenWidth - SCAPING_CONTAINER * 2;
 const CarouselCardHeight = (CarouselCardWidth * 140) / 450;
+interface Props {
+	setIndexTabHome: (index: number) => void;
+}
 
-const CarouselHome = () => {
+const CarouselHome = ({setIndexTabHome}: Props) => {
 	const dataBanner = useAppSelector(getBanner);
+	const isLoadingBanner = useAppSelector(getStatusBanner) === 'loading';
 	const dispatch = useAppDispatch();
 	const [activeIndex, setActiveIndex] = useState(0);
 
@@ -22,8 +28,29 @@ const CarouselHome = () => {
 		dispatch(fetchBanner());
 	}, []);
 
-	const _renderImage = ({item: {title, content, isLoading}}: {item: BannerData}) => (
-		<CarouselCard activeOpacity={0.6}>
+	const _renderImage = ({
+		item: {title, content, isLoading, product_id, category_id = 1},
+	}: {
+		item: BannerData;
+	}) => (
+		<CarouselCard
+			activeOpacity={0.6}
+			onPress={() => {
+				if (product_id) {
+					navigate('ProductDetail', {id: product_id});
+					return;
+				}
+				const categories = getDataCategories(store.getState());
+				const id = categories?.findIndex((category) => {
+					if (category.id === category_id) {
+						return true;
+					}
+
+					return !!category.subCategories?.find((sub) => sub.id === category_id);
+				});
+				id && setIndexTabHome(id);
+			}}
+		>
 			{!isLoading ? (
 				<>
 					<TitleText>{title}</TitleText>
@@ -37,13 +64,13 @@ const CarouselHome = () => {
 		</CarouselCard>
 	);
 
-	return (
+	return isLoadingBanner || dataBanner?.length ? (
 		<View>
 			<Carousel
 				renderItem={_renderImage}
 				layoutCardOffset={9}
 				windowSize={1}
-				data={dataBanner || [{isLoading: true}]}
+				data={dataBanner || [{isLoading: isLoadingBanner}]}
 				containerCustomStyle={styles.container}
 				sliderWidth={CarouselCardWidth}
 				itemWidth={CarouselCardWidth}
@@ -63,7 +90,7 @@ const CarouselHome = () => {
 				dotsLength={dataBanner?.length ?? 0}
 			/>
 		</View>
-	);
+	) : null;
 };
 
 const styles = StyleSheet.create({

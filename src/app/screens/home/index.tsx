@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import CarouselHome from './Carousel';
 import ProductHome from './ProductsHome';
 import SearchInput from 'app/components/group/SearchInput';
@@ -9,6 +9,8 @@ import {getProductList} from '../Cart/reducer';
 
 const Home = () => {
 	const dispatch = useAppDispatch();
+
+	const [indexTabHome, setIndexTabHome] = useState<number>(0);
 	useEffect(() => {
 		dispatch(getProductList());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -19,9 +21,9 @@ const Home = () => {
 			<AreaContainer notPadding>
 				<SearchInput />
 				{/* Banner Card */}
-				<HeaderCarousel />
+				<HeaderCarousel setIndexTabHome={setIndexTabHome} />
 				{/* Tabhome */}
-				<ProductHome />
+				<ProductHome indexTabHome={indexTabHome} setIndexTabHome={setIndexTabHome} />
 			</AreaContainer>
 		</Container>
 	);

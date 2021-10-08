@@ -8,14 +8,18 @@ import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {fetchCategories, getDataCategories, getStatusCategories} from '../reducer';
 import Loading from 'app/components/Loading';
 
-interface Props {}
+interface Props {
+	indexTabHome: number;
+	setIndexTabHome: (index: number) => void;
+}
+
 type HomeTabData = {
 	key: string;
 	title: string;
 	data: Categories;
 };
 
-const ProductHome = (_: Props) => {
+const ProductHome = ({indexTabHome, setIndexTabHome}: Props) => {
 	const layout = useWindowDimensions();
 	const dispatch = useAppDispatch();
 	const isLoading = useAppSelector(getStatusCategories) === 'loading';
@@ -38,10 +42,8 @@ const ProductHome = (_: Props) => {
 		dispatch(fetchCategories());
 	}, [dispatch]);
 
-	const [index, setIndex] = React.useState(0);
-
 	const renderScene = ({route}: SceneRendererProps & {route: HomeTabData}) => {
-		if (routes[index] === route) {
+		if (routes[indexTabHome] === route) {
 			return isLoading ? (
 				<Loading />
 			) : (
@@ -58,9 +60,9 @@ const ProductHome = (_: Props) => {
 				<HomeTab
 					renderTabBar={(_props) => <CustomTabBar {..._props} />}
 					lazy
-					navigationState={{index, routes}}
+					navigationState={{index: indexTabHome, routes}}
 					renderScene={renderScene as any}
-					onIndexChange={setIndex}
+					onIndexChange={setIndexTabHome}
 					initialLayout={{width: layout.width}}
 				/>
 			) : (
@@ -75,4 +77,4 @@ const HomeTab = styled(TabView)``;
 const Container = styled.View`
 	flex: 1;
 `;
-export default ProductHome;
+export default React.memo(ProductHome);
