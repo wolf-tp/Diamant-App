@@ -1,19 +1,16 @@
 import React from 'react';
 import {navigate} from 'app/navigation/rootNavigation';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
-import {screenWidth} from 'app/styles/dimens';
 import {rowCss, TextMedium, TextSmall} from 'app/styles/globalStyled';
-import styled, {css} from 'app/styles/styled';
+import styled from 'app/styles/styled';
 import {ViewStyle} from 'react-native';
 import {IconCardPlus} from './icons/Icons';
 import {showToast} from './ToastCart/reducer';
 import {getTranslate, replaceText} from 'app/locate/reducer';
 import {getCartObject, updateAmountProduct} from 'app/screens/Cart/reducer';
-import FastImage from 'react-native-fast-image';
 import ImageProduct from './ImageProduct';
 
 interface Props {
-	onPressPlus?: () => void;
 	style?: ViewStyle;
 	product?: Product | ProductDetail;
 	alwayFavorite?: boolean;
@@ -21,7 +18,7 @@ interface Props {
 	children?: React.ReactNode;
 }
 
-const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite, ...props}: Props) => {
+const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite}: Props) => {
 	const getString = getTranslate();
 	const dispatch = useAppDispatch();
 
@@ -49,7 +46,7 @@ const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite, ...
 			) : (
 				<TouchIcon
 					onPress={() => {
-						if (info?.length) {
+						if (Array.isArray(info) && info.length) {
 							dispatch(
 								updateAmountProduct({
 									product_id: id,
@@ -76,8 +73,6 @@ const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite, ...
 	);
 };
 
-const IMAGE_CARD_SIZE = screenWidth / 4.5;
-
 const Container = styled.TouchableOpacity`
 	border-radius: ${({theme}) => theme.borderRadius};
 	padding: 13px;
@@ -97,35 +92,11 @@ const Description = styled(TextSmall)`
 	font-weight: 400;
 	color: ${({theme}) => theme.colors.textGray};
 `;
-const ViewImage = styled.View`
-	width: ${IMAGE_CARD_SIZE}px;
-	height: ${IMAGE_CARD_SIZE * 1.24}px;
-	overflow: hidden;
-	border-radius: ${({theme}) => theme.scaping(1.5)};
-`;
-const UrlImage = styled(FastImage)`
-	width: 100%;
-	height: 95%;
-	resize-mode: stretch;
-`;
-const touchIconCss = css`
-	position: absolute;
-	right: ${({theme}) => theme.scaping(1)};
-	top: ${({theme}) => theme.scaping(1)};
-	border-radius: ${({theme}) => theme.scaping(5)};
-`;
-const ViewIcon = styled.View`
-	${touchIconCss}
-`;
-const TouchFavorite = styled.TouchableOpacity`
-	${touchIconCss}
-`;
 const TouchPlusCard = styled(IconCardPlus)``;
 const TouchIcon = styled.TouchableOpacity`
 	position: absolute;
 	bottom: 5px;
 	right: 15px;
 `;
-const Loading = styled.ActivityIndicator``;
 
-export default CardFood;
+export default React.memo(CardFood);

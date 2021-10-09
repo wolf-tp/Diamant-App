@@ -29,7 +29,7 @@ const dataTab: TabScreen[] = [
 		name: 'FavoriteStack',
 		title: 'Favorite',
 		Icon: IconFavorite,
-		listChild: ['Favorite', 'Cart'],
+		listChild: ['Favorite', 'Cart', 'ProductDetail'],
 	},
 	{
 		name: 'NotificationsStack',
