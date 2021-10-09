@@ -1,5 +1,6 @@
 import {IconNotification, IconListOrders, IconFavorite, IconHome} from 'app/components/icons/Icons';
 import Cart from 'app/screens/Cart';
+import ConfirmOrder from 'app/screens/ConfirmOrder';
 import Favorite from 'app/screens/Favorite';
 import Home from 'app/screens/home';
 import ListOrders from 'app/screens/ListOrders';
@@ -17,25 +18,25 @@ const dataTab: TabScreen[] = [
 		name: 'HomeStack',
 		title: 'Home',
 		Icon: IconHome,
-		listChild: ['Home', 'Cart', 'ProductDetail', 'ListProduct'],
+		listChild: ['Home', 'Cart', 'ProductDetail', 'ListProduct', 'ConfirmOrder'],
 	},
 	{
 		name: 'OrdersStack',
 		title: 'Orders',
 		Icon: IconListOrders,
-		listChild: ['ListOrders', 'Cart', 'OrderDetail'],
+		listChild: ['ListOrders', 'Cart', 'OrderDetail', 'ConfirmOrder'],
 	},
 	{
 		name: 'FavoriteStack',
 		title: 'Favorite',
 		Icon: IconFavorite,
-		listChild: ['Favorite', 'Cart', 'ProductDetail'],
+		listChild: ['Favorite', 'Cart', 'ProductDetail', 'ConfirmOrder'],
 	},
 	{
 		name: 'NotificationsStack',
 		title: 'Notifications',
 		Icon: IconNotification,
-		listChild: ['Notifications', 'Cart', 'Setting'],
+		listChild: ['Notifications', 'Cart', 'Setting', 'ConfirmOrder'],
 	},
 ];
 
@@ -49,6 +50,7 @@ export const Screens: {[key in keyof RootStackParamList]: any} = {
 	Login: Login,
 	OrderDetail: OrderDetail,
 	ProductDetail: ProductDetail,
+	ConfirmOrder: ConfirmOrder,
 	Setting: Setting,
 };
 

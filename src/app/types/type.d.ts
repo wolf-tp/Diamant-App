@@ -167,7 +167,7 @@ declare interface StatusOrder extends Order {
 
 declare type IObject = {[key: string]: string};
 interface ListProductRequest {
-	[index: string]: number | {};
+	[index: string]: Array<number>;
 }
 declare interface Notifications {
 	id?: number;

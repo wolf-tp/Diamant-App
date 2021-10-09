@@ -11,7 +11,7 @@ import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {getProduct} from './reducer';
 import {getTranslate, replaceText} from 'app/locate/reducer';
 import Loading from 'app/components/Loading';
-import {updateAmountProduct} from '../Cart/reducer';
+import {getCartObject, updateAmountProduct} from '../Cart/reducer';
 import {showToast} from 'app/components/ToastCart/reducer';
 
 interface Props {}
@@ -19,6 +19,7 @@ interface Props {}
 const ProductDetail = (props: Props & Navigate<Product>) => {
 	const {id} = getParams<Product>(props);
 	const dispatch = useAppDispatch();
+	const cartAmount = useAppSelector(getCartObject);
 	const {product, status} = useAppSelector((state) => state.productDetail);
 	const {description, dlc, item_code, ...cartProduct} = product || {};
 	const getString = getTranslate();
@@ -65,7 +66,7 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 								dispatch(
 									updateAmountProduct({
 										product_id: product?.id,
-										amount: 1,
+										amount: Number(cartAmount[product?.id || ''] || 0) + 1,
 										info_id: product?.info ? product.info[packaging].id : 0,
 									})
 								);

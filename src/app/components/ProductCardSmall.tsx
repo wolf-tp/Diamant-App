@@ -42,6 +42,7 @@ const Amount = styled(TextMediumLarge)<{paddingLeft?: boolean}>`
 	font-weight: bold;
 `;
 const NameProduct = styled(TextMediumLarge)`
+	max-width: 60%;
 	flex: auto;
 	font-weight: bold;
 `;

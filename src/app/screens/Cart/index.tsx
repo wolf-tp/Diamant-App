@@ -29,13 +29,13 @@ const Cart = () => {
 	}, [isShowDateDelivery]);
 
 	useEffect(() => {
-		if (isLoadingListProduct === 'success') {
+		if (isLoadingListProduct === 'success' || products?.products) {
 			setRefreshing(false);
 			const productList = products?.products;
 			const array: ListProductRequest = {};
 			if (productList && productList.length > 0) {
 				productList.forEach((product) => {
-					array[product.id ?? -1] = Number(product.amount);
+					array[product.id ?? -1] = [Number(product.amount), Number(product.info?.id)];
 				});
 				setGetListProduct(array);
 			}
@@ -47,7 +47,9 @@ const Cart = () => {
 			<TouchIcon>
 				<TouchQuantity quantity={Number(item.amount)} id={item.id} listProduct={getListProduct} />
 				<TouchRemoveView
-					onPress={() => dispatch(updateAmountProduct({product_id: item.id, amount: 0}))}
+					onPress={() =>
+						dispatch(updateAmountProduct({product_id: item.id, amount: 0, info_id: item.info?.id}))
+					}
 				>
 					<TouchRemoveCard />
 				</TouchRemoveView>
@@ -104,7 +106,7 @@ const TouchIcon = styled.View`
 	border-radius: ${({theme}) => theme.borderRadiusSmall};
 	position: absolute;
 	align-items: center;
-	bottom: 15px;
+	bottom: 5px;
 	right: 15px;
 `;
 const CustomTouchArrow = styled(TouchArrow)`

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ViewProps} from 'react-native';
+import {Platform, ViewProps} from 'react-native';
 import {getTranslate} from 'app/locate/reducer';
 import {getAppTheme} from 'app/styles/reducer';
 import {navigate} from 'app/navigation/rootNavigation';
@@ -56,13 +56,13 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 				event();
 			}
 			dispatch(cleanReducer());
-			navigate('TrackingOrder', myOrder);
+			navigate('ConfirmOrder', myOrder);
 		}
 	}, [getStatus, dispatch, getString, event, myOrder]);
 
 	const onChange = (events: any, selectedDate: any) => {
 		const currentDate = selectedDate || date;
-		setShow(false);
+		setShow(Platform.OS === 'ios');
 		if (currentDate.dateString !== date.dateString) {
 			setDate({date: currentDate, dateString: moment(currentDate).format('YYYY-MM-DD')});
 		}
@@ -132,8 +132,10 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 							onPress={() => {
 								const result = Object.keys(listProduct).map((key: string) => [
 									Number(key),
-									listProduct[key],
+									listProduct[key][0],
+									listProduct[key][1],
 								]);
+								console.log('🚀 ~ file: DropUp.tsx ~ line 138 ~ DropUp ~ result', result);
 								dispatch(
 									order({products: result, date_of_delivery: date.dateString, comment: text})
 								);
