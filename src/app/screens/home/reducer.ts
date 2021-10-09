@@ -7,11 +7,13 @@ let initModal: {
 	favorite: {pendingID?: number};
 	banner: {status?: Status; data?: BannerData[]};
 	countCart?: number;
+	categoryBreadCrump: BreadCrumbData;
 } = {
 	categories: {},
 	favorite: {},
 	banner: {},
 	countCart: 0,
+	categoryBreadCrump: [],
 };
 type PayloadFavorite = [undefined | number, Favorite | undefined];
 
@@ -72,6 +74,21 @@ const homeSlice = createSlice({
 		decrementCartCount: (state) => {
 			state.countCart = (state.countCart ?? 0) - 1;
 		},
+		setBreadCrumbCategoryTitle: (state, action: PayloadAction<number>) => {
+			const idCategory = action.payload;
+			const category = state.categories?.data && [...state.categories?.data];
+			category?.forEach((_category) => {
+				const selectedSub = _category.subCategories?.find((sub) => sub.id === idCategory);
+
+				selectedSub &&
+					(state.categoryBreadCrump = [
+						{title: _category.name || ''},
+						{title: selectedSub.name || ''},
+					]);
+
+				return !selectedSub;
+			});
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -117,7 +134,8 @@ const homeSlice = createSlice({
 	},
 });
 
-export const {incrementCartCount, decrementCartCount} = homeSlice.actions;
+export const {incrementCartCount, decrementCartCount, setBreadCrumbCategoryTitle} =
+	homeSlice.actions;
 
 export const getDataCategories = (state: RootState) => state.home.categories.data;
 export const getStatusCategories = (state: RootState) => state.home.categories.status;
@@ -125,6 +143,7 @@ export const getPendingIdFavorite = (state: RootState) => state.home.favorite.pe
 export const getStatusBanner = (state: RootState) => state.home.categories.status;
 export const getBanner = (state: RootState) => state.home.banner.data;
 export const getCartCount = (state: RootState) => state.home.countCart;
+export const getTitleSubCategory = (state: RootState) => state.home.categoryBreadCrump;
 
 const homeReducer = homeSlice.reducer;
 export default homeReducer;

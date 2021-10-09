@@ -30,16 +30,13 @@ const Breadcrumb = ({style}: Props) => {
 	}, [data]);
 	return <ContainerView style={style}>{getData()}</ContainerView>;
 };
-interface PropsArray extends Props {
-	data: {
-		title: string;
-		onPress?: () => void;
-	}[];
+export interface BreadCrumbArrayProps extends Props {
+	data: BreadCrumbData;
 	isPadding?: boolean;
 	isDoubleArray?: boolean;
 }
 
-export const BreadCrumbArray = ({style, data, isDoubleArray, isPadding}: PropsArray) => {
+export const BreadCrumbArray = ({style, data, isDoubleArray, isPadding}: BreadCrumbArrayProps) => {
 	const theme = getAppTheme();
 	const TextComponent = isDoubleArray ? TextSmallCrumb : TextCrumb;
 	return (

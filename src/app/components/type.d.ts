@@ -31,3 +31,7 @@ declare type TabData = {
 	title: string;
 };
 declare type StatusModal = 'SUCCESS' | 'INFO' | 'ERROR';
+declare type BreadCrumbData = {
+	title: string;
+	onPress?: () => void;
+}[];

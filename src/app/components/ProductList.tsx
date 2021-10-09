@@ -1,10 +1,11 @@
-import {getTranslate} from 'app/locate/reducer';
 import {navigate} from 'app/navigation/rootNavigation';
+import {store} from 'app/redux/store';
+import {setBreadCrumbCategoryTitle} from 'app/screens/home/reducer';
 import {isIOS} from 'app/styles/dimens';
 import {RowBetween, TextLarge, TextMedium} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import React, {useEffect, useState} from 'react';
-import {RefreshControl, ViewStyle} from 'react-native';
+import {ViewStyle} from 'react-native';
 import CardFood from './CardFood';
 import RefreshList from './RefreshList';
 
@@ -70,7 +71,13 @@ type TitleCategoryProps = {title: string; count: number | undefined; id?: number
 const TitleCategoryComponent = ({title, count, id}: TitleCategoryProps) => (
 	<RowBetweenTitle>
 		<TextTitleCategoryComponent>{title}</TextTitleCategoryComponent>
-		<TouchModeCategoryComponent activeOpacity={0.6} onPress={() => navigate('ListProduct', {id})}>
+		<TouchModeCategoryComponent
+			activeOpacity={0.6}
+			onPress={() => {
+				store.dispatch(setBreadCrumbCategoryTitle(id!));
+				navigate('ListProduct', {id});
+			}}
+		>
 			<MoreTitleCategoryComponent>{`Voir tous (${count})`}</MoreTitleCategoryComponent>
 		</TouchModeCategoryComponent>
 	</RowBetweenTitle>
@@ -89,9 +96,6 @@ const MoreTitleCategoryComponent = styled(TextMedium)`
 const TouchModeCategoryComponent = styled.TouchableOpacity`
 	border-bottom-color: ${({theme}) => theme.colors.main};
 	border-bottom-width: 1px;
-`;
-const ListContainer = styled.SafeAreaView`
-	flex: 1;
 `;
 const ListProductComponent = styled.FlatList`
 	flex: 1;
