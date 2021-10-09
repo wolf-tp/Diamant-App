@@ -3,12 +3,13 @@ import ProductList from 'app/components/ProductList';
 import {navigate} from 'app/navigation/rootNavigation';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
-import {incrementCartCount} from '../home/reducer';
+import {fetchCountCart} from '../home/reducer';
 
 type OrderStatus = 'OrderSuccess' | 'OrderError' | 'OrderLoading';
+type UpdateAmountStatus = 'UpdateSuccess' | 'UpdateError' | 'UpdateLoading';
 
 let initCart: {
-	status?: Status | OrderStatus;
+	status?: Status | OrderStatus | UpdateAmountStatus;
 	products?: ProductList;
 	cartObject?: IObject;
 	order?: Order;
@@ -32,8 +33,10 @@ export const getProductList = createAsyncThunk('cart/getProductList', async () =
 export const updateAmountProduct = createAsyncThunk(
 	'cart/updateAmountProduct',
 	async (params: UpdateType, {dispatch}) => {
-		params.amount === 1 && dispatch(incrementCartCount());
 		const res = await query<Result<ProductList | undefined>, UpdateType>('/cart', 'PUT', params);
+		if (res?.status === 'OK') {
+			dispatch(fetchCountCart());
+		}
 		return res?.results;
 	}
 );
@@ -95,7 +98,7 @@ const cartSlice = createSlice({
 			.addCase(
 				updateAmountProduct.fulfilled,
 				(state, action: PayloadAction<ProductList | undefined>) => {
-					state.status = action.payload ? 'success' : 'failed';
+					state.status = action.payload ? 'UpdateSuccess' : 'UpdateError';
 					state.products = action.payload;
 					state.cartObject = getCartObjects(action.payload);
 				}

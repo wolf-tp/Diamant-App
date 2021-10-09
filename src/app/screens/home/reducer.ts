@@ -69,6 +69,9 @@ const homeSlice = createSlice({
 		incrementCartCount: (state) => {
 			state.countCart = (state.countCart ?? 0) + 1;
 		},
+		decrementCartCount: (state) => {
+			state.countCart = (state.countCart ?? 0) - 1;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -114,7 +117,7 @@ const homeSlice = createSlice({
 	},
 });
 
-export const {incrementCartCount} = homeSlice.actions;
+export const {incrementCartCount, decrementCartCount} = homeSlice.actions;
 
 export const getDataCategories = (state: RootState) => state.home.categories.data;
 export const getStatusCategories = (state: RootState) => state.home.categories.status;

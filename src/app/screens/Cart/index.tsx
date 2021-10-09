@@ -48,7 +48,13 @@ const Cart = () => {
 				<TouchQuantity quantity={Number(item.amount)} id={item.id} listProduct={getListProduct} />
 				<TouchRemoveView
 					onPress={() =>
-						dispatch(updateAmountProduct({product_id: item.id, amount: 0, info_id: item.info?.id}))
+						dispatch(
+							updateAmountProduct({
+								product_id: item.id,
+								amount: 0,
+								info_id: item.info?.id,
+							})
+						)
 					}
 				>
 					<TouchRemoveCard />

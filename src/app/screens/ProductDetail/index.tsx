@@ -11,7 +11,7 @@ import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {getProduct} from './reducer';
 import {getTranslate, replaceText} from 'app/locate/reducer';
 import Loading from 'app/components/Loading';
-import {getCartObject, updateAmountProduct} from '../Cart/reducer';
+import {cleanReducer, getCartObject, getCartStatus, updateAmountProduct} from '../Cart/reducer';
 import {showToast} from 'app/components/ToastCart/reducer';
 
 interface Props {}
@@ -20,6 +20,7 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 	const {id} = getParams<Product>(props);
 	const dispatch = useAppDispatch();
 	const cartAmount = useAppSelector(getCartObject);
+	const cartStatus = useAppSelector(getCartStatus);
 	const {product, status} = useAppSelector((state) => state.productDetail);
 	const {description, dlc, item_code, ...cartProduct} = product || {};
 	const getString = getTranslate();
@@ -29,6 +30,26 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 	useEffect(() => {
 		dispatch(getProduct(id));
 	}, [dispatch, id]);
+	useEffect(() => {
+		if (cartStatus === 'UpdateSuccess') {
+			dispatch(
+				showToast({
+					message: replaceText(getString('Cart', 'AddProductToCart'), 1),
+					button: {
+						children: getString('Cart', 'Title'),
+						onPress: () => navigate('Cart'),
+					},
+				})
+			);
+		} else if (cartStatus === 'UpdateError') {
+			dispatch(
+				showToast({
+					message: replaceText(getString('Cart', 'AddProductToCartFail')),
+				})
+			);
+			dispatch(cleanReducer());
+		}
+	}, [cartStatus, dispatch, getString]);
 	return (
 		<AreaContainer notPadding>
 			<Container>
@@ -68,15 +89,6 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 										product_id: product?.id,
 										amount: Number(cartAmount[product?.id || ''] || 0) + 1,
 										info_id: product?.info ? product.info[packaging].id : 0,
-									})
-								);
-								dispatch(
-									showToast({
-										message: replaceText(getString('Cart', 'AddProductToCart'), 1),
-										button: {
-											children: getString('Cart', 'Title'),
-											onPress: () => navigate('Cart'),
-										},
 									})
 								);
 							}}
