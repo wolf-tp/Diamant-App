@@ -52,8 +52,9 @@ const IMAGE_CARD_SMALL = screenWidth / 4.5;
 
 const UrlImage = styled(FastImage)`
 	width: 100%;
-	height: 95%;
+	height: 100%;
 	resize-mode: stretch;
+	border-radius: ${({theme}) => theme.borderRadiusSmall};
 `;
 const touchIconCss = css`
 	position: absolute;

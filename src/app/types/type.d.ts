@@ -133,16 +133,17 @@ declare interface CategorySubTitle {
 	totalCount?: number;
 }
 declare interface DetailAProduct {
-	id: Number;
-	item_code: String;
-	title: String;
-	description?: String;
-	unit_weight: String;
-	packaging: String;
-	dlc: String;
-	gen_code: String;
-	image?: String;
-	is_favorite: Boolean;
+	id: number;
+	item_code: string;
+	title?: string;
+	description?: string;
+	unit_weight?: string;
+	packaging?: string;
+	dlc?: string;
+	gen_code: string;
+	image?: string;
+	is_favorite: boolean;
+	info?: Array<InfoProduct>;
 }
 interface ProductList {
 	id: Number;
@@ -182,4 +183,11 @@ declare interface Notifications {
 	type?: string;
 	created_at?: string;
 	updated_at?: string;
+}
+
+declare interface InfoProduct {
+	id: number;
+	packaging: string;
+	unit_weight: string;
+	gen_code: string;
 }

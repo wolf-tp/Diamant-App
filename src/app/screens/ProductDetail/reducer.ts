@@ -9,18 +9,6 @@ let initModal: {
 	product?: DetailAProduct;
 } = {
 	status: 'none',
-	product: {
-		id: 0,
-		item_code: '1234',
-		title: '1234',
-		description: '1234',
-		unit_weight: '1234',
-		packaging: 'String',
-		dlc: 'hi',
-		gen_code: 'hi',
-		image: 'url',
-		is_favorite: true,
-	},
 };
 export const getProduct = createAsyncThunk(
 	'product/getProduct',

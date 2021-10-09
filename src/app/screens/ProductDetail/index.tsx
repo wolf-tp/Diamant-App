@@ -1,17 +1,18 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Breadcrumb, {BreadCrumbArray} from 'app/components/Breadcrumb';
 import Button from 'app/components/Button';
 import CartProductDetail from 'app/components/CartProductDetail';
 import Collapse from 'app/components/Collapse';
-import {BackHeader} from 'app/components/icons/Icons';
-import {getParams, popNavigate} from 'app/navigation/rootNavigation';
+import {getParams, navigate} from 'app/navigation/rootNavigation';
 import {screenHeight} from 'app/styles/dimens';
-import {AreaContainer, RowView} from 'app/styles/globalStyled';
+import {AreaContainer, Container} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {getProduct} from './reducer';
-import {getTranslate} from 'app/locate/reducer';
+import {getTranslate, replaceText} from 'app/locate/reducer';
 import Loading from 'app/components/Loading';
+import {updateAmountProduct} from '../Cart/reducer';
+import {showToast} from 'app/components/ToastCart/reducer';
 
 interface Props {}
 
@@ -19,45 +20,71 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 	const {id} = getParams<Product>(props);
 	const dispatch = useAppDispatch();
 	const {product, status} = useAppSelector((state) => state.productDetail);
-	const {description, packaging, dlc, item_code, ...cartProduct} = product || {};
+	const {description, dlc, item_code, ...cartProduct} = product || {};
 	const getString = getTranslate();
+
+	const [packaging, setPackaging] = useState<number>(0);
+
 	useEffect(() => {
 		dispatch(getProduct(id));
 	}, [dispatch, id]);
 	return (
 		<AreaContainer notPadding>
-			<BreadCrumbArray
-				isPadding
-				isDoubleArray
-				data={[{title: 'Category'}, {title: 'sub-category'}]}
-			/>
-			{status === 'loading' ? (
-				<Loading />
-			) : (
-				<Content>
-					<CartProduct {...cartProduct} />
-					<ScrollContainer>
-						<ScrollContent>
-							<CollapseView title={getString('ProductDetail', 'Description')}>
-								<TextValue>{description}</TextValue>
-							</CollapseView>
-							<TextTitle>{getString('ProductDetail', 'CodeArticle')}</TextTitle>
-							<TextValue>{item_code}</TextValue>
-							<ListHorizontalText>
-								<ListVerticalText>
-									<TextTitle>{getString('ProductDetail', 'CodeArticle')}</TextTitle>
-									<TextValue>{packaging}</TextValue>
-								</ListVerticalText>
-								<ListVerticalText>
-									<TextTitle>{getString('ProductDetail', 'Dlc')}</TextTitle>
-									<TextValue>{dlc}</TextValue>
-								</ListVerticalText>
-							</ListHorizontalText>
-						</ScrollContent>
-					</ScrollContainer>
-					<ConfirmButton>{getString('ProductDetail', 'Submit')}</ConfirmButton>
-				</Content>
-			)}
+			<Container>
+				<BreadCrumbArray
+					isPadding
+					isDoubleArray
+					data={[{title: 'Category'}, {title: 'sub-category'}]}
+				/>
+				{status === 'loading' ? (
+					<Loading />
+				) : (
+					<Content>
+						<CartProduct {...cartProduct} changePackaging={setPackaging} />
+						<ScrollContainer>
+							<ScrollContent>
+								<CollapseView title={getString('ProductDetail', 'Description')}>
+									<TextValue>{description}</TextValue>
+								</CollapseView>
+								<TextTitle>{getString('ProductDetail', 'CodeArticle')}</TextTitle>
+								<TextValue>{item_code}</TextValue>
+								<ListHorizontalText>
+									<ListVerticalText>
+										<TextTitle>{getString('ProductDetail', 'Packaging')}</TextTitle>
+										<TextValue>{product?.info ? product.info[packaging].packaging : '0'}</TextValue>
+									</ListVerticalText>
+									<ListVerticalText>
+										<TextTitle>{getString('ProductDetail', 'Dlc')}</TextTitle>
+										<TextValue>{dlc}</TextValue>
+									</ListVerticalText>
+								</ListHorizontalText>
+							</ScrollContent>
+						</ScrollContainer>
+						<ConfirmButton
+							onPress={() => {
+								dispatch(
+									updateAmountProduct({
+										product_id: product?.id,
+										amount: 1,
+										info_id: product?.info ? product.info[packaging].id : 0,
+									})
+								);
+								dispatch(
+									showToast({
+										message: replaceText(getString('Cart', 'AddProductToCart'), 1),
+										button: {
+											children: getString('Cart', 'Title'),
+											onPress: () => navigate('Cart'),
+										},
+									})
+								);
+							}}
+						>
+							{getString('ProductDetail', 'Submit')}
+						</ConfirmButton>
+					</Content>
+				)}
+			</Container>
 		</AreaContainer>
 	);
 };

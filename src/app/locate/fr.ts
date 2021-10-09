@@ -53,7 +53,7 @@ const frData = {
 		Nutritions: 'Nutritions',
 		GenCode: 'GenCode: ',
 		CodeArticle: 'Code article',
-		Packacking: 'PACKACKING',
+		Packaging: 'Emballage',
 		Dlc: 'DLC',
 		Submit: 'Ajouter au panier',
 		Description: 'Description',

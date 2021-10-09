@@ -1,38 +1,87 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'app/styles/styled';
 import ImageProduct from './ImageProduct';
 import {getTranslate} from 'app/locate/reducer';
-import Button from './Button';
 import {RowView} from 'app/styles/globalStyled';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {screenWidth} from 'app/styles/dimens';
+import {getAppTheme} from 'app/styles/reducer';
+import {TextStyle, ViewStyle} from 'react-native';
 interface Props {
 	id?: number;
-	title: string;
+	title?: string;
 	unit_weight?: string;
-	gen_code: string;
-	image?: string | undefined;
-	is_favorite: boolean;
+	gen_code?: string;
+	image?: string;
+	is_favorite?: boolean;
+	info?: Array<InfoProduct>;
+	changePackaging: (args: number) => void;
 }
-type ProductDetailProps = Props | undefined;
-const CartProductDetail = (props: ProductDetailProps) => {
+interface Info {
+	label: string;
+	value: number;
+}
+
+const CartProductDetail = (props: Props) => {
+	const {info, title, changePackaging, ...attribute} = props;
+
+	const theme = getAppTheme();
+	const container: ViewStyle = {
+		backgroundColor: theme.colors.orange_100,
+		width: 120,
+		borderRadius: 15,
+		marginTop: 10,
+		zIndex: 1,
+	};
+	const stylesText: TextStyle = {
+		color: theme.colors.text,
+		marginVertical: 0,
+		fontSize: 14,
+		fontWeight: '600',
+	};
+	const [open, setOpen] = useState(false);
+	const [value, setValue] = useState<number>(0);
+	const [items, setItems] = useState<Array<Info>>([{label: '0Kg', value: 0}]);
+	useEffect(() => {
+		if (info) {
+			const results: Array<Info> = [];
+			info.map((val, index) => {
+				results.push({
+					label: val.unit_weight,
+					value: index,
+				});
+			});
+			setItems(results);
+		}
+	}, [info]);
+	useEffect(() => {
+		if (changePackaging) {
+			changePackaging(value);
+		}
+	}, [value, changePackaging]);
 	const getString = getTranslate();
 	return (
 		<CartContainer>
-			<ImageProductComponent {...props} isLargeAvatar />
+			<ImageProductComponent {...attribute} isLargeAvatar />
 			<RightCart>
 				<RowTitle>
-					<Title>{props?.title}</Title>
+					<Title>{title}</Title>
 				</RowTitle>
-
-				<ListButton horizontal>
-					{fakeData.map((weight, indexWeight) => (
-						<ChangeButton key={indexWeight}>
-							<TextButton>{props?.unit_weight || weight}g</TextButton>
-						</ChangeButton>
-					))}
-				</ListButton>
+				<DropDownPicker
+					open={open}
+					containerStyle={{width: screenWidth / 2.3}}
+					value={value}
+					items={items}
+					setOpen={setOpen}
+					setValue={setValue}
+					setItems={setItems}
+					style={container}
+					textStyle={stylesText}
+					theme={'DARK'}
+				/>
 				<CodeContent>
 					<CodeTitle>{getString('ProductDetail', 'GenCode')}</CodeTitle>
-					<CodeValue>{props?.gen_code}</CodeValue>
+					<CodeValue>{info?.length ? info[value].gen_code : '0'}</CodeValue>
 				</CodeContent>
 			</RightCart>
 		</CartContainer>
@@ -60,20 +109,6 @@ const CodeContent = styled.View`
 const ImageProductComponent = styled(ImageProduct)`
 	margin-right: 12px;
 `;
-const ListButton = styled.ScrollView`
-	margin-top: ${({theme}) => theme.scapingElement};
-`;
-const TextButton = styled.Text`
-	color: ${({theme}) => theme.colors.white};
-`;
-const ChangeButton = styled(Button)`
-	padding-horizontal: 18px;
-	padding-vertical: 8px;
-	margin-right: 14px;
-	background-color: ${({theme}) => theme.colors.orange_100};
-	width: 100px;
-	border-radius: 8px;
-`;
 const Title = styled.Text`
 	flex: 1;
 	font-size: ${({theme}) => theme.font.fontLarge};
@@ -81,5 +116,4 @@ const Title = styled.Text`
 	margin-top: ${({theme}) => theme.scapingElement};
 `;
 
-const fakeData = [400, 900];
 export default CartProductDetail;
