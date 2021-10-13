@@ -10,9 +10,11 @@ import {getCartProduct, getCartStatus, getProductList, updateAmountProduct} from
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import Loading from 'app/components/Loading';
 import {RefreshControl} from 'react-native';
+import {getTranslate} from 'app/locate/reducer';
 
 const Cart = () => {
 	const dispatch = useAppDispatch();
+	const getString = getTranslate();
 	const products = useAppSelector(getCartProduct);
 	const isLoadingListProduct = useAppSelector(getCartStatus);
 	const [isShowDateDelivery, setIsShowDateDelivery] = useState(false);
@@ -64,26 +66,30 @@ const Cart = () => {
 	);
 	return (
 		<CartContainer>
-			<AreaContainer notPadding>
-				<ListContainer>
-					{isLoadingListProduct === 'loading' ? (
-						<Loading />
-					) : (
-						<ListProduct
-							refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-							data={products?.products}
-							renderItem={renderItemProduct as any}
-							keyExtractor={(_, _index) => `product_${_index.toString()}`}
-						/>
-					)}
-				</ListContainer>
-				<DropUp
-					isShowModal={isShowDateDelivery}
-					event={showDeliveryModal}
-					listProduct={getListProduct}
-				/>
-				<CustomTouchArrow event={showDeliveryModal} />
-			</AreaContainer>
+			{products?.products.length ? (
+				<AreaContainer notPadding>
+					<ListContainer>
+						{isLoadingListProduct === 'loading' ? (
+							<Loading />
+						) : (
+							<ListProduct
+								refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+								data={products?.products}
+								renderItem={renderItemProduct as any}
+								keyExtractor={(_, _index) => `product_${_index.toString()}`}
+							/>
+						)}
+					</ListContainer>
+					<DropUp
+						isShowModal={isShowDateDelivery}
+						event={showDeliveryModal}
+						listProduct={getListProduct}
+					/>
+					<CustomTouchArrow event={showDeliveryModal} />
+				</AreaContainer>
+			) : (
+				<NoneText>{getString('Cart', 'NoneProduct')}</NoneText>
+			)}
 		</CartContainer>
 	);
 };
@@ -96,6 +102,12 @@ const CardProduct = styled(CardFood)`
 `;
 const ListContainer = styled.View`
 	flex: 1;
+`;
+const NoneText = styled.Text`
+	margin-top: ${({theme}) => theme.scapingElement}
+	text-align: center;
+	font-weight: 600;
+	color: ${({theme}) => theme.colors.white};
 `;
 const ListProduct = styled.FlatList`
 	height: 100px;
