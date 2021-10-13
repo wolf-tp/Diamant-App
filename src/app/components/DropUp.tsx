@@ -93,10 +93,10 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 								{getString('DropUp', 'Today')}
 							</DateButton>
 							<DateButton
-								disabled={getHour > 12 ? false : true}
+								disabled={getHour < 12 ? false : true}
 								style={{
 									backgroundColor:
-										getHour >= 12 && selectDate === 'tomorrow'
+										getHour < 12 && selectDate === 'tomorrow'
 											? theme.colors.orange_100
 											: theme.colors.gray_300,
 								}}
@@ -107,7 +107,7 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 									setDate({date: tomorrow, dateString: moment(tomorrow).format('YYYY-MM-DD')});
 								}}
 							>
-								{getString('DropUp', 'Today')}
+								{getString('DropUp', 'Tomorrow')}
 							</DateButton>
 						</CustomRowView>
 						<Title>{getString('DropUp', 'ChooseDifferenceDate')}</Title>

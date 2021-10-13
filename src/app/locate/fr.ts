@@ -84,7 +84,7 @@ const frData = {
 		Today: "Aujourd'hui",
 		Tomorrow: 'Jour suivant',
 		Difference: 'Est différent',
-		OrderDate: 'Choice order date',
+		OrderDate: 'Choisissez une autre date',
 		Note: 'Note sur la commande',
 		Submit: "envoyer la demande d'ordre",
 		SubmitFailTitle: 'La commande a échoué',
