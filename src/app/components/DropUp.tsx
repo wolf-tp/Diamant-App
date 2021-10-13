@@ -16,7 +16,7 @@ import {
 	TextMediumLarge,
 } from 'app/styles/globalStyled';
 import TouchArrow from './TouchArrow';
-import {getToday} from 'app/utilities/datetime';
+import {getHour, getToday, getTomorrow} from 'app/utilities/datetime';
 import {cleanReducer, getCartStatus, getOrder, order} from 'app/screens/Cart/reducer';
 import {showModal} from './modal/reducer';
 interface Props {
@@ -41,7 +41,6 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 		date: getToday,
 		dateString: moment(getToday).format('YYYY-MM-DD'),
 	});
-	const getHour = moment(getToday).hour();
 	useEffect(() => {
 		if (getStatus === 'OrderError') {
 			dispatch(
@@ -101,10 +100,11 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 											: theme.colors.gray_300,
 								}}
 								onPress={() => {
-									let tomorrow = new Date();
-									tomorrow.setDate(getToday.getDate() + 1);
 									setSelectDate('tomorrow');
-									setDate({date: tomorrow, dateString: moment(tomorrow).format('YYYY-MM-DD')});
+									setDate({
+										date: getTomorrow,
+										dateString: moment(getTomorrow).format('YYYY-MM-DD'),
+									});
 								}}
 							>
 								{getString('DropUp', 'Tomorrow')}
@@ -158,7 +158,7 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 								is24Hour={true}
 								display={'default'}
 								onChange={onChange}
-								minimumDate={getToday}
+								minimumDate={getTomorrow}
 							/>
 						)}
 					</Container>
