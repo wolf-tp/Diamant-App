@@ -43,7 +43,7 @@ const Cart = () => {
 	}, [products, isLoadingListProduct]);
 
 	const renderItemProduct = ({item}: {item: ProductDetail}) => (
-		<CardProduct product={item} isDisabled={true}>
+		<CardProduct product={item} isDisabled={true} isShowWeight={true}>
 			<TouchIcon>
 				<TouchQuantity quantity={Number(item.amount)} id={item.id} listProduct={getListProduct} />
 				<TouchRemoveView

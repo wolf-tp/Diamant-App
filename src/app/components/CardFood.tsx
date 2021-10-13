@@ -15,10 +15,18 @@ interface Props {
 	product?: Product | ProductDetail;
 	alwayFavorite?: boolean;
 	isDisabled?: boolean;
+	isShowWeight?: boolean;
 	children?: React.ReactNode;
 }
 
-const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite}: Props) => {
+const CardFood = ({
+	style,
+	product = {},
+	children,
+	isDisabled,
+	alwayFavorite,
+	isShowWeight,
+}: Props) => {
 	const getString = getTranslate();
 	const dispatch = useAppDispatch();
 
@@ -35,8 +43,13 @@ const CardFood = ({style, product = {}, children, isDisabled, alwayFavorite}: Pr
 		>
 			<ImageProduct {...product} is_favorite={alwayFavorite || is_favorite} />
 			<ContainerContent>
-				<NameProduct numberOfLines={1}>{title}</NameProduct>
-				<Description ellipsizeMode={'tail'} numberOfLines={3}>
+				<TitleContainer>
+					<NameProduct numberOfLines={2}>
+						{title}
+						{isShowWeight ? <WeightText>{` (${product.info?.unit_weight})`}</WeightText> : <></>}
+					</NameProduct>
+				</TitleContainer>
+				<Description ellipsizeMode={'tail'} numberOfLines={2}>
 					{description}
 				</Description>
 				<Description>CODE: {item_code.toUpperCase()}</Description>
@@ -87,10 +100,19 @@ const ContainerContent = styled.View`
 const NameProduct = styled(TextMedium)`
 	font-weight: 600;
 	color: ${({theme}) => theme.colors.text};
+	width: 100%;
 `;
 const Description = styled(TextSmall)`
 	font-weight: 400;
 	color: ${({theme}) => theme.colors.textGray};
+`;
+const TitleContainer = styled.View`
+	flex-direction: row;
+	width: 100%;
+`;
+const WeightText = styled.Text`
+	font-weight: 600;
+	color: ${({theme}) => theme.colors.text};
 `;
 const TouchPlusCard = styled(IconCardPlus)``;
 const TouchIcon = styled.TouchableOpacity`

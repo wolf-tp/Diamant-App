@@ -41,7 +41,7 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 		date: getToday,
 		dateString: moment(getToday).format('YYYY-MM-DD'),
 	});
-
+	const getHour = moment(getToday).hour();
 	useEffect(() => {
 		if (getStatus === 'OrderError') {
 			dispatch(
@@ -77,9 +77,12 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 						<Title>{getString('DropUp', 'ChooseDate')}</Title>
 						<CustomRowView>
 							<DateButton
+								disabled={getHour < 6 ? false : true}
 								style={{
 									backgroundColor:
-										selectDate === 'today' ? theme.colors.orange_100 : theme.colors.gray_300,
+										getHour < 6 && selectDate === 'today'
+											? theme.colors.orange_100
+											: theme.colors.gray_300,
 								}}
 								onPress={() => {
 									let today = getToday;
@@ -90,9 +93,12 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 								{getString('DropUp', 'Today')}
 							</DateButton>
 							<DateButton
+								disabled={getHour > 12 ? false : true}
 								style={{
 									backgroundColor:
-										selectDate === 'tomorrow' ? theme.colors.orange_100 : theme.colors.gray_300,
+										getHour >= 12 && selectDate === 'tomorrow'
+											? theme.colors.orange_100
+											: theme.colors.gray_300,
 								}}
 								onPress={() => {
 									let tomorrow = new Date();
@@ -108,7 +114,9 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 						<ChooseDateButton
 							style={{
 								backgroundColor:
-									selectDate === 'anotherDay' ? theme.colors.orange_100 : theme.colors.gray_300,
+									getHour >= 12 || selectDate === 'anotherDay'
+										? theme.colors.orange_100
+										: theme.colors.gray_300,
 							}}
 							onPress={() => {
 								setShow(true);
@@ -135,7 +143,6 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 									listProduct[key][0],
 									listProduct[key][1],
 								]);
-								console.log('🚀 ~ file: DropUp.tsx ~ line 138 ~ DropUp ~ result', result);
 								dispatch(
 									order({products: result, date_of_delivery: date.dateString, comment: text})
 								);
