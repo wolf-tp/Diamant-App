@@ -31,8 +31,11 @@ const Notifications = (_: Props) => {
 	const otherNotificationListData = useAppSelector(getDataOtherMessages);
 
 	useEffect(() => {
-		dispatch(fetchOrderStatus());
-		dispatch(fetchOtherMessage());
+		if (!otherNotificationListData?.length && !statusOrderListData?.length) {
+			dispatch(fetchOrderStatus());
+			dispatch(fetchOtherMessage());
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
 
 	const renderItemStatus = ({item}: {item: StatusOrder}) => <OrderStatusCard {...item} />;

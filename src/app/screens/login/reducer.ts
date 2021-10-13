@@ -1,4 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {fcm_token} from 'app/config/notification';
 import {RootState} from 'app/redux/store';
 import {query, setTokenAxios} from 'app/utils/api';
 import {removeKey, setKey} from 'app/utils/storage';
@@ -13,7 +14,8 @@ let initModal: {
 };
 
 export const loginAuth = createAsyncThunk('auth/loginAuth', async (user: UserInput) => {
-	const res = await query<LoginResponse, UserInput>('/login', 'POST', user);
+	console.log('FCM', fcm_token);
+	const res = await query<LoginResponse, UserInput>('/login', 'POST', {...user, fcm_token});
 	res?.results && Keychain.setGenericPassword(user.user_name as string, user.password as string);
 
 	return res?.results;

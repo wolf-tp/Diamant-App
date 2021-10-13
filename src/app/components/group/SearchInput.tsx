@@ -1,3 +1,5 @@
+import {useAppDispatch} from 'app/redux/store/hooks';
+import {searchHomeProducts} from 'app/screens/home/reducer';
 import {screenWidth} from 'app/styles/dimens';
 import {getAppTheme} from 'app/styles/reducer';
 import styled from 'app/styles/styled';
@@ -11,7 +13,12 @@ type SearchInputProps = TextInputProps & PositionICon;
 
 const SearchInput = (props: SearchInputProps) => {
 	const theme = getAppTheme();
+	const dispatch = useAppDispatch();
 	const {interpolate} = useToggleAnimate({outputRange: [-screenWidth, 0]});
+
+	const changeTextSearch = (text: string) => {
+		dispatch(searchHomeProducts(text));
+	};
 
 	return (
 		<Container style={{transform: [{translateX: interpolate}]}}>
@@ -19,6 +26,7 @@ const SearchInput = (props: SearchInputProps) => {
 				{...props}
 				placeholder={'Recherche de produit'}
 				placeholderTextColor={theme.colors.textGray}
+				onChangeText={changeTextSearch}
 			/>
 			<SearchIcon />
 		</Container>
@@ -45,4 +53,4 @@ const SearchIcon = styled(Search)<PositionICon>`
 	${({leftIcon}) => (!leftIcon ? 'right: 20px;' : '')}
 `;
 
-export default SearchInput;
+export default React.memo(SearchInput);

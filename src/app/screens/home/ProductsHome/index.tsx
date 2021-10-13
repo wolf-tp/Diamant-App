@@ -39,7 +39,8 @@ const ProductHome = ({indexTabHome, setIndexTabHome}: Props) => {
 	}, [categories]);
 
 	useEffect(() => {
-		dispatch(fetchCategories());
+		!categories?.length && dispatch(fetchCategories());
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch]);
 
 	const renderScene = ({route}: SceneRendererProps & {route: HomeTabData}) => {

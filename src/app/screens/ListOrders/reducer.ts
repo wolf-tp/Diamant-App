@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
+import {logoutAuth} from '../login/reducer';
 import ProductDetail from '../ProductDetail';
 
 let initState: {
@@ -22,7 +23,7 @@ export const fetHistoryProducts = createAsyncThunk(
 	'orders/fetHistoryProducts',
 	async (orderId: string) => {
 		const res = await query<Result<ListOrders>, string>(`/order/${orderId}`, 'GET', orderId);
-		return res?.results.products;
+		return res?.results.products as typeof initState.listProduct.data;
 	}
 );
 
@@ -51,6 +52,9 @@ const OrdersSlice = createSlice({
 					state.listProduct.status = payload ? 'failed' : 'success';
 					state.listProduct.data = payload;
 				}
+			)
+			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) =>
+				action.payload === 'OK' ? initState : state
 			);
 	},
 });

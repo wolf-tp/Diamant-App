@@ -1,6 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'app/redux/store';
+import {convertUnicodeToUpperCaseAscII} from 'app/utilities';
 import {query} from 'app/utils/api';
+import {logoutAuth} from '../login/reducer';
 
 let initModal: {
 	categories: {status?: Status; data?: Categories[]};
@@ -8,6 +10,7 @@ let initModal: {
 	banner: {status?: Status; data?: BannerData[]};
 	countCart?: number;
 	categoryBreadCrump: BreadCrumbData;
+	categoriesList?: Categories[];
 } = {
 	categories: {},
 	favorite: {},
@@ -24,8 +27,10 @@ export const getCategories = (categories?: Categories[]) => {
 	!Array.isArray(categories) && (categories = Object.values(categories));
 
 	categories.map((category) => {
-		category?.['sub-category'] &&
-			(category.subCategories = Object.values(category?.['sub-category']));
+		if (category?.['sub-category']) {
+			category.subCategories = Object.values(category?.['sub-category']);
+			delete category['sub-category'];
+		}
 	});
 
 	return categories;
@@ -63,6 +68,24 @@ const getFavoriteCategories = (category?: Categories, idFavorite?: number) => {
 		return product;
 	});
 };
+const getProductsFilterText = (searchText: string, category?: Categories) => {
+	return category?.products?.filter((product) => {
+		return product.title?.toUpperCase()?.includes(searchText!);
+	});
+};
+
+const searchHomeProductHandler = (textFilter: string, categories?: Categories[]) => {
+	return textFilter
+		? categories?.map((category) => {
+				const subCategories = category.subCategories?.map((sub) => ({
+					...sub,
+					products: getProductsFilterText(textFilter, sub),
+				}));
+
+				return {...category, products: getProductsFilterText(textFilter, category), subCategories};
+		  })
+		: categories;
+};
 
 const homeSlice = createSlice({
 	initialState: initModal,
@@ -89,6 +112,12 @@ const homeSlice = createSlice({
 				return !selectedSub;
 			});
 		},
+		searchHomeProducts: (state, action: PayloadAction<string>) => {
+			const filterText = convertUnicodeToUpperCaseAscII(action.payload);
+			const categories = state.categories.data;
+
+			state.categoriesList = searchHomeProductHandler(filterText, categories);
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -99,8 +128,10 @@ const homeSlice = createSlice({
 				fetchCategories.fulfilled,
 				(state, action: PayloadAction<Categories[] | undefined>) => {
 					state.categories.status = action.payload ? 'success' : 'failed';
-
-					state.categories.data = action.payload;
+					if (action.payload) {
+						state.categories.data = action.payload;
+						state.categoriesList = state.categories.data;
+					}
 				}
 			)
 			.addCase(toggleFavorite.pending, (state, {meta: {arg}}) => {
@@ -118,6 +149,7 @@ const homeSlice = createSlice({
 
 					return category;
 				});
+				state.categoriesList = state.categories.data;
 
 				state.favorite.pendingID = undefined;
 			})
@@ -130,14 +162,23 @@ const homeSlice = createSlice({
 			})
 			.addCase(fetchCountCart.fulfilled, (state, action: PayloadAction<number | undefined>) => {
 				state.countCart = action.payload;
+			})
+			.addCase(logoutAuth.fulfilled, (_, action: PayloadAction<string | undefined>) => {
+				if (action.payload === 'OK') {
+					return initModal;
+				}
 			});
 	},
 });
 
-export const {incrementCartCount, decrementCartCount, setBreadCrumbCategoryTitle} =
-	homeSlice.actions;
+export const {
+	incrementCartCount,
+	decrementCartCount,
+	setBreadCrumbCategoryTitle,
+	searchHomeProducts,
+} = homeSlice.actions;
 
-export const getDataCategories = (state: RootState) => state.home.categories.data;
+export const getDataCategories = (state: RootState) => state.home.categoriesList;
 export const getStatusCategories = (state: RootState) => state.home.categories.status;
 export const getPendingIdFavorite = (state: RootState) => state.home.favorite.pendingID;
 export const getStatusBanner = (state: RootState) => state.home.categories.status;

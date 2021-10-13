@@ -4,6 +4,7 @@ import {navigate} from 'app/navigation/rootNavigation';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
 import {fetchCountCart} from '../home/reducer';
+import {logoutAuth} from '../login/reducer';
 
 type OrderStatus = 'OrderSuccess' | 'OrderError' | 'OrderLoading';
 type UpdateAmountStatus = 'UpdateSuccess' | 'UpdateError' | 'UpdateLoading';
@@ -117,7 +118,10 @@ const cartSlice = createSlice({
 				state.status = action.payload ? 'success' : 'failed';
 				state.products = action.payload;
 				state.cartObject = getCartObjects(action.payload);
-			});
+			})
+			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) =>
+				action.payload === 'OK' ? initCart : state
+			);
 	},
 });
 export const getCartStatus = (state: RootState) => state.cart.status;

@@ -54,7 +54,6 @@ const UrlImage = styled(FastImage)`
 	width: 100%;
 	height: 100%;
 	resize-mode: stretch;
-	border-radius: ${({theme}) => theme.borderRadiusSmall};
 `;
 const touchIconCss = css`
 	position: absolute;

@@ -1,5 +1,8 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import PushNotification, {Importance} from 'react-native-push-notification';
+
+export let fcm_token = '';
+
 PushNotification.createChannel(
 	{
 		channelId: 'diamant-channel',
@@ -14,7 +17,7 @@ PushNotification.createChannel(
 
 PushNotification.configure({
 	onRegister: function (token) {
-		console.log('TOKEN:', token);
+		fcm_token = token.token;
 	},
 
 	onNotification: function (notification) {

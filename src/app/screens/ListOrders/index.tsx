@@ -10,7 +10,6 @@ import {fetchHistoryOrder, getDataHistoryOrder, getStatusHistoryOrder} from './r
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import OrderCard from 'app/components/OrderCard';
 import {myTheme} from 'app/styles/theme';
-import Loading from 'app/components/Loading';
 import RefreshList from 'app/components/RefreshList';
 interface CartDataItem {
 	id: string;
@@ -38,7 +37,7 @@ const ListOrders = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [value, dispatch]);
 
-	const getHistoryOrder = () => dispatch(fetchHistoryOrder({range: value}));
+	const getHistoryOrder = () => !data && dispatch(fetchHistoryOrder({range: value}));
 
 	const stylesText: TextStyle = {color: theme.colors.text, fontSize: 18, fontWeight: '600'};
 	const container: ViewStyle = {

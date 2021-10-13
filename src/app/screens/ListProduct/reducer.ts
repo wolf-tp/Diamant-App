@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
+import {logoutAuth} from '../login/reducer';
 
 let initState: {
 	products: {status?: Status; data?: Product[]};
@@ -35,6 +36,9 @@ const CategorySlice = createSlice({
 					state.products.status = payload ? 'success' : 'failed';
 					state.products.data = payload;
 				}
+			)
+			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) =>
+				action.payload === 'OK' ? initState : state
 			);
 	},
 });

@@ -80,6 +80,7 @@ declare interface UserInfo {
 declare type UserInput = {
 	user_name: string;
 	password: string;
+	fcm_token?: string;
 };
 declare type LogoutOption = {
 	tokenExpiration?: boolean;

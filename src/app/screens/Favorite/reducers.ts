@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
 import {toggleFavorite} from '../home/reducer';
+import {logoutAuth} from '../login/reducer';
 
 let initState: {
 	favorite: {data?: Product[]; status?: Status};
@@ -52,7 +53,10 @@ const favoriteSlice = createSlice({
 			.addCase(fetchMostOrder.fulfilled, (state, action: PayloadAction<Product[] | undefined>) => {
 				state.mostOrder.status = action.payload ? 'failed' : 'success';
 				state.mostOrder.data = action.payload || [];
-			});
+			})
+			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) =>
+				action.payload === 'OK' ? initState : state
+			);
 	},
 });
 

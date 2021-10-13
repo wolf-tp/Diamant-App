@@ -26,8 +26,11 @@ const Favorite = () => {
 	const mostOrderListData = useAppSelector(getDataMostOrder);
 
 	useEffect(() => {
-		getFavorite();
-		getMostOrder();
+		if (!mostOrderListData?.length && !favoriteListData?.length) {
+			getFavorite();
+			getMostOrder();
+		}
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	const getFavorite = () => dispatch(fetchFavorite());

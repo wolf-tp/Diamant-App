@@ -15,5 +15,5 @@ const firebaseConfig = {
 
 !FirebaseApp.apps.length &&
 	FirebaseApp.initializeApp(firebaseConfig).finally(() => {
-		console.log(FirebaseApp.apps.length);
+		console.log('FirebaseInit', FirebaseApp.apps.length);
 	});
