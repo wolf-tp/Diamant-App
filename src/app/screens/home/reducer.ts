@@ -29,6 +29,11 @@ export const getCategories = (categories?: Categories[]) => {
 	categories.map((category) => {
 		if (category?.['sub-category']) {
 			category.subCategories = Object.values(category?.['sub-category']);
+			category.subCategories.map((subCategory) => {
+				subCategory.products?.map((product) => {
+					product.subCategory = subCategory.name;
+				});
+			});
 			delete category['sub-category'];
 		}
 	});
@@ -41,8 +46,8 @@ export const fetchCategories = createAsyncThunk(
 	async (params?: UserInput) => {
 		const res = await query<Result<Categories[]>, UserInput>('/category/index', 'GET', params);
 		let categories = res?.results;
-
-		return getCategories(categories);
+		const result = getCategories(categories);
+		return result;
 	}
 );
 export const toggleFavorite = createAsyncThunk(

@@ -13,6 +13,7 @@ interface Props {
 	data?: Product[];
 	subCategories?: Categories[];
 	alwayFavorite?: boolean;
+	categoryName?: string;
 	style?: ViewStyle;
 	refreshing?: boolean;
 	onEndReachedThreshold?: number | null | undefined;
@@ -25,6 +26,7 @@ type ItemProduct = Product & CategorySubTitle;
 const ProductList = ({
 	data = [],
 	subCategories,
+	categoryName,
 	alwayFavorite,
 	style,
 	refreshing,
@@ -52,7 +54,7 @@ const ProductList = ({
 		return item.categoryTitle ? (
 			<TitleCategoryComponent title={item.categoryTitle} count={item.totalCount} id={item.id} />
 		) : (
-			<CardProduct alwayFavorite={alwayFavorite} product={item} />
+			<CardProduct alwayFavorite={alwayFavorite} category={categoryName} product={item} />
 		);
 	};
 	const refreshProps = {refreshing, onRefresh};

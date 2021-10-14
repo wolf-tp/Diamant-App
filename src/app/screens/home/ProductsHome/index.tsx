@@ -48,7 +48,11 @@ const ProductHome = ({indexTabHome, setIndexTabHome}: Props) => {
 			return isLoading ? (
 				<Loading />
 			) : (
-				<ProductList data={route.data.products} subCategories={route.data.subCategories} />
+				<ProductList
+					data={route.data.products}
+					categoryName={route.data.name}
+					subCategories={route.data.subCategories}
+				/>
 			);
 		}
 

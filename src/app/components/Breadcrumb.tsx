@@ -1,4 +1,5 @@
 import {popNavigate} from 'app/navigation/rootNavigation';
+import {screenWidth} from 'app/styles/dimens';
 import {centerItemsCss, TextLarge, TextMedium} from 'app/styles/globalStyled';
 import {getAppTheme} from 'app/styles/reducer';
 import styled from 'app/styles/styled';
@@ -44,23 +45,42 @@ export const BreadCrumbArray = ({style, data, isDoubleArray, isPadding}: BreadCr
 			<BackOpacity onPress={popNavigate}>
 				<BackHeader />
 			</BackOpacity>
-			{data.map(({title, onPress}, index) => (
-				<ContainerView key={index}>
-					<TextComponent
-						onPress={onPress}
-						style={index === data.length - 1 && {color: theme.colors.main}}
-					>
-						{title}
-					</TextComponent>
-					{index < data.length - 1 ? (
-						isDoubleArray ? (
-							<TextCategory style={{paddingHorizontal: 5}}>{'>>'}</TextCategory>
-						) : (
-							<IconChevronRight style={{paddingHorizontal: 15}} />
-						)
-					) : null}
-				</ContainerView>
-			))}
+			{data.map(({title, onPress}, index) => {
+				if (title) {
+					return (
+						<ContainerInsideView key={index} indexComponent={index}>
+							<TextComponent
+								numberOfLines={2}
+								onPress={onPress}
+								style={index === data.length - 1 && {color: theme.colors.main}}
+							>
+								{title}
+							</TextComponent>
+							{title && index < data.length - 1 ? (
+								isDoubleArray ? (
+									<TextCategory
+										style={{
+											paddingHorizontal: 5,
+											marginTop: 'auto',
+											marginBottom: 'auto',
+										}}
+									>
+										{'>>'}
+									</TextCategory>
+								) : (
+									<IconChevronRight
+										style={{
+											paddingHorizontal: 15,
+											marginTop: 'auto',
+											marginBottom: 'auto',
+										}}
+									/>
+								)
+							) : null}
+						</ContainerInsideView>
+					);
+				}
+			})}
 		</ContainerView>
 	);
 };
@@ -68,8 +88,12 @@ const ContainerView = styled.View<{isPadding?: boolean}>`
 	${({isPadding}) => (isPadding ? 'padding-vertical: 8px;' : '')}
 	flex-direction: row;
 	${centerItemsCss}
+	width: ${screenWidth * 0.9}px;
 `;
-
+const ContainerInsideView = styled.View<{indexComponent?: number}>`
+	flex-direction: row;
+	${({indexComponent}) => (indexComponent === 3 ? 'flex: 1' : '')}
+`;
 const BackOpacity = styled.TouchableOpacity`
 	background-color: ${({theme}) => theme.colors.background};
 	padding-right: ${({theme}) => theme.scaping(3)};

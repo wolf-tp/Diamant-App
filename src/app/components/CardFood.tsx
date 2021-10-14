@@ -15,6 +15,7 @@ interface Props {
 	product?: Product | ProductDetail;
 	alwayFavorite?: boolean;
 	isDisabled?: boolean;
+	category?: string;
 	isShowWeight?: boolean;
 	children?: React.ReactNode;
 }
@@ -25,6 +26,7 @@ const CardFood = ({
 	children,
 	isDisabled,
 	alwayFavorite,
+	category,
 	isShowWeight,
 }: Props) => {
 	const getString = getTranslate();
@@ -39,14 +41,22 @@ const CardFood = ({
 			style={style}
 			activeOpacity={0.6}
 			disabled={isDisabled}
-			onPress={() => navigate('ProductDetail', product as Product)}
+			onPress={() =>
+				navigate('ProductDetail', category ? ({...product, category} as Product) : product)
+			}
 		>
 			<ImageProduct {...product} is_favorite={alwayFavorite || is_favorite} />
 			<ContainerContent>
 				<TitleContainer>
 					<NameProduct numberOfLines={2}>
 						{title}
-						{isShowWeight ? <WeightText>{` (${product.info?.unit_weight})`}</WeightText> : <></>}
+						{isShowWeight ? (
+							<WeightText>{` (${
+								!Array.isArray(product.info) && product.info?.unit_weight
+							})`}</WeightText>
+						) : (
+							<></>
+						)}
 					</NameProduct>
 				</TitleContainer>
 				<Description ellipsizeMode={'tail'} numberOfLines={2}>

@@ -32,7 +32,7 @@ declare type TabData = {
 };
 declare type StatusModal = 'SUCCESS' | 'INFO' | 'ERROR';
 declare type BreadCrumbData = {
-	title: string;
+	title?: string;
 	onPress?: () => void;
 }[];
 type LoadMoreState = {page?: number; isMore?: boolean};

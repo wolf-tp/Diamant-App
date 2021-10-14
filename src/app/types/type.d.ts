@@ -19,6 +19,9 @@ declare type Product = {
 	created_at?: string;
 	updated_at?: string;
 	is_favorite?: boolean;
+	category?: string;
+	subCategory?: string;
+	['sub-category']?: string;
 	info?: Info[];
 };
 declare interface Info {
@@ -42,6 +45,8 @@ declare type BannerData = {
 	end_date?: Date;
 	type?: string;
 	created_at?: Date;
+	category?: string;
+	'sub-category'?: string;
 	updated_at?: Date;
 	isLoading?: boolean;
 };
@@ -132,6 +137,7 @@ declare interface Categories {
 declare interface CategorySubTitle {
 	categoryTitle?: string;
 	totalCount?: number;
+	'sub-category'?: string;
 }
 declare interface DetailAProduct {
 	id: number;

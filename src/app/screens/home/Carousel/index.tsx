@@ -29,7 +29,7 @@ const CarouselHome = ({setIndexTabHome}: Props) => {
 	}, []);
 
 	const _renderImage = ({
-		item: {title, content, isLoading, product_id, category_id = 1},
+		item: {title, content, isLoading, product_id, category_id = 1, category, ...item},
 	}: {
 		item: BannerData;
 	}) => (
@@ -37,7 +37,11 @@ const CarouselHome = ({setIndexTabHome}: Props) => {
 			activeOpacity={0.6}
 			onPress={() => {
 				if (product_id) {
-					navigate('ProductDetail', {id: product_id});
+					navigate('ProductDetail', {
+						id: product_id,
+						category: category,
+						subCategory: item['sub-category'],
+					});
 					return;
 				}
 				const categories = getDataCategories(store.getState());
