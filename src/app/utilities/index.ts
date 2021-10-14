@@ -1,4 +1,4 @@
-import {UPLOAD_URL} from 'app/config';
+import {fetchCount, UPLOAD_URL} from 'app/config';
 
 export const UNDEFINE_FUNC = () => undefined;
 
@@ -11,3 +11,14 @@ export const convertUnicodeToUpperCaseAscII = (string: string) =>
 		.normalize('NFD')
 		.replace(/[\u0300-\u036f]/g, '')
 		.toUpperCase();
+
+export const handleLoadMore = ({
+	data = [],
+	nextData = [],
+	status,
+	page,
+}: HandleLoadMoreParams): ReturnTypeLoadMore => ({
+	data: status === 'loading' ? nextData : data.concat(nextData),
+	isMore: (nextData.length || 0) >= fetchCount,
+	page: status === 'loading' ? 1 : (page || 1) + 1,
+});

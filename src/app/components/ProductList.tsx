@@ -15,7 +15,10 @@ interface Props {
 	alwayFavorite?: boolean;
 	style?: ViewStyle;
 	refreshing?: boolean;
+	onEndReachedThreshold?: number | null | undefined;
+
 	onRefresh?: () => void;
+	onEndReached?: () => void;
 }
 type ItemProduct = Product & CategorySubTitle;
 
@@ -26,6 +29,7 @@ const ProductList = ({
 	style,
 	refreshing,
 	onRefresh,
+	...propsList
 }: Props) => {
 	const [listData, setListData] = useState<ItemProduct[]>([]);
 
@@ -63,6 +67,7 @@ const ProductList = ({
 			keyExtractor={(_, _index) => `product_${_index.toString()}`}
 			keyboardShouldPersistTaps={'handled'}
 			{...refreshProps}
+			{...propsList}
 		/>
 	);
 };

@@ -9,10 +9,14 @@ import {
 	fetchMostOrder,
 	getDataFavorite,
 	getDataMostOrder,
+	getNextPageFavorite,
 	getStatusFavorite,
 	getStatusMostOrder,
+	hasMoreFavorite,
 } from './reducers';
 import {getTranslate} from 'app/locate/reducer';
+import {store} from 'app/redux/store';
+import {fetchCount} from 'app/config';
 
 const Favorite = () => {
 	//Translate
@@ -33,8 +37,25 @@ const Favorite = () => {
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-	const getFavorite = () => dispatch(fetchFavorite());
-	const getMostOrder = () => dispatch(fetchMostOrder());
+	const getFavorite = (isMore?: boolean) => {
+		const globalStore = store.getState();
+		(!isMore || hasMoreFavorite(globalStore)) &&
+			dispatch(
+				fetchFavorite({
+					page: !isMore ? 1 : getNextPageFavorite(globalStore),
+				})
+			);
+	};
+
+	const getMostOrder = (isMore?: boolean) => {
+		const globalStore = store.getState();
+		(!isMore || hasMoreFavorite(globalStore)) &&
+			dispatch(
+				fetchMostOrder({
+					page: !isMore ? 1 : getNextPageFavorite(globalStore),
+				})
+			);
+	};
 
 	return (
 		<FavoriteTab
@@ -48,11 +69,23 @@ const Favorite = () => {
 					onRefresh={getFavorite}
 					alwayFavorite
 					data={favoriteListData || []}
+					onEndReached={
+						favoriteListData && favoriteListData.length >= fetchCount
+							? () => getFavorite(true)
+							: undefined
+					}
+					onEndReachedThreshold={0.005}
 				/>,
 				<ProductListComponent
 					refreshing={isLoadingMostOrder}
 					onRefresh={getMostOrder}
 					data={mostOrderListData || []}
+					onEndReached={
+						mostOrderListData && mostOrderListData.length >= fetchCount
+							? () => getMostOrder(true)
+							: undefined
+					}
+					onEndReachedThreshold={0.005}
 				/>,
 			]}
 		/>

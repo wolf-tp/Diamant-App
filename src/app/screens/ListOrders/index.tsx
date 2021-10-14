@@ -6,11 +6,19 @@ import {TextStyle, ViewStyle} from 'react-native';
 import {getAppTheme} from 'app/styles/reducer';
 import {isIOS, screenWidth} from 'app/styles/dimens';
 import {getTranslate} from 'app/locate/reducer';
-import {fetchHistoryOrder, getDataHistoryOrder, getStatusHistoryOrder} from './reducer';
+import {
+	fetchHistoryOrder,
+	getDataHistoryOrder,
+	getNextPageHistoryOrder,
+	getStatusHistoryOrder,
+	hasMoreHistoryOrder,
+} from './reducer';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import OrderCard from 'app/components/OrderCard';
 import {myTheme} from 'app/styles/theme';
 import RefreshList from 'app/components/RefreshList';
+import {fetchCount} from 'app/config';
+import {store} from 'app/redux/store';
 interface CartDataItem {
 	id: string;
 	title?: string;
@@ -33,11 +41,20 @@ const ListOrders = () => {
 	]);
 
 	useEffect(() => {
-		getHistoryOrder();
+		!data?.length && getHistoryOrder();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [value, dispatch]);
 
-	const getHistoryOrder = () => !data && dispatch(fetchHistoryOrder({range: value}));
+	const getHistoryOrder = (isMore?: boolean) => {
+		const globalStore = store.getState();
+		(!isMore || hasMoreHistoryOrder(globalStore)) &&
+			dispatch(
+				fetchHistoryOrder({
+					range: value,
+					page: !isMore ? 1 : getNextPageHistoryOrder(globalStore),
+				})
+			);
+	};
 
 	const stylesText: TextStyle = {color: theme.colors.text, fontSize: 18, fontWeight: '600'};
 	const container: ViewStyle = {
@@ -78,6 +95,8 @@ const ListOrders = () => {
 				keyExtractor={(_, _index) => `product_${_index.toString()}`}
 				contentContainerStyle={{paddingBottom: myTheme.scapingNumber(2)}}
 				{...refreshProps}
+				onEndReached={data && data.length >= fetchCount ? () => getHistoryOrder(true) : undefined}
+				onEndReachedThreshold={0.005}
 			/>
 		</Container>
 	);

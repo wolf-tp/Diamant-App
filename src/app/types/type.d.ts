@@ -147,13 +147,13 @@ declare interface DetailAProduct {
 	info?: Array<InfoProduct>;
 }
 interface ProductList {
-	id: Number;
-	user_id: Number;
+	id: number;
+	user_id: number;
 	products: ProductDetail[];
 }
 interface Order {
-	id: Number;
-	user_id: Number;
+	id: number;
+	user_id: number;
 	code: string;
 	date_of_delivery: string;
 	comment?: string;

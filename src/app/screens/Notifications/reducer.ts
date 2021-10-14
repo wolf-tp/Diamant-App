@@ -1,27 +1,34 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'app/redux/store';
+import {handleLoadMore} from 'app/utilities';
 import {query} from 'app/utils/api';
 import {logoutAuth} from '../login/reducer';
 
 let initState: {
-	orderStatus: {data?: StatusOrder[]; status?: Status};
-	othersMessage: {data?: Product[]; status?: Status};
+	orderStatus: {data?: StatusOrder[]; status?: Status} & LoadMoreState;
+	othersMessage: {data?: Product[]; status?: Status} & LoadMoreState;
 } = {
 	orderStatus: {},
 	othersMessage: {},
 };
 
-export const fetchOrderStatus = createAsyncThunk('favorite/fetchOrderStatus', async () => {
-	const res = await query<Result<StatusOrder[]>, UserInput>('/orders', 'GET');
+export const fetchOrderStatus = createAsyncThunk(
+	'favorite/fetchOrderStatus',
+	async (params: LoadMore) => {
+		const res = await query<Result<StatusOrder[]>, LoadMore>('/orders', 'GET', params);
 
-	return res?.results;
-});
+		return res?.results;
+	}
+);
 
-export const fetchOtherMessage = createAsyncThunk('favorite/fetchOtherMessage', async () => {
-	const res = await query<Result<Notifications[]>, undefined>('/notifications', 'GET');
+export const fetchOtherMessage = createAsyncThunk(
+	'favorite/fetchOtherMessage',
+	async (params: LoadMore) => {
+		const res = await query<Result<Notifications[]>, LoadMore>('/notifications', 'GET', params);
 
-	return res?.results;
-});
+		return res?.results;
+	}
+);
 
 const statusSlice = createSlice({
 	initialState: initState,
@@ -29,24 +36,26 @@ const statusSlice = createSlice({
 	reducers: {},
 	extraReducers: (builder) => {
 		builder
-			.addCase(fetchOrderStatus.pending, (state) => {
-				state.orderStatus.status = 'loading';
+			.addCase(fetchOrderStatus.pending, (state, {meta: {arg}}) => {
+				arg.page === 1 && (state.orderStatus.status = 'loading');
 			})
 			.addCase(
 				fetchOrderStatus.fulfilled,
 				(state, action: PayloadAction<StatusOrder[] | undefined>) => {
+					state.orderStatus = handleLoadMore({...state.orderStatus, nextData: action.payload});
+
 					state.orderStatus.status = action.payload ? 'failed' : 'success';
-					state.orderStatus.data = action.payload || [];
 				}
 			)
-			.addCase(fetchOtherMessage.pending, (state) => {
-				state.othersMessage.status = 'loading';
+			.addCase(fetchOtherMessage.pending, (state, {meta: {arg}}) => {
+				arg.page === 1 && (state.othersMessage.status = 'loading');
 			})
 			.addCase(
 				fetchOtherMessage.fulfilled,
 				(state, action: PayloadAction<Notifications[] | undefined>) => {
+					state.othersMessage = handleLoadMore({...state.othersMessage, nextData: action.payload});
+
 					state.othersMessage.status = action.payload ? 'failed' : 'success';
-					state.othersMessage.data = action.payload || [];
 				}
 			)
 			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) =>
@@ -59,6 +68,13 @@ export const getDataOrderStatus = (state: RootState) => state.others.orderStatus
 export const getStatusOrderStatus = (state: RootState) => state.others.orderStatus.status;
 export const getDataOtherMessages = (state: RootState) => state.others.othersMessage.data;
 export const getStatusOtherMessages = (state: RootState) => state.others.othersMessage.status;
+
+export const hasMoreOrderStatus = (state: RootState) => state.others.orderStatus.isMore;
+export const hasMoreOtherMessages = (state: RootState) => state.others.othersMessage.isMore;
+export const getNextPageOrderStatus = (state: RootState) =>
+	(state.others.orderStatus.page || 0) + 1;
+export const getNextPageOtherMessages = (state: RootState) =>
+	(state.others.othersMessage.page || 0) + 1;
 
 const statusReducer = statusSlice.reducer;
 export default statusReducer;

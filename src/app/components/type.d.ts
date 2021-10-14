@@ -35,3 +35,9 @@ declare type BreadCrumbData = {
 	title: string;
 	onPress?: () => void;
 }[];
+type LoadMoreState = {page?: number; isMore?: boolean};
+
+declare type ReturnTypeLoadMore = {
+	data: any[];
+	status?: Status;
+} & LoadMoreState;

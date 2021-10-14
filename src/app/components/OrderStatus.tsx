@@ -1,4 +1,5 @@
 import {getTranslate} from 'app/locate/reducer';
+import {navigate} from 'app/navigation/rootNavigation';
 import {cartCss, RowView, TextSmall} from 'app/styles/globalStyled';
 import styled, {css} from 'app/styles/styled';
 import {getDateDisplay} from 'app/utilities/datetime';
@@ -7,7 +8,7 @@ import React from 'react';
 const OrderStatusCard = (props: StatusOrder) => {
 	const getString = getTranslate();
 
-	const {code, date_of_delivery, status} = props;
+	const {code, date_of_delivery, status, id} = props;
 
 	let statusText = getString(
 		'Other',
@@ -21,7 +22,7 @@ const OrderStatusCard = (props: StatusOrder) => {
 	);
 
 	return (
-		<Container>
+		<Container activeOpacity={0.6} onPress={() => navigate('OrderDetail', {id, code})}>
 			<StatusOrder>{statusText}</StatusOrder>
 			<Line title={getString('Orders', 'OrderCode')} content={code} />
 			<Line
@@ -38,7 +39,7 @@ const containerCss = css<{isExpanded?: boolean}>`
 	z-index: -1;
 	${cartCss}
 `;
-const Container = styled.View<{isExpanded?: boolean}>`
+const Container = styled.TouchableOpacity<{isExpanded?: boolean}>`
 	${containerCss}
 `;
 
@@ -63,4 +64,4 @@ const StatusOrder = styled(TextSmall)`
 	color: ${({theme}) => theme.colors.main};
 `;
 
-export default OrderStatusCard;
+export default React.memo(OrderStatusCard);
