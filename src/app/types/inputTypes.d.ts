@@ -1,5 +1,5 @@
 declare type LoadMore = {
-	page: number;
+	page?: number;
 };
 declare interface HistoryOrderInput extends LoadMore {
 	range: number;

@@ -17,8 +17,16 @@ import {
 } from 'app/styles/globalStyled';
 import TouchArrow from './TouchArrow';
 import {getHour, getToday, getTomorrow} from 'app/utilities/datetime';
-import {cleanReducer, getCartStatus, getOrder, order} from 'app/screens/Cart/reducer';
+import {
+	cleanReducer,
+	getCartStatus,
+	getOrder,
+	getProductList,
+	order,
+} from 'app/screens/Cart/reducer';
 import {showModal} from './modal/reducer';
+import {fetchCountCart} from 'app/screens/home/reducer';
+import {fetchHistoryOrder} from 'app/screens/ListOrders/reducer';
 interface Props {
 	style?: ViewProps;
 	isShowModal?: boolean;
@@ -28,6 +36,16 @@ interface Props {
 
 type SelectDateType = 'today' | 'tomorrow' | 'anotherDay';
 
+const checkDateDelivery = () => {
+	if (getHour < 6) {
+		return 'today';
+	} else if (getHour < 12) {
+		return 'tomorrow';
+	} else {
+		return 'anotherDay';
+	}
+};
+
 const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 	const getString = getTranslate();
 	const dispatch = useAppDispatch();
@@ -35,7 +53,7 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 	const myOrder = useAppSelector(getOrder);
 	const theme = getAppTheme();
 	const [text, onChangeText] = useState('');
-	const [selectDate, setSelectDate] = useState<SelectDateType>('today');
+	const [selectDate, setSelectDate] = useState<SelectDateType>(checkDateDelivery());
 	const [show, setShow] = useState(false);
 	const [date, setDate] = useState({
 		date: getToday,
@@ -54,7 +72,14 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 			if (event) {
 				event();
 			}
+			dispatch(
+				fetchHistoryOrder({
+					range: 1,
+				})
+			);
+			dispatch(fetchCountCart());
 			dispatch(cleanReducer());
+			dispatch(getProductList());
 			navigate('ConfirmOrder', myOrder);
 		}
 	}, [getStatus, dispatch, getString, event, myOrder]);
