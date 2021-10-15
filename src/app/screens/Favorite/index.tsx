@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import ProductList from 'app/components/ProductList';
 import RoundedTab from 'app/components/RoundedTab';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
-import {containerCss} from 'app/styles/globalStyled';
+import {containerCss, EmptyText} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import {
 	fetchFavorite,
@@ -13,10 +13,12 @@ import {
 	getStatusFavorite,
 	getStatusMostOrder,
 	hasMoreFavorite,
+	hasMoreMostOrder,
 } from './reducers';
 import {getTranslate} from 'app/locate/reducer';
 import {store} from 'app/redux/store';
 import {fetchCount} from 'app/config';
+import Loading from 'app/components/Loading';
 
 const Favorite = () => {
 	//Translate
@@ -25,21 +27,15 @@ const Favorite = () => {
 	//Favorite
 	const isLoadingFavorite = useAppSelector(getStatusFavorite) === 'loading';
 	const favoriteListData = useAppSelector(getDataFavorite);
+	const isMoreFavorite = useAppSelector(hasMoreFavorite);
 	//MostOrder
 	const isLoadingMostOrder = useAppSelector(getStatusMostOrder) === 'loading';
 	const mostOrderListData = useAppSelector(getDataMostOrder);
+	const isMoreMostOrder = useAppSelector(hasMoreMostOrder);
 
-	useEffect(() => {
-		if (!mostOrderListData?.length && !favoriteListData?.length) {
-			getFavorite();
-			getMostOrder();
-		}
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 	const getFavorite = (isMore?: boolean) => {
 		const globalStore = store.getState();
-		(!isMore || hasMoreFavorite(globalStore)) &&
+		(!isMore || isMoreFavorite) &&
 			dispatch(
 				fetchFavorite({
 					page: !isMore ? 1 : getNextPageFavorite(globalStore),
@@ -49,7 +45,7 @@ const Favorite = () => {
 
 	const getMostOrder = (isMore?: boolean) => {
 		const globalStore = store.getState();
-		(!isMore || hasMoreFavorite(globalStore)) &&
+		(!isMore || isMoreMostOrder) &&
 			dispatch(
 				fetchMostOrder({
 					page: !isMore ? 1 : getNextPageFavorite(globalStore),
@@ -75,6 +71,8 @@ const Favorite = () => {
 							: undefined
 					}
 					onEndReachedThreshold={0.005}
+					ListEmptyComponent={<EmptyText>{getString('Global', 'EmptyList')}</EmptyText>}
+					ListFooterComponent={isMoreFavorite ? <Loading /> : undefined}
 				/>,
 				<ProductListComponent
 					refreshing={isLoadingMostOrder}
@@ -86,6 +84,8 @@ const Favorite = () => {
 							: undefined
 					}
 					onEndReachedThreshold={0.005}
+					ListEmptyComponent={<EmptyText>{getString('Global', 'EmptyList')}</EmptyText>}
+					ListFooterComponent={isMoreMostOrder ? <Loading /> : undefined}
 				/>,
 			]}
 		/>

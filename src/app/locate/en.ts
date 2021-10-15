@@ -2,6 +2,7 @@ const enData = {
 	Global: {
 		And: 'And',
 		PullToRefresh: 'Tirer pour rafraîchir',
+		EmptyList: 'There are currently no items.',
 	},
 	Home: {
 		Title: 'Products',

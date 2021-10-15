@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
+import {toggleFavorite} from '../home/reducer';
 import {logoutAuth} from '../login/reducer';
 
 let initState: {
@@ -39,7 +40,16 @@ const CategorySlice = createSlice({
 			)
 			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) =>
 				action.payload === 'OK' ? initState : state
-			);
+			)
+			.addCase(toggleFavorite.fulfilled, (state, action: PayloadAction<PayloadFavorite>) => {
+				const [id] = action.payload;
+
+				const productList = state.products.data;
+				state.products.data = productList?.map((product) => {
+					product.id === id && (product.is_favorite = !product.is_favorite);
+					return product;
+				});
+			});
 	},
 });
 

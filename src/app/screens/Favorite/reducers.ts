@@ -40,11 +40,18 @@ const favoriteSlice = createSlice({
 		builder
 			.addCase(toggleFavorite.fulfilled, (state, action: PayloadAction<PayloadFavorite>) => {
 				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-				const [_, resFavorite] = action.payload;
+				const [id, resFavorite] = action.payload;
 
 				if (!resFavorite?.products) {
 					return state;
 				}
+				const listMostOrder = state.mostOrder.data;
+
+				state.mostOrder.data = listMostOrder?.map((product) => {
+					product.id === id && (product.is_favorite = !product.is_favorite);
+					return product;
+				});
+
 				state.favorite.data = resFavorite.products;
 			})
 			.addCase(fetchFavorite.pending, (state, {meta: {arg}}) => {

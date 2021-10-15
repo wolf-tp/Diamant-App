@@ -17,6 +17,16 @@ interface Props {
 	style?: ViewStyle;
 	refreshing?: boolean;
 	onEndReachedThreshold?: number | null | undefined;
+	ListEmptyComponent?:
+		| React.ComponentType<any>
+		| React.ReactElement<any, string | React.JSXElementConstructor<any>>
+		| null
+		| undefined;
+	ListFooterComponent?:
+		| React.ComponentType<any>
+		| React.ReactElement<any, string | React.JSXElementConstructor<any>>
+		| null
+		| undefined;
 
 	onRefresh?: () => void;
 	onEndReached?: () => void;

@@ -83,7 +83,11 @@ export const cartCss = css`
 	border-radius: ${({theme}) => theme.borderRadius};
 	background-color: ${({theme}) => theme.colors.card};
 `;
-
+export const emptyTextCss = css`
+	margin-top: ${({theme}) => theme.scapingElement};
+	text-align: center;
+	color: ${({theme}) => theme.colors.textGray};
+`;
 // TODO: Design component
 export const TextLarge = styled.Text`
 	${textLargeCss}
@@ -136,4 +140,7 @@ export const RowBetween = styled(RowView)`
 	${betweenContent}
 	${centerItemsCss}
 	${marginTopCss}
+`;
+export const EmptyText = styled(TextMediumLarge)`
+	${emptyTextCss}
 `;

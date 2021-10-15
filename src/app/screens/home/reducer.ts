@@ -19,7 +19,6 @@ let initModal: {
 	countCart: 0,
 	categoryBreadCrump: [],
 };
-type PayloadFavorite = [undefined | number, Favorite | undefined];
 
 export const getCategories = (categories?: Categories[]) => {
 	if (!categories) {

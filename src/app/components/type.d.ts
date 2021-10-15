@@ -41,3 +41,5 @@ declare type ReturnTypeLoadMore = {
 	data: any[];
 	status?: Status;
 } & LoadMoreState;
+
+declare type PayloadFavorite = [undefined | number, Favorite | undefined];

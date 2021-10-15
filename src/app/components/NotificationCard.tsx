@@ -33,22 +33,23 @@ const NotificationCard = ({title, content, product_id, category_id, id, isRead}:
 				dispatch(setIndexHome(indexHome));
 				navigate('HomeStack');
 			}}
-			isRead={isRead}
 		>
-			<RowBetween>
-				<Title>{title}</Title>
-				{/* <Time>12:07</Time> */}
-			</RowBetween>
-			<Content
-				onTextLayout={onTextLayout}
-				ellipsizeMode={'tail'}
-				numberOfLines={isFullText ? undefined : maxLineHide}
-			>
-				{content}
-			</Content>
-			{showMore ? (
-				<ShowMoreText onPress={toggleNumberOfLines}>{isFullText ? 'Less' : 'More'}</ShowMoreText>
-			) : null}
+			<ConatinerView isRead={isRead}>
+				<RowBetween>
+					<Title>{title}</Title>
+					{/* <Time>12:07</Time> */}
+				</RowBetween>
+				<Content
+					onTextLayout={onTextLayout}
+					ellipsizeMode={'tail'}
+					numberOfLines={isFullText ? undefined : maxLineHide}
+				>
+					{content}
+				</Content>
+				{showMore ? (
+					<ShowMoreText onPress={toggleNumberOfLines}>{isFullText ? 'Less' : 'More'}</ShowMoreText>
+				) : null}
+			</ConatinerView>
 		</Container>
 	);
 };
@@ -59,7 +60,8 @@ const containerCss = css<{isExpanded?: boolean}>`
 	z-index: -1;
 	${cartCss}
 `;
-const Container = styled.TouchableOpacity<{isExpanded?: boolean; isRead?: boolean}>`
+const Container = styled.TouchableOpacity<{isExpanded?: boolean; isRead?: boolean}>``;
+const ConatinerView = styled.View<{isExpanded?: boolean; isRead?: boolean}>`
 	${containerCss}
 	opacity:${({isRead}) => (isRead ? 0.7 : 1)};
 `;

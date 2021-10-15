@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useCallback, useState} from 'react';
 import styled from 'app/styles/styled';
-import {Container, RowBetween, TextLarge} from 'app/styles/globalStyled';
+import {Container, EmptyText, RowBetween, TextLarge} from 'app/styles/globalStyled';
 import DropDownPicker, {ItemType} from 'react-native-dropdown-picker';
 import {TextStyle, ViewStyle} from 'react-native';
 import {getAppTheme} from 'app/styles/reducer';
@@ -19,6 +19,7 @@ import {myTheme} from 'app/styles/theme';
 import RefreshList from 'app/components/RefreshList';
 import {fetchCount} from 'app/config';
 import {store} from 'app/redux/store';
+import Loading from 'app/components/Loading';
 interface CartDataItem {
 	id: string;
 	title?: string;
@@ -30,6 +31,7 @@ const ListOrders = () => {
 	const dispatch = useAppDispatch();
 	const data = useAppSelector(getDataHistoryOrder);
 	const isLoading = useAppSelector(getStatusHistoryOrder) === 'loading';
+	const hasMoreOrder = useAppSelector(hasMoreHistoryOrder);
 
 	const [open, setOpen] = useState(false);
 	const [value, setValue] = useState(1);
@@ -40,21 +42,19 @@ const ListOrders = () => {
 		{label: getString('Orders', 'CurrentYears'), value: 12},
 	]);
 
-	useEffect(() => {
-		!data?.length && getHistoryOrder();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [value, dispatch]);
-
-	const getHistoryOrder = (isMore?: boolean) => {
-		const globalStore = store.getState();
-		(!isMore || hasMoreHistoryOrder(globalStore)) &&
-			dispatch(
-				fetchHistoryOrder({
-					range: value,
-					page: !isMore ? 1 : getNextPageHistoryOrder(globalStore),
-				})
-			);
-	};
+	const getHistoryOrder = useCallback(
+		(isMore?: boolean) => {
+			const globalStore = store.getState();
+			(!isMore || hasMoreOrder) &&
+				dispatch(
+					fetchHistoryOrder({
+						range: value,
+						page: !isMore ? 1 : getNextPageHistoryOrder(globalStore),
+					})
+				);
+		},
+		[dispatch, hasMoreOrder, value]
+	);
 
 	const stylesText: TextStyle = {color: theme.colors.text, fontSize: 18, fontWeight: '600'};
 	const container: ViewStyle = {
@@ -62,9 +62,7 @@ const ListOrders = () => {
 		borderRadius: 15,
 		zIndex: 1,
 	};
-	const renderItemProduct = ({item}: {item: ListOrders}) => {
-		return <OrderCard {...item} />;
-	};
+	const renderItemProduct = ({item}: {item: ListOrders}) => <OrderCard {...item} />;
 	const refreshProps = {refreshing: isLoading, onRefresh: getHistoryOrder};
 
 	return (
@@ -97,6 +95,8 @@ const ListOrders = () => {
 				{...refreshProps}
 				onEndReached={data && data.length >= fetchCount ? () => getHistoryOrder(true) : undefined}
 				onEndReachedThreshold={0.005}
+				ListEmptyComponent={<EmptyText>{getString('Global', 'EmptyList')}</EmptyText>}
+				ListFooterComponent={hasMoreOrder ? <Loading /> : undefined}
 			/>
 		</Container>
 	);

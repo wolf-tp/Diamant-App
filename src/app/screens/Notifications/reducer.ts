@@ -97,18 +97,14 @@ const statusSlice = createSlice({
 			.addCase(
 				readStatusOrder.fulfilled,
 				(state, action: PayloadAction<StatusOrder | undefined>) => {
-					const responseOrder = action.payload;
-					const idNotification = action.payload?.id;
+					const id = action.payload?.id;
 
-					if (responseOrder && idNotification) {
-						const stateOrders = state.orderStatus.data;
+					const listOrderStatus = state.orderStatus.data;
 
-						state.orderStatus.data = stateOrders?.filter((statusOrder) => {
-							statusOrder.id === idNotification &&
-								(statusOrder.is_read = statusOrder.is_read ? 0 : 1);
-							return statusOrder;
-						});
-					}
+					state.orderStatus.data = listOrderStatus?.map((statusOrder) => {
+						statusOrder.id === id && (statusOrder.is_read = 1);
+						return statusOrder;
+					});
 				}
 			);
 	},

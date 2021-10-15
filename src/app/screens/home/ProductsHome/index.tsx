@@ -7,6 +7,8 @@ import ProductList from 'app/components/ProductList';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {fetchCategories, getDataCategories, getStatusCategories} from '../reducer';
 import Loading from 'app/components/Loading';
+import {EmptyText} from 'app/styles/globalStyled';
+import {getTranslate} from 'app/locate/reducer';
 
 interface Props {
 	indexTabHome: number;
@@ -20,6 +22,7 @@ type HomeTabData = {
 };
 
 const ProductHome = ({indexTabHome, setIndexTabHome}: Props) => {
+	const getString = getTranslate();
 	const layout = useWindowDimensions();
 	const dispatch = useAppDispatch();
 	const isLoading = useAppSelector(getStatusCategories) === 'loading';
@@ -52,6 +55,7 @@ const ProductHome = ({indexTabHome, setIndexTabHome}: Props) => {
 					data={route.data.products}
 					categoryName={route.data.name}
 					subCategories={route.data.subCategories}
+					ListEmptyComponent={<EmptyText>{getString('Global', 'EmptyList')}</EmptyText>}
 				/>
 			);
 		}

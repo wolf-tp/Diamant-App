@@ -6,10 +6,10 @@ import {fetchCount} from 'app/config';
 import {getTranslate} from 'app/locate/reducer';
 import {store} from 'app/redux/store';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
-import {containerCss} from 'app/styles/globalStyled';
+import {containerCss, EmptyText} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import {myTheme} from 'app/styles/theme';
-import React, {useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {
 	fetchOrderStatus,
 	fetchOtherMessage,
@@ -32,37 +32,37 @@ const Notifications = (_: Props) => {
 	//Favorite
 	const isLoadingStatusOrder = useAppSelector(getStatusOrderStatus) === 'loading';
 	const statusOrderListData = useAppSelector(getDataOrderStatus);
+	const isMoreStatusOrder = useAppSelector(hasMoreOrderStatus);
 	//MostOrder
 	const isLoadingOtherNotification = useAppSelector(getStatusOtherMessages) === 'loading';
 	const otherNotificationListData = useAppSelector(getDataOtherMessages);
+	const isMoreOtherMessage = useAppSelector(hasMoreOtherMessages);
 
-	useEffect(() => {
-		if (!otherNotificationListData?.length && !statusOrderListData?.length) {
-			fetchListOrderStatus();
-			fetchListOtherMessage();
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [dispatch]);
+	const fetchListOrderStatus = useCallback(
+		(isMore?: boolean) => {
+			const globalStore = store.getState();
+			(!isMore || isMoreStatusOrder) &&
+				dispatch(
+					fetchOrderStatus({
+						page: !isMore ? 1 : getNextPageOrderStatus(globalStore),
+					})
+				);
+		},
+		[dispatch, isMoreStatusOrder]
+	);
 
-	const fetchListOrderStatus = (isMore?: boolean) => {
-		const globalStore = store.getState();
-		(!isMore || hasMoreOrderStatus(globalStore)) &&
-			dispatch(
-				fetchOrderStatus({
-					page: !isMore ? 1 : getNextPageOrderStatus(globalStore),
-				})
-			);
-	};
-
-	const fetchListOtherMessage = (isMore?: boolean) => {
-		const globalStore = store.getState();
-		(!isMore || hasMoreOtherMessages(globalStore)) &&
-			dispatch(
-				fetchOtherMessage({
-					page: !isMore ? 1 : getNextPageOtherMessages(globalStore),
-				})
-			);
-	};
+	const fetchListOtherMessage = useCallback(
+		(isMore?: boolean) => {
+			const globalStore = store.getState();
+			(!isMore || isMoreOtherMessage) &&
+				dispatch(
+					fetchOtherMessage({
+						page: !isMore ? 1 : getNextPageOtherMessages(globalStore),
+					})
+				);
+		},
+		[dispatch, isMoreOtherMessage]
+	);
 
 	const renderItemStatus = ({item}: {item: StatusOrder}) => <OrderStatusCard {...item} />;
 	const renderItemNotification = ({item}: {item: Notifications}) => <NotificationCard {...item} />;
@@ -81,7 +81,6 @@ const Notifications = (_: Props) => {
 						// eslint-disable-next-line react-native/no-inline-styles
 						style={{display: isLoadingStatusOrder ? 'none' : 'flex'}}
 						data={statusOrderListData || []}
-						extraData={statusOrderListData}
 						indicatorStyle={'white'}
 						renderItem={renderItemStatus as any}
 						keyExtractor={(_, _index) => `product_${_index.toString()}`}
@@ -91,7 +90,9 @@ const Notifications = (_: Props) => {
 								? () => fetchListOrderStatus(true)
 								: undefined
 						}
+						ListEmptyComponent={<EmptyText>{getString('Global', 'EmptyList')}</EmptyText>}
 						onEndReachedThreshold={0.005}
+						ListFooterComponent={isMoreStatusOrder ? <Loading /> : undefined}
 					/>
 				),
 				isLoadingOtherNotification ? (
@@ -107,12 +108,14 @@ const Notifications = (_: Props) => {
 						renderItem={renderItemNotification as any}
 						keyExtractor={(_, _index) => `product_${_index.toString()}`}
 						contentContainerStyle={{paddingBottom: myTheme.scapingNumber(2)}}
+						ListEmptyComponent={<EmptyText>{getString('Global', 'EmptyList')}</EmptyText>}
 						onEndReached={
 							otherNotificationListData && otherNotificationListData.length >= fetchCount
 								? () => fetchListOtherMessage(true)
 								: undefined
 						}
 						onEndReachedThreshold={0.005}
+						ListFooterComponent={isMoreOtherMessage ? <Loading /> : undefined}
 					/>
 				),
 			]}

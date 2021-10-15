@@ -3,7 +3,7 @@ import ProductList from 'app/components/ProductList';
 import {navigate} from 'app/navigation/rootNavigation';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
-import {fetchCountCart} from '../home/reducer';
+import {fetchCountCart, toggleFavorite} from '../home/reducer';
 import {logoutAuth} from '../login/reducer';
 
 type OrderStatus = 'OrderSuccess' | 'OrderError' | 'OrderLoading';
@@ -104,6 +104,18 @@ const cartSlice = createSlice({
 					state.cartObject = getCartObjects(action.payload);
 				}
 			)
+			.addCase(toggleFavorite.fulfilled, (state, action: PayloadAction<PayloadFavorite>) => {
+				const [id] = action.payload;
+
+				if (state.products) {
+					const productList = state.products?.products;
+
+					state.products.products = productList?.map((product) => {
+						product.id === id && (product.is_favorite = !product.is_favorite);
+						return product;
+					});
+				}
+			})
 			.addCase(order.pending, (state) => {
 				state.status = 'OrderLoading';
 			})

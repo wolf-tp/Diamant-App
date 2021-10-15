@@ -28,19 +28,22 @@ const OrderStatusCard = (props: StatusOrder) => {
 		<Container
 			activeOpacity={0.6}
 			onPress={() => {
-				dispatch(readStatusOrder(id));
+				navigate('OrderDetail', props);
+				!is_read && dispatch(readStatusOrder(id));
 			}}
-			is_read={is_read}
 		>
-			<StatusOrder>{statusText}</StatusOrder>
-			<Line title={getString('Orders', 'OrderCode')} content={code} />
-			<Line
-				title={getString('Orders', 'DeliveryDate')}
-				content={getDateDisplay(date_of_delivery)}
-			/>
+			<ContainerView style={{opacity: is_read ? 0.7 : 1}}>
+				<StatusOrder>{statusText}</StatusOrder>
+				<Line title={getString('Orders', 'OrderCode')} content={code} />
+				<Line
+					title={getString('Orders', 'DeliveryDate')}
+					content={getDateDisplay(date_of_delivery)}
+				/>
+			</ContainerView>
 		</Container>
 	);
 };
+
 const containerCss = css<{isExpanded?: boolean}>`
 	margin-top: ${({theme}) => theme.scapingElement};
 	padding-top: ${({theme}) => theme.scaping(2)};
@@ -48,9 +51,9 @@ const containerCss = css<{isExpanded?: boolean}>`
 	z-index: -1;
 	${cartCss}
 `;
-const Container = styled.TouchableOpacity<{isExpanded?: boolean; is_read?: number}>`
+const Container = styled.TouchableOpacity``;
+const ContainerView = styled.View<{isExpanded?: boolean; is_read?: number}>`
 	${containerCss}
-	opacity:${({is_read}) => (is_read ? 0.7 : 1)};
 `;
 
 type LineProps = {title: string; content?: number | string};
