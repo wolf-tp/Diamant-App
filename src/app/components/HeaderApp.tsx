@@ -28,7 +28,7 @@ const HeaderApp = () => {
 		//callback listener show setting icon
 		const listenerSettingNavigation = () => {
 			const navName = navigationRef.current?.getCurrentRoute()?.name as keyof RootStackParamList;
-			setIsShowSetting(navName === 'Setting');
+			setIsShowSetting(navName === 'Notifications');
 			setShowBreadCrumb(navName === 'ListProduct');
 		};
 

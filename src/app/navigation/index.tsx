@@ -25,6 +25,7 @@ export type RootStackParamList = {
 	Notifications: undefined;
 	Setting: undefined;
 	HomeStack?: undefined;
+	NotificationsStack?: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
