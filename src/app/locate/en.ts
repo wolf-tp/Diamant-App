@@ -23,6 +23,7 @@ const enData = {
 		description: 'Mes commandes',
 		SeeOrder: 'Consulter',
 		Status: 'Status',
+		CreateDate: 'Date of the order',
 	},
 	Cart: {
 		Title: 'Cart',
@@ -95,6 +96,7 @@ const enData = {
 		InPreparation: 'Your order is being prepared!',
 		Delayed: 'Your order is being delayed!',
 		Process: 'Your order has been successfully delivered!',
+		Date: 'Date',
 	},
 	Setting: {
 		TurnNotification: 'Turn on notifications',

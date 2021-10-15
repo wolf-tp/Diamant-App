@@ -14,12 +14,17 @@ const frMonth = [
 	'novembre',
 	'décembre',
 ];
-export const getDateDisplay = (date?: string) => {
+export const getDateDisplay = (date?: string, isNotShowTime?: boolean) => {
 	if (!date) {
 		return '';
 	}
-	const originDate = new Date(date.replace(' ', 'T'));
-	return `${originDate.getDate()} ${frMonth[originDate.getMonth()]} ${originDate.getFullYear()}`;
+	const [listDate, listTime] = date.split(' ');
+
+	const [year, month, day] = listDate.split('-');
+	const [hours, minutes] = listTime.split(':');
+
+	const timeString = `${hours}:${minutes} _`;
+	return `${isNotShowTime ? '' : timeString}${day} ${frMonth[+month]} ${year}`;
 };
 export const getToday = new Date();
 export const getTomorrow = new Date();

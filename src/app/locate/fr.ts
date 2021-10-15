@@ -23,6 +23,7 @@ const frData = {
 		description: 'Mes commandes',
 		SeeOrder: 'Consulter',
 		Status: 'Statut',
+		CreateDate: 'Date de la commande',
 	},
 	Cart: {
 		Title: 'Cart',
@@ -98,6 +99,7 @@ const frData = {
 		InPreparation: 'Votre commande est en préparation !',
 		Delayed: 'Votre commande est retardée !',
 		Process: 'Votre commande a été livrée avec succès !',
+		Date: 'Date',
 	},
 	Setting: {
 		TurnNotification: 'Activer les notifications',

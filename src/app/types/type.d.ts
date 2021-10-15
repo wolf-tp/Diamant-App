@@ -94,8 +94,8 @@ declare type Favorite = {
 	id?: number;
 	user_id?: number;
 	products?: Product[];
-	created_at?: Date;
-	updated_at?: Date;
+	created_at?: string;
+	updated_at?: string;
 };
 declare interface ListOrders extends Favorite {
 	code?: string;

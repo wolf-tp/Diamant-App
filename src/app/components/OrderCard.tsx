@@ -41,7 +41,7 @@ const OrderCard = (props: ListOrders & Props) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const {code, date_of_delivery, isExpanded, products, status, isDisplayStatus} = props;
+	const {code, date_of_delivery, isExpanded, products, status, isDisplayStatus, created_at} = props;
 	const containerButtonStyles: ViewStyle = {flex: 0, marginRight: 10};
 	const ContainerComponent = isExpanded ? ScrollContainer : Container;
 
@@ -51,8 +51,7 @@ const OrderCard = (props: ListOrders & Props) => {
 			return;
 		}
 		const listProductInput =
-			listProducts?.map((item) => [item.id!, parseInt(item.amount || '0', 10)!, item.info?.id!]) ||
-			[];
+			listProducts?.map((item) => [item.id!, +(item.amount || 0), item.info?.id!]) || [];
 		dispatch(reOrder({products: listProductInput}));
 	};
 
@@ -65,6 +64,7 @@ const OrderCard = (props: ListOrders & Props) => {
 				/>
 			) : null}
 			<Line title={getString('Orders', 'OrderCode')} content={code} />
+			<Line title={getString('Orders', 'CreateDate')} content={getDateDisplay(created_at)} />
 			<Line
 				title={getString('Orders', 'DeliveryDate')}
 				content={getDateDisplay(date_of_delivery)}

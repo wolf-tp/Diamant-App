@@ -57,15 +57,21 @@ export const order = createAsyncThunk(
 		return res?.results;
 	}
 );
-export const reOrder = createAsyncThunk('cart/reOrder', async (params: {products: number[][]}) => {
-	const res = await query<Result<Order | undefined>, {products: number[][]}>(
-		'/cart/reOrder',
-		'PUT',
-		params
-	);
-	navigate('Cart');
-	return res?.results;
-});
+export const reOrder = createAsyncThunk(
+	'cart/reOrder',
+	async (params: {products: number[][]}, {dispatch}) => {
+		const res = await query<Result<Order | undefined>, {products: number[][]}>(
+			'/cart/reOrder',
+			'PUT',
+			params
+		);
+		if (res?.results) {
+			navigate('Cart');
+			dispatch(fetchCountCart());
+			return res?.results;
+		}
+	}
+);
 
 const getCartObjects = (products?: ProductList): IObject =>
 	products?.products.reduce((prevResultProduct, item) => {

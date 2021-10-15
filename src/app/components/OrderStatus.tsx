@@ -25,10 +25,7 @@ const OrderStatusCard = (props: StatusOrder) => {
 			<ContainerView style={{opacity: is_read ? 0.7 : 1}}>
 				<StatusOrder>{getString('Other', getStatusTextOrder(status))}</StatusOrder>
 				<Line title={getString('Orders', 'OrderCode')} content={code} />
-				<Line
-					title={getString('Orders', 'DeliveryDate')}
-					content={getDateDisplay(date_of_delivery)}
-				/>
+				<Line title={getString('Other', 'Date')} content={getDateDisplay(date_of_delivery, true)} />
 			</ContainerView>
 		</Container>
 	);
