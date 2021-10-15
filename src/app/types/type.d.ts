@@ -155,6 +155,7 @@ declare interface DetailAProduct {
 interface ProductList {
 	id: number;
 	user_id: number;
+	amount?: number;
 	products: ProductDetail[];
 }
 interface Order {

@@ -40,10 +40,8 @@ type SelectDateType = 'today' | 'tomorrow' | 'anotherDay';
 const checkDateDelivery = () => {
 	if (getHour < 6) {
 		return 'today';
-	} else if (getHour < 12) {
-		return 'tomorrow';
 	} else {
-		return 'anotherDay';
+		return 'tomorrow';
 	}
 };
 
@@ -123,12 +121,9 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 								{getString('DropUp', 'Today')}
 							</DateButton>
 							<DateButton
-								disabled={getHour < 12 ? false : true}
 								style={{
 									backgroundColor:
-										getHour < 12 && selectDate === 'tomorrow'
-											? theme.colors.orange_100
-											: theme.colors.gray_300,
+										selectDate === 'tomorrow' ? theme.colors.orange_100 : theme.colors.gray_300,
 								}}
 								onPress={() => {
 									setSelectDate('tomorrow');
@@ -145,9 +140,7 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 						<ChooseDateButton
 							style={{
 								backgroundColor:
-									getHour >= 12 || selectDate === 'anotherDay'
-										? theme.colors.orange_100
-										: theme.colors.gray_300,
+									selectDate === 'anotherDay' ? theme.colors.orange_100 : theme.colors.gray_300,
 							}}
 							onPress={() => {
 								setShow(true);

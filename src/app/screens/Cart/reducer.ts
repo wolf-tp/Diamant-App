@@ -7,7 +7,7 @@ import {fetchCountCart, toggleFavorite} from '../home/reducer';
 import {logoutAuth} from '../login/reducer';
 
 type OrderStatus = 'OrderSuccess' | 'OrderError' | 'OrderLoading';
-type UpdateAmountStatus = 'UpdateSuccess' | 'UpdateError' | 'UpdateLoading';
+type UpdateAmountStatus = 'UpdateSuccess' | 'UpdateError' | 'UpdateLoading' | 'RemoveSuccess';
 
 let initCart: {
 	status?: Status | OrderStatus | UpdateAmountStatus;
@@ -23,8 +23,8 @@ let initCart: {
 	},
 };
 interface UpdateType {
-	product_id?: Number;
-	amount?: Number;
+	product_id?: number;
+	amount?: number;
 	info_id?: number;
 }
 export const getProductList = createAsyncThunk('cart/getProductList', async () => {
@@ -38,6 +38,7 @@ export const updateAmountProduct = createAsyncThunk(
 		if (res?.status === 'OK') {
 			dispatch(fetchCountCart());
 		}
+		res?.results && (res.results.amount = params.amount);
 		return res?.results;
 	}
 );
@@ -105,7 +106,15 @@ const cartSlice = createSlice({
 			.addCase(
 				updateAmountProduct.fulfilled,
 				(state, action: PayloadAction<ProductList | undefined>) => {
-					state.status = action.payload ? 'UpdateSuccess' : 'UpdateError';
+					if (action.payload) {
+						if (action.payload.amount === 0) {
+							state.status = 'RemoveSuccess';
+						} else {
+							state.status = 'UpdateSuccess';
+						}
+					} else {
+						state.status = 'UpdateSuccess';
+					}
 					state.products = action.payload;
 					state.cartObject = getCartObjects(action.payload);
 				}

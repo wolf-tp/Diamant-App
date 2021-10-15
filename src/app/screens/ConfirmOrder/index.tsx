@@ -50,6 +50,7 @@ const NoteCard = styled.View`
 	${cartCss}
 	margin-horizontal:${({theme}) => '-' + theme.scaping(2)};
 	margin-top: ${({theme}) => theme.scaping(2)};
+	margin-bottom: ${({theme}) => theme.scaping(2)};
 	min-height: ${({theme}) => theme.scaping(25)};
 	padding: ${({theme}) => theme.scaping(2)};
 `;
