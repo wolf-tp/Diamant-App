@@ -26,8 +26,12 @@ export const fetchHistoryOrder = createAsyncThunk(
 );
 export const fetHistoryProducts = createAsyncThunk(
 	'orders/fetHistoryProducts',
-	async (orderId: string) => {
-		const res = await query<Result<ListOrders>, string>(`/order/${orderId}`, 'GET', orderId);
+	async (orderId: string | number) => {
+		const res = await query<Result<ListOrders>, string | number>(
+			`/order/${orderId}`,
+			'GET',
+			orderId
+		);
 		return res?.results.products as typeof initState.listProduct.data;
 	}
 );

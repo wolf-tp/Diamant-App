@@ -17,7 +17,7 @@ export type RootStackParamList = {
 	ListProduct: {id: string | number | undefined};
 	ProductDetail: Product | ProductDetail;
 	ConfirmOrder: Order | undefined;
-	OrderDetail: ListOrders;
+	OrderDetail: ListOrders & {isDisplayStatus?: boolean};
 	ListOrders: undefined;
 	Cart: undefined;
 	Favorite: undefined;

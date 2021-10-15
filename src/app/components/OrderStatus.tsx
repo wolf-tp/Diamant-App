@@ -4,6 +4,7 @@ import {useAppDispatch} from 'app/redux/store/hooks';
 import {readStatusOrder} from 'app/screens/Notifications/reducer';
 import {cartCss, RowView, TextSmall} from 'app/styles/globalStyled';
 import styled, {css} from 'app/styles/styled';
+import {getStatusTextOrder} from 'app/utilities';
 import {getDateDisplay} from 'app/utilities/datetime';
 import React from 'react';
 
@@ -11,29 +12,18 @@ const OrderStatusCard = (props: StatusOrder) => {
 	const getString = getTranslate();
 	const dispatch = useAppDispatch();
 
-	const {code, date_of_delivery, status, id, is_read} = props;
-
-	let statusText = getString(
-		'Other',
-		status === 1
-			? 'NewOrder'
-			: status === 2
-			? 'InPreparation'
-			: status === 3
-			? 'Delayed'
-			: 'Process'
-	);
+	const {code, date_of_delivery, status, id, is_read, products} = props;
 
 	return (
 		<Container
 			activeOpacity={0.6}
 			onPress={() => {
-				navigate('OrderDetail', props);
+				navigate('OrderDetail', {...props, isDisplayStatus: true, products});
 				!is_read && dispatch(readStatusOrder(id));
 			}}
 		>
 			<ContainerView style={{opacity: is_read ? 0.7 : 1}}>
-				<StatusOrder>{statusText}</StatusOrder>
+				<StatusOrder>{getString('Other', getStatusTextOrder(status))}</StatusOrder>
 				<Line title={getString('Orders', 'OrderCode')} content={code} />
 				<Line
 					title={getString('Orders', 'DeliveryDate')}

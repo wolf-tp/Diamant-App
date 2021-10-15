@@ -22,6 +22,7 @@ const enData = {
 		ProductAmount: '{value} Products',
 		description: 'Mes commandes',
 		SeeOrder: 'Consulter',
+		Status: 'Status',
 	},
 	Cart: {
 		Title: 'Cart',

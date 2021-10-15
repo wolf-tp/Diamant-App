@@ -35,3 +35,5 @@ export const findTabHome = (category_id?: number) => {
 	});
 	return id;
 };
+export const getStatusTextOrder = (status?: number) =>
+	status === 1 ? 'NewOrder' : status === 2 ? 'InPreparation' : status === 3 ? 'Delayed' : 'Process';

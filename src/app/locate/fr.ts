@@ -22,6 +22,7 @@ const frData = {
 		ProductAmount: '{value} Products',
 		description: 'Mes commandes',
 		SeeOrder: 'Consulter',
+		Status: 'Statut',
 	},
 	Cart: {
 		Title: 'Cart',

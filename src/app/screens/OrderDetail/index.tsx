@@ -5,7 +5,7 @@ import OrderCard from 'app/components/OrderCard';
 import {BreadCrumbArray} from 'app/components/Breadcrumb';
 import {popNavigate} from 'app/navigation/rootNavigation';
 
-const OrderDetail = (props: Navigate<ListOrders>) => {
+const OrderDetail = (props: Navigate<ListOrders & {isDisplayStatus?: boolean}>) => {
 	const order = props.route?.params || {};
 	return (
 		<Container>

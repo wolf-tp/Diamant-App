@@ -16,6 +16,7 @@ import {
 	TextSmall,
 } from 'app/styles/globalStyled';
 import styled, {css} from 'app/styles/styled';
+import {getStatusTextOrder} from 'app/utilities';
 import {getDateDisplay} from 'app/utilities/datetime';
 import React, {useEffect} from 'react';
 import {ViewStyle} from 'react-native';
@@ -26,6 +27,7 @@ import ProductCardSmall from './ProductCardSmall';
 
 interface Props {
 	isExpanded?: boolean;
+	isDisplayStatus?: boolean | undefined;
 }
 
 const OrderCard = (props: ListOrders & Props) => {
@@ -39,7 +41,7 @@ const OrderCard = (props: ListOrders & Props) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const {code, date_of_delivery, isExpanded, products} = props;
+	const {code, date_of_delivery, isExpanded, products, status, isDisplayStatus} = props;
 	const containerButtonStyles: ViewStyle = {flex: 0, marginRight: 10};
 	const ContainerComponent = isExpanded ? ScrollContainer : Container;
 
@@ -49,13 +51,19 @@ const OrderCard = (props: ListOrders & Props) => {
 			return;
 		}
 		const listProductInput =
-			listProducts?.map((item) => [item.id!, parseInt(item.amount || '0', 10)!, item.info.id!]) ||
+			listProducts?.map((item) => [item.id!, parseInt(item.amount || '0', 10)!, item.info?.id!]) ||
 			[];
 		dispatch(reOrder({products: listProductInput}));
 	};
 
 	return (
 		<ContainerComponent isExpanded={isExpanded}>
+			{isDisplayStatus ? (
+				<Line
+					title={getString('Orders', 'Status')}
+					content={getString('Other', getStatusTextOrder(status))}
+				/>
+			) : null}
 			<Line title={getString('Orders', 'OrderCode')} content={code} />
 			<Line
 				title={getString('Orders', 'DeliveryDate')}
