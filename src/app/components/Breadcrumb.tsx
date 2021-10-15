@@ -2,7 +2,7 @@ import {popNavigate} from 'app/navigation/rootNavigation';
 import {screenWidth} from 'app/styles/dimens';
 import {centerItemsCss, TextLarge, TextMedium} from 'app/styles/globalStyled';
 import {getAppTheme} from 'app/styles/reducer';
-import styled from 'app/styles/styled';
+import styled, {css} from 'app/styles/styled';
 import React, {useCallback, useState} from 'react';
 import {ViewProps} from 'react-native';
 import {BackHeader, IconChevronRight} from './icons/Icons';
@@ -41,7 +41,7 @@ export const BreadCrumbArray = ({style, data, isDoubleArray, isPadding}: BreadCr
 	const theme = getAppTheme();
 	const TextComponent = isDoubleArray ? TextSmallCrumb : TextCrumb;
 	return (
-		<ContainerView isPadding={isPadding} style={style}>
+		<ContainerView isPadding={isPadding} style={style} isNotFullWidth={data.length < 3}>
 			<BackOpacity onPress={popNavigate}>
 				<BackHeader />
 			</BackOpacity>
@@ -84,11 +84,16 @@ export const BreadCrumbArray = ({style, data, isDoubleArray, isPadding}: BreadCr
 		</ContainerView>
 	);
 };
-const ContainerView = styled.View<{isPadding?: boolean}>`
+const ContainerView = styled.View<{isPadding?: boolean; isNotFullWidth?: boolean}>`
 	${({isPadding}) => (isPadding ? 'padding-vertical: 8px;' : '')}
 	flex-direction: row;
 	${centerItemsCss}
-	width: ${screenWidth * 0.9}px;
+	${({isNotFullWidth}) =>
+		!isNotFullWidth
+			? css`
+					width: ${screenWidth * 0.9}px;
+			  `
+			: ''}
 `;
 const ContainerInsideView = styled.View<{indexComponent?: number}>`
 	flex-direction: row;
