@@ -7,6 +7,7 @@ import {screenWidth} from 'app/styles/dimens';
 import {TextLarge, TextSmall} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import {SCAPING_CONTAINER} from 'app/styles/theme';
+import {findTabHome} from 'app/utilities';
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
@@ -44,15 +45,8 @@ const CarouselHome = ({setIndexTabHome}: Props) => {
 					});
 					return;
 				}
-				const categories = getDataCategories(store.getState());
-				const id = categories?.findIndex((category) => {
-					if (category.id === category_id) {
-						return true;
-					}
-
-					return !!category.subCategories?.find((sub) => sub.id === category_id);
-				});
-				id && setIndexTabHome(id);
+				const indexHome = findTabHome(category_id);
+				indexHome && setIndexTabHome(indexHome);
 			}}
 		>
 			{!isLoading ? (

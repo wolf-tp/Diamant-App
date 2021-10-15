@@ -81,7 +81,8 @@ const Notifications = (_: Props) => {
 						// eslint-disable-next-line react-native/no-inline-styles
 						style={{display: isLoadingStatusOrder ? 'none' : 'flex'}}
 						data={statusOrderListData || []}
-						showsVerticalScrollIndicator={false}
+						extraData={statusOrderListData}
+						indicatorStyle={'white'}
 						renderItem={renderItemStatus as any}
 						keyExtractor={(_, _index) => `product_${_index.toString()}`}
 						contentContainerStyle={{paddingBottom: myTheme.scapingNumber(2)}}
@@ -97,10 +98,12 @@ const Notifications = (_: Props) => {
 					<Loading />
 				) : (
 					<ListComponent
+						extraData={otherNotificationListData}
 						// eslint-disable-next-line react-native/no-inline-styles
 						style={{display: isLoadingStatusOrder ? 'none' : 'flex'}}
 						data={otherNotificationListData || []}
 						showsVerticalScrollIndicator={false}
+						indicatorStyle={'white'}
 						renderItem={renderItemNotification as any}
 						keyExtractor={(_, _index) => `product_${_index.toString()}`}
 						contentContainerStyle={{paddingBottom: myTheme.scapingNumber(2)}}

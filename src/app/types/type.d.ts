@@ -170,6 +170,7 @@ declare interface StatusOrder extends Order {
 	private_comment?: string;
 	status?: number;
 	delivery_men?: number;
+	is_read?: number;
 }
 
 declare type IObject = {[key: string]: string};
@@ -177,7 +178,7 @@ interface ListProductRequest {
 	[index: string]: Array<number>;
 }
 declare interface Notifications {
-	id?: number;
+	id: number;
 	admin_id?: number;
 	group_ids?: null;
 	user_ids?: string[];
@@ -190,6 +191,7 @@ declare interface Notifications {
 	type?: string;
 	created_at?: string;
 	updated_at?: string;
+	isRead?: boolean;
 }
 
 declare interface InfoProduct {
@@ -197,4 +199,11 @@ declare interface InfoProduct {
 	packaging: string;
 	unit_weight: string;
 	gen_code: string;
+}
+declare interface ReadOtherNotification {
+	user_id: number;
+	noti_id: string;
+	updated_at: Date;
+	created_at: Date;
+	id: number;
 }

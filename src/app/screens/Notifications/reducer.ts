@@ -6,7 +6,7 @@ import {logoutAuth} from '../login/reducer';
 
 let initState: {
 	orderStatus: {data?: StatusOrder[]; status?: Status} & LoadMoreState;
-	othersMessage: {data?: Product[]; status?: Status} & LoadMoreState;
+	othersMessage: {data?: Notifications[]; status?: Status} & LoadMoreState;
 } = {
 	orderStatus: {},
 	othersMessage: {},
@@ -25,6 +25,27 @@ export const fetchOtherMessage = createAsyncThunk(
 	'favorite/fetchOtherMessage',
 	async (params: LoadMore) => {
 		const res = await query<Result<Notifications[]>, LoadMore>('/notifications', 'GET', params);
+
+		return res?.results;
+	}
+);
+
+export const readPrivateNotification = createAsyncThunk(
+	'favorite/readPrivateNotification',
+	async (params: number) => {
+		const res = await query<Result<ReadOtherNotification>, undefined>(
+			`/notifications/${params}`,
+			'POST'
+		);
+
+		return res?.results;
+	}
+);
+
+export const readStatusOrder = createAsyncThunk(
+	'favorite/readStatusOrder',
+	async (params: number) => {
+		const res = await query<Result<StatusOrder>, undefined>(`/order/${params}`, 'POST');
 
 		return res?.results;
 	}
@@ -60,6 +81,35 @@ const statusSlice = createSlice({
 			)
 			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) =>
 				action.payload === 'OK' ? initState : state
+			)
+			.addCase(
+				readPrivateNotification.fulfilled,
+				(state, action: PayloadAction<ReadOtherNotification | undefined>) => {
+					const idNotification = action.payload?.noti_id;
+					if (idNotification) {
+						state.othersMessage.data = state.othersMessage.data?.map((notification) => {
+							notification.id === parseInt(idNotification, 10) && (notification.isRead = true);
+							return notification;
+						});
+					}
+				}
+			)
+			.addCase(
+				readStatusOrder.fulfilled,
+				(state, action: PayloadAction<StatusOrder | undefined>) => {
+					const responseOrder = action.payload;
+					const idNotification = action.payload?.id;
+
+					if (responseOrder && idNotification) {
+						const stateOrders = state.orderStatus.data;
+
+						state.orderStatus.data = stateOrders?.filter((statusOrder) => {
+							statusOrder.id === idNotification &&
+								(statusOrder.is_read = statusOrder.is_read ? 0 : 1);
+							return statusOrder;
+						});
+					}
+				}
 			);
 	},
 });

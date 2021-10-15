@@ -1,5 +1,7 @@
 import {getTranslate} from 'app/locate/reducer';
 import {navigate} from 'app/navigation/rootNavigation';
+import {useAppDispatch} from 'app/redux/store/hooks';
+import {readStatusOrder} from 'app/screens/Notifications/reducer';
 import {cartCss, RowView, TextSmall} from 'app/styles/globalStyled';
 import styled, {css} from 'app/styles/styled';
 import {getDateDisplay} from 'app/utilities/datetime';
@@ -7,8 +9,9 @@ import React from 'react';
 
 const OrderStatusCard = (props: StatusOrder) => {
 	const getString = getTranslate();
+	const dispatch = useAppDispatch();
 
-	const {code, date_of_delivery, status, id} = props;
+	const {code, date_of_delivery, status, id, is_read} = props;
 
 	let statusText = getString(
 		'Other',
@@ -22,7 +25,13 @@ const OrderStatusCard = (props: StatusOrder) => {
 	);
 
 	return (
-		<Container activeOpacity={0.6} onPress={() => navigate('OrderDetail', {id, code})}>
+		<Container
+			activeOpacity={0.6}
+			onPress={() => {
+				dispatch(readStatusOrder(id));
+			}}
+			is_read={is_read}
+		>
 			<StatusOrder>{statusText}</StatusOrder>
 			<Line title={getString('Orders', 'OrderCode')} content={code} />
 			<Line
@@ -39,8 +48,9 @@ const containerCss = css<{isExpanded?: boolean}>`
 	z-index: -1;
 	${cartCss}
 `;
-const Container = styled.TouchableOpacity<{isExpanded?: boolean}>`
+const Container = styled.TouchableOpacity<{isExpanded?: boolean; is_read?: number}>`
 	${containerCss}
+	opacity:${({is_read}) => (is_read ? 0.7 : 1)};
 `;
 
 type LineProps = {title: string; content?: number | string};
@@ -64,4 +74,4 @@ const StatusOrder = styled(TextSmall)`
 	color: ${({theme}) => theme.colors.main};
 `;
 
-export default React.memo(OrderStatusCard);
+export default OrderStatusCard;

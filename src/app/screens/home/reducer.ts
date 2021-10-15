@@ -11,6 +11,7 @@ let initModal: {
 	countCart?: number;
 	categoryBreadCrump: BreadCrumbData;
 	categoriesList?: Categories[];
+	tabIndex?: number;
 } = {
 	categories: {},
 	favorite: {},
@@ -123,6 +124,9 @@ const homeSlice = createSlice({
 
 			state.categoriesList = searchHomeProductHandler(filterText, categories);
 		},
+		setIndexHome: (state, action: PayloadAction<number | undefined>) => {
+			state.tabIndex = action.payload;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -181,6 +185,7 @@ export const {
 	decrementCartCount,
 	setBreadCrumbCategoryTitle,
 	searchHomeProducts,
+	setIndexHome,
 } = homeSlice.actions;
 
 export const getDataCategories = (state: RootState) => state.home.categoriesList;
@@ -190,6 +195,7 @@ export const getStatusBanner = (state: RootState) => state.home.categories.statu
 export const getBanner = (state: RootState) => state.home.banner.data;
 export const getCartCount = (state: RootState) => state.home.countCart;
 export const getTitleSubCategory = (state: RootState) => state.home.categoryBreadCrump;
+export const getHomeTabIndex = (state: RootState) => state.home.tabIndex;
 
 const homeReducer = homeSlice.reducer;
 export default homeReducer;
