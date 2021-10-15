@@ -27,6 +27,7 @@ import {
 import {showModal} from './modal/reducer';
 import {fetchCountCart} from 'app/screens/home/reducer';
 import {fetchHistoryOrder} from 'app/screens/ListOrders/reducer';
+import {fetchOrderStatus} from 'app/screens/Notifications/reducer';
 interface Props {
 	style?: ViewProps;
 	isShowModal?: boolean;
@@ -75,6 +76,11 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 			dispatch(
 				fetchHistoryOrder({
 					range: 1,
+				})
+			);
+			dispatch(
+				fetchOrderStatus({
+					page: 1,
 				})
 			);
 			dispatch(fetchCountCart());
