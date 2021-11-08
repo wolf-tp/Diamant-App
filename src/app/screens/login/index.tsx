@@ -16,8 +16,6 @@ import ReactNativeBiometrics, {BiometryType} from 'react-native-biometrics';
 import * as Keychain from 'react-native-keychain';
 import {getLoginStatus, getUser, loginAuth} from './reducer';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
-import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
-import {setKey} from 'app/utils/storage';
 import {AppState, AppStateStatus} from 'react-native';
 import {showModal} from 'app/components/modal/reducer';
 
@@ -88,11 +86,10 @@ const Login = () => {
 	}, [changeSecurePassword]);
 
 	useEffect(() => {
-		const listener = (state: AppStateStatus) => {
+		const listener = async (state: AppStateStatus) => {
 			if (state === 'active') {
-				ReactNativeBiometrics.isSensorAvailable().then(({biometryType}) => {
-					setTypeBiometry(biometryType);
-				});
+				const {biometryType} = await ReactNativeBiometrics.isSensorAvailable();
+				biometryType && setTypeBiometry(biometryType);
 			}
 		};
 		AppState.addEventListener('change', listener);

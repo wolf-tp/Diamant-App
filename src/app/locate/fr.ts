@@ -39,8 +39,8 @@ const frData = {
 	Login: {
 		Title: 'Bienvenue à nouveau !',
 		Favorite: 'Your favorite meals delivered to you',
-		Email: "votre nom d'utilisateur",
-		Password: 'votre mot de passe',
+		Email: "Votre nom d'utilisateur",
+		Password: 'Votre mot de passe',
 		Continue: 'Connexion',
 		LoginBy: 'Connexion par ',
 		FingerId: 'FingerID',
@@ -103,6 +103,9 @@ const frData = {
 	},
 	Setting: {
 		TurnNotification: 'Activer les notifications',
+		Language: 'Langue',
+		English: 'Anglais',
+		France: 'Français',
 	},
 };
 export default frData;

@@ -7,10 +7,11 @@ import Tabs from './tabs';
 import {useAppSelector} from 'app/redux/store/hooks';
 import {isLogin, loginStorage} from 'app/screens/login/reducer';
 import {getKey} from 'app/utils/storage';
-import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
+import {ACCESS_TOKEN_STORAGE, LANGUAGE} from 'app/utils/storage/constants';
 import SplashScreen from 'react-native-splash-screen';
 import HeaderApp from 'app/components/HeaderApp';
 import {store} from 'app/redux/store';
+import {changeLanguage} from 'app/locate/reducer';
 
 export type RootStackParamList = {
 	Home: undefined;
@@ -39,6 +40,9 @@ const notShowHeader = {headerShown: false};
 	setTimeout(() => {
 		SplashScreen.hide();
 	}, 300);
+
+	const langName = await getKey<LangName>(LANGUAGE);
+	store.dispatch(changeLanguage(langName || 'fr'));
 })();
 
 const RootScreen = () => {

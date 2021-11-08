@@ -1,26 +1,35 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {RootState} from 'app/redux/store';
 import {useAppSelector} from 'app/redux/store/hooks';
+import {setKey} from 'app/utils/storage';
+import {LANGUAGE} from 'app/utils/storage/constants';
 import enData from './en';
 import frData from './fr';
 
 type LangContent = typeof frData;
 
-const initModal: LangContent = frData;
+const initModal: {langName: string; lang: LangContent} = {langName: 'fr', lang: frData};
 
 const langSlice = createSlice({
 	initialState: initModal,
 	name: 'modal',
 	reducers: {
-		changeLanguage: (_, action: PayloadAction<'en' | 'fr'>) => {
-			return action.payload === 'en' ? enData : (frData as LangContent);
+		changeLanguage: (_, action: PayloadAction<LangName>) => {
+			setKey(LANGUAGE, action.payload);
+			return {
+				langName: action.payload,
+				lang: action.payload === 'en' ? (enData as any as LangContent) : (frData as LangContent),
+			};
 		},
 	},
 });
 export const {changeLanguage} = langSlice.actions;
 
+export const getLangName = (state: RootState) => state.language.langName;
+
 export const getTranslate = () => {
 	// eslint-disable-next-line react-hooks/rules-of-hooks
-	const lang = useAppSelector((state) => state.language);
+	const lang = useAppSelector((state) => state.language.lang);
 	const translate = <Category extends keyof LangContent>(
 		...args: [category: Category, keyName: keyof LangContent[Category]]
 	) => {

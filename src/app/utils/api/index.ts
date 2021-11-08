@@ -1,6 +1,6 @@
 import {API_PREFIX} from 'app/config';
-import {useAppDispatch} from 'app/redux/store/hooks';
-import {logout} from 'app/screens/login/reducer';
+import {store} from 'app/redux/store';
+import {logoutAuth} from 'app/screens/login/reducer';
 import axios, {AxiosResponse} from 'axios';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -63,10 +63,9 @@ axios.interceptors.response.use(
 		// 			}
 		// 		});
 		// }
-		console.log('Response === ', error.response.status);
 		//Logout when token fail
 		if (error.response.status === 401) {
-			useAppDispatch()(logout());
+			store.dispatch(logoutAuth());
 		}
 		// return Error object with Promise
 		return Promise.reject(error);

@@ -2,6 +2,7 @@ declare type App = {
 	isFirstTime?: boolean;
 };
 declare type Status = 'loading' | 'failed' | 'none' | 'success';
+declare type LangName = 'en' | 'fr';
 declare interface Result<T> {
 	status: string;
 	results: T;
@@ -72,13 +73,18 @@ declare interface LoginResult {
 	token?: string;
 	info?: UserInfo;
 }
-declare interface UserInfo {
+declare interface ReceiveNotification {
+	is_receive_notify?: number;
+}
+declare interface UserInfo extends ReceiveNotification {
 	id?: number;
-	first_name?: string;
-	last_name?: string;
+	code?: string;
 	user_name?: string;
+	brand_name?: string;
+	address?: string;
 	email?: string;
 	phone_number?: string;
+	status?: string;
 	created_at?: Date;
 	updated_at?: Date;
 }

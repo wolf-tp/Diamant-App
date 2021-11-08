@@ -74,10 +74,13 @@ const CartProductDetail = (props: Props) => {
 					items={items}
 					setOpen={setOpen}
 					setValue={setValue}
+					listItemContainerStyle={{width: 120}}
 					setItems={setItems}
 					style={container}
 					textStyle={stylesText}
 					theme={'DARK'}
+					listMode={'SCROLLVIEW'}
+					scrollViewProps={{nestedScrollEnabled: true}}
 				/>
 				<CodeContent>
 					<CodeTitle>{getString('ProductDetail', 'GenCode')}</CodeTitle>
@@ -89,7 +92,9 @@ const CartProductDetail = (props: Props) => {
 };
 
 const CartContainer = styled(RowView)`
+	width: 100%;
 	padding-vertical: 10px;
+	flex: 1;
 `;
 const RightCart = styled.View``;
 const RowTitle = styled(RowView)``;
