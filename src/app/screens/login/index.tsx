@@ -190,7 +190,6 @@ const TextOrange = styled.Text`
 	font-weight: bold;
 `;
 const PasswordView = styled(TextboxInput)`
-	margin-top: 24px;
 	justify-content: center;
 `;
 const TextCaption = styled.Text`

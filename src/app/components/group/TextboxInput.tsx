@@ -2,7 +2,6 @@ import React, {useCallback} from 'react';
 import {TextInputProps, ViewProps} from 'react-native';
 import styled from 'app/styles/styled';
 import {isIOS} from 'app/styles/dimens';
-import {TextMediumLarge} from 'app/styles/globalStyled';
 
 interface ChildrenProps {
 	children?: React.ReactChild;
@@ -42,7 +41,7 @@ const TextBoxInput = ({
 				/>
 				{children}
 			</ViewContainer>
-			{error && <TextError>{error}</TextError>}
+			<TextError>{error}</TextError>
 		</Container>
 	);
 };
@@ -60,7 +59,7 @@ const ViewContainer = styled.View`
 `;
 const TextError = styled.Text`
 	font-size: ${({theme}) => theme.font.fontMedium};
-	margin: 6px 0px;
+	margin: 5px 0px;
 	color: ${({theme}) => theme.colors.red_100};
 	padding-left: ${({theme}) => theme.scaping(1)};
 `;

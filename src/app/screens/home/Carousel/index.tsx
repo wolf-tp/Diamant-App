@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Loading from 'app/components/Loading';
 import {navigate} from 'app/navigation/rootNavigation';
-import {store} from 'app/redux/store';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
 import {screenWidth} from 'app/styles/dimens';
 import {TextLarge, TextSmall} from 'app/styles/globalStyled';
@@ -11,7 +10,7 @@ import {findTabHome} from 'app/utilities';
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {fetchBanner, getBanner, getDataCategories, getStatusBanner} from '../reducer';
+import {fetchBanner, getBanner, getStatusBanner} from '../reducer';
 
 const CarouselCardWidth = screenWidth - SCAPING_CONTAINER * 2;
 const CarouselCardHeight = (CarouselCardWidth * 140) / 450;
@@ -44,9 +43,10 @@ const CarouselHome = ({setIndexTabHome}: Props) => {
 						subCategory: item['sub-category'],
 					});
 					return;
+				} else if (category_id) {
+					const indexHome = findTabHome(category_id);
+					indexHome && setIndexTabHome(indexHome);
 				}
-				const indexHome = findTabHome(category_id);
-				indexHome && setIndexTabHome(indexHome);
 			}}
 		>
 			{!isLoading ? (

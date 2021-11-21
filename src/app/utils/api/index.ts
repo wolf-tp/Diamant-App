@@ -42,32 +42,9 @@ axios.interceptors.response.use(
 		return response;
 	},
 	async function (error) {
-		// const originalRequest = error.config;
-		// if (error.response.status === 401 && !originalRequest._retry) {
-		// 	originalRequest._retry = true;
-		// 	return axios
-		// 		.post('url_refreshToken', {
-		// refresh_token: AuthHelper.getRefreshToken(),
-		// 		})
-		// 		.then((res) => {
-		// 			if (res.status === 201) {
-		// 				// 1) put token to LocalStorage
-		// AuthHelper.setToken(res.data)
-
-		// 				// 2) Change Authorization header
-		// 				axios.defaults.headers.common.Authorization =
-		// 					'jwt ' + localStorageService.getAccessToken();
-
-		// 				// 3) return originalRequest object with Axios.
-		// 				return axios(originalRequest);
-		// 			}
-		// 		});
-		// }
-		//Logout when token fail
-		if (error.response.status === 401) {
+		if (error.response.status === 401 && !error.response.config.url.includes('login')) {
 			store.dispatch(logoutAuth());
 		}
-		// return Error object with Promise
 		return Promise.reject(error);
 	}
 );
