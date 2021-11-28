@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from '../screens/login';
@@ -37,16 +37,18 @@ const notShowHeader = {headerShown: false};
 	const user = await getKey<LoginResult>(ACCESS_TOKEN_STORAGE);
 	store.dispatch(loginStorage(user));
 
-	setTimeout(() => {
-		SplashScreen.hide();
-	}, 300);
-
 	const langName = await getKey<LangName>(LANGUAGE);
 	store.dispatch(changeLanguage(langName || 'fr'));
 })();
 
 const RootScreen = () => {
 	const isAuthorized = useAppSelector(isLogin);
+
+	useEffect(() => {
+		setTimeout(() => {
+			SplashScreen.hide();
+		}, 1000);
+	}, []);
 
 	return (
 		<NavigationContainer ref={navigationRef}>

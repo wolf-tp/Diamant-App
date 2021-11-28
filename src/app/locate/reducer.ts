@@ -43,7 +43,7 @@ export const getTranslate = () => {
 };
 
 export const replaceText = (text: string, ...params: any[]) => {
-	params.forEach((param, index) => (text = text.replace(`{value${index || ''}}`, String(param))));
+	params.forEach((param, index) => (text = text?.replace(`{value${index || ''}}`, String(param))));
 	return text;
 };
 

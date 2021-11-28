@@ -93,6 +93,8 @@ const Notifications = (_: Props) => {
 						ListEmptyComponent={<EmptyText>{getString('Global', 'EmptyList')}</EmptyText>}
 						onEndReachedThreshold={0.005}
 						ListFooterComponent={isMoreStatusOrder ? <Loading /> : undefined}
+						refreshing={isLoadingStatusOrder}
+						onRefresh={fetchListOrderStatus}
 					/>
 				),
 				isLoadingOtherNotification ? (
@@ -100,6 +102,8 @@ const Notifications = (_: Props) => {
 				) : (
 					<ListComponent
 						extraData={otherNotificationListData}
+						refreshing={isLoadingOtherNotification}
+						onRefresh={fetchListOrderStatus}
 						// eslint-disable-next-line react-native/no-inline-styles
 						style={{display: isLoadingStatusOrder ? 'none' : 'flex'}}
 						data={otherNotificationListData || []}

@@ -19,16 +19,20 @@ const Setting = () => {
 	const langName = useAppSelector(getLangName);
 
 	const [showChooseLanguage, setShowChooseLanguage] = useState(false);
-	const [items] = useState<ItemType[]>([
-		{label: getString('Setting', 'English'), value: 'en'},
-		{label: getString('Setting', 'France'), value: 'fr'},
-	]);
+	const [items, setItems] = useState<ItemType[]>([]);
 	const stylesText: TextStyle = {color: theme.colors.text, fontSize: 18, fontWeight: '600'};
 	const container: ViewStyle = {
 		backgroundColor: theme.colors.card,
 		borderRadius: 15,
 		zIndex: 1,
 	};
+	React.useEffect(() => {
+		setItems([
+			{label: getString('Setting', 'English'), value: 'en'},
+			{label: getString('Setting', 'France'), value: 'fr'},
+		]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [langName]);
 
 	return (
 		<ContainerApp>

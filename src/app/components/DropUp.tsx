@@ -28,6 +28,7 @@ import {showModal} from './modal/reducer';
 import {fetchCountCart} from 'app/screens/home/reducer';
 import {fetchHistoryOrder} from 'app/screens/ListOrders/reducer';
 import {fetchOrderStatus} from 'app/screens/Notifications/reducer';
+import {FIRST_PAGE} from 'app/utils/storage/constants';
 interface Props {
 	style?: ViewProps;
 	isShowModal?: boolean;
@@ -37,13 +38,7 @@ interface Props {
 
 type SelectDateType = 'today' | 'tomorrow' | 'anotherDay';
 
-const checkDateDelivery = () => {
-	if (getHour < 6) {
-		return 'today';
-	} else {
-		return 'tomorrow';
-	}
-};
+const isBookOfDay = getHour < 6;
 
 const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 	const getString = getTranslate();
@@ -52,12 +47,12 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 	const myOrder = useAppSelector(getOrder);
 	const theme = getAppTheme();
 	const [text, onChangeText] = useState('');
-	const [selectDate, setSelectDate] = useState<SelectDateType>(checkDateDelivery());
-	const [show, setShow] = useState(false);
 	const [date, setDate] = useState({
-		date: getToday,
-		dateString: moment(getToday).format('YYYY-MM-DD'),
+		date: isBookOfDay ? getToday : getTomorrow,
+		dateString: moment(isBookOfDay ? getToday : getTomorrow).format('YYYY-MM-DD'),
 	});
+	const [selectDate, setSelectDate] = useState<SelectDateType>(isBookOfDay ? 'today' : 'tomorrow');
+	const [show, setShow] = useState(false);
 	useEffect(() => {
 		if (getStatus === 'OrderError') {
 			dispatch(
@@ -76,11 +71,7 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 					range: 1,
 				})
 			);
-			dispatch(
-				fetchOrderStatus({
-					page: 1,
-				})
-			);
+			dispatch(fetchOrderStatus(FIRST_PAGE));
 			dispatch(fetchCountCart());
 			dispatch(cleanReducer());
 			dispatch(getProductList());

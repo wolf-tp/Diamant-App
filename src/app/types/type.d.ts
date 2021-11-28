@@ -3,6 +3,7 @@ declare type App = {
 };
 declare type Status = 'loading' | 'failed' | 'none' | 'success';
 declare type LangName = 'en' | 'fr';
+declare type LoadDataAPI<T> = [boolean | undefined, T];
 declare interface Result<T> {
 	status: string;
 	results: T;

@@ -27,6 +27,9 @@ const enData = {
 	},
 	Cart: {
 		Title: 'Cart',
+		AddProductToCart: 'You have successfully added {value} product',
+		AddProductToCartFail: 'You failed to add the product {value}',
+		NoneProduct: 'There are no products in the cart.',
 	},
 	Favorite: {
 		Title: 'Favorite',

@@ -58,7 +58,7 @@ const statusSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchOrderStatus.pending, (state, {meta: {arg}}) => {
-				arg.page === 1 && (state.orderStatus.status = 'loading');
+				arg.page === 1 && !arg.notLoading && (state.orderStatus.status = 'loading');
 			})
 			.addCase(
 				fetchOrderStatus.fulfilled,
@@ -69,7 +69,7 @@ const statusSlice = createSlice({
 				}
 			)
 			.addCase(fetchOtherMessage.pending, (state, {meta: {arg}}) => {
-				arg.page === 1 && (state.othersMessage.status = 'loading');
+				arg.page === 1 && !arg.notLoading && (state.othersMessage.status = 'loading');
 			})
 			.addCase(
 				fetchOtherMessage.fulfilled,

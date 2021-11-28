@@ -27,6 +27,9 @@ export const getDateDisplay = (date?: string, isNotShowTime?: boolean) => {
 	return `${isNotShowTime ? '' : timeString}${day} ${frMonth[+month]} ${year}`;
 };
 export const getToday = new Date();
-export const getTomorrow = new Date();
-getTomorrow.setDate(getToday.getDate() + 1);
+export const getTomorrow = (() => {
+	const tomorrow = moment().add(1, 'days').utc(false).toDate();
+	return tomorrow;
+})();
+
 export const getHour = moment(getToday).hour();
