@@ -183,7 +183,7 @@ declare interface StatusOrder extends Order {
 
 declare type IObject = {[key: string]: string};
 interface ListProductRequest {
-	[index: string]: Array<number>;
+	[index: string | number]: number[];
 }
 declare interface Notifications {
 	id: number;

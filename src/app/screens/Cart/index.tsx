@@ -44,26 +44,37 @@ const Cart = () => {
 		}
 	}, [products, isLoadingListProduct]);
 
-	const renderItemProduct = ({item}: {item: ProductDetail}) => (
-		<CardProduct product={item} isDisabled={true} isShowWeight={true}>
-			<TouchIcon>
-				<TouchQuantity quantity={Number(item.amount)} id={item.id} listProduct={getListProduct} />
-				<TouchRemoveView
-					onPress={() =>
-						dispatch(
-							updateAmountProduct({
-								product_id: item.id,
-								amount: 0,
-								info_id: item.info?.id,
-							})
-						)
-					}
-				>
-					<TouchRemoveCard />
-				</TouchRemoveView>
-			</TouchIcon>
-		</CardProduct>
-	);
+	const renderItemProduct = ({item}: {item: ProductDetail}) => {
+		const idProduct = item.id || '';
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const [_, unit] = getListProduct[idProduct] || [];
+		return (
+			<CardProduct product={item} isDisabled={true} isShowWeight={true}>
+				<TouchIcon>
+					<TouchQuantity
+						quantity={Number(item.amount)}
+						id={item.id}
+						setProductAmount={(amount) =>
+							setGetListProduct({...getListProduct, [idProduct]: [amount, unit] as any})
+						}
+					/>
+					<TouchRemoveView
+						onPress={() =>
+							dispatch(
+								updateAmountProduct({
+									product_id: item.id,
+									amount: 0,
+									info_id: item.info?.id,
+								})
+							)
+						}
+					>
+						<TouchRemoveCard />
+					</TouchRemoveView>
+				</TouchIcon>
+			</CardProduct>
+		);
+	};
 	return (
 		<CartContainer>
 			{products?.products.length ? (

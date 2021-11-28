@@ -47,17 +47,11 @@ interface OrderType {
 	date_of_delivery: string;
 	comment?: string;
 }
-export const order = createAsyncThunk(
-	'cart/order',
-	async ({products, date_of_delivery, comment}: OrderType) => {
-		const res = await query<Result<Order | undefined>, OrderType>('/order', 'POST', {
-			products,
-			date_of_delivery,
-			comment,
-		});
-		return res?.results;
-	}
-);
+export const order = createAsyncThunk('cart/order', async (params: OrderType) => {
+	console.log(params);
+	const res = await query<Result<Order | undefined>, OrderType>('/order', 'POST', params);
+	return res?.results;
+});
 export const reOrder = createAsyncThunk(
 	'cart/reOrder',
 	async (params: {products: number[][]}, {dispatch}) => {

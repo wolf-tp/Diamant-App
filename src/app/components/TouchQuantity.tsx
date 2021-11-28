@@ -7,19 +7,17 @@ interface Props {
 	quantity?: number;
 	isInput?: boolean;
 	id?: number;
-	listProduct?: ListProductRequest;
+	setProductAmount?: (value: number) => void;
 }
 
-const TouchQuantity = ({quantity: quantityProps, isInput, id, listProduct}: Props) => {
+const TouchQuantity = ({quantity: quantityProps, isInput, id, setProductAmount}: Props) => {
 	const [quantity, setQuantity] = useState(1);
 	useEffect(() => {
 		setQuantity(quantityProps || 1);
 	}, [quantityProps]);
 
 	const changeValue = (value: number) => {
-		if (listProduct && id) {
-			listProduct[id] = value;
-		}
+		id && setProductAmount?.(value);
 		setQuantity(value);
 	};
 
