@@ -23,6 +23,8 @@ const frData = {
 		description: 'Mes commandes',
 		SeeOrder: 'Consulter',
 		Status: 'Statut',
+		ReOrder: 'Re-commande',
+		ProductList: 'Liste des produits',
 		CreateDate: 'Date de la commande',
 	},
 	Cart: {

@@ -72,7 +72,7 @@ const OrderCard = (props: ListOrders & Props) => {
 			<ContainerButton>
 				<BottomText>
 					{isExpanded
-						? 'Liste des produits'
+						? getString('Orders', 'ProductList')
 						: replaceText(
 								getString('Orders', 'ProductAmount'),
 								(products as any as string)?.split(';').length ?? 0
@@ -81,7 +81,7 @@ const OrderCard = (props: ListOrders & Props) => {
 				<ButtonDetail onPress={actionPress} containerStyles={containerButtonStyles}>
 					{!isExpanded ? <IconEyeOpen /> : (undefined as any)}
 					<LargeButtonText>
-						{isExpanded ? 'Re-commande' : getString('Orders', 'SeeOrder')}
+						{isExpanded ? getString('Orders', 'ReOrder') : getString('Orders', 'SeeOrder')}
 					</LargeButtonText>
 				</ButtonDetail>
 			</ContainerButton>

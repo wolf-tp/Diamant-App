@@ -23,6 +23,8 @@ const enData = {
 		description: 'My orders',
 		SeeOrder: 'To consult',
 		Status: 'Status',
+		ReOrder: 'Re-order',
+		ProductList: 'Products List',
 		CreateDate: 'Date of the order',
 	},
 	Cart: {
@@ -33,7 +35,7 @@ const enData = {
 	},
 	Favorite: {
 		Title: 'Favorite',
-		tabFavorite: 'My favourites',
+		tabFavorite: 'My favorite',
 		tabMostOrder: 'Most ordered',
 	},
 	Login: {
@@ -60,7 +62,7 @@ const enData = {
 		CodeArticle: 'Code article',
 		Packacking: 'PACKACKING',
 		Dlc: 'DLC',
-		Submit: 'Ajouter au panier',
+		Submit: 'Submit',
 		Description: 'Description',
 	},
 	Intro: {
@@ -90,8 +92,8 @@ const enData = {
 		Difference: 'Is different',
 		OrderDate: 'Choice order date',
 		Note: 'Order note',
-		Submit: 'send order request',
-		SubmitFailTitle: 'Command failed',
+		Submit: 'Send order request',
+		SubmitFailTitle: 'Send failed',
 		SubmitFailMessage: 'Please try again or contact customer service',
 	},
 	Other: {
