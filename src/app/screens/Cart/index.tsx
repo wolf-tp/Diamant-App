@@ -18,7 +18,7 @@ const Cart = () => {
 	const products = useAppSelector(getCartProduct);
 	const isLoadingListProduct = useAppSelector(getCartStatus);
 	const [isShowDateDelivery, setIsShowDateDelivery] = useState(false);
-	const [getListProduct, setGetListProduct] = useState<ListProductRequest>({});
+	const [getListProduct, setGetListProduct] = useState<ListProductRequest>([]);
 	const [refreshing, setRefreshing] = useState(false);
 
 	const onRefresh = useCallback(() => {
@@ -34,10 +34,10 @@ const Cart = () => {
 		if (isLoadingListProduct === 'success' || products?.products) {
 			setRefreshing(false);
 			const productList = products?.products;
-			const array: ListProductRequest = {};
+			const array: ListProductRequest = [];
 			if (productList && productList.length > 0) {
 				productList.forEach((product) => {
-					array[product.id ?? -1] = [Number(product.amount), Number(product.info?.id)];
+					array.push([Number(product.id), Number(product.amount), Number(product.info?.id)]);
 				});
 				setGetListProduct(array);
 			}
@@ -46,17 +46,21 @@ const Cart = () => {
 
 	const renderItemProduct = ({item}: {item: ProductDetail}) => {
 		const idProduct = item.id || '';
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const [_, unit] = getListProduct[idProduct] || [];
 		return (
 			<CardProduct product={item} isDisabled={true} isShowWeight={true}>
 				<TouchIcon>
 					<TouchQuantity
 						quantity={Number(item.amount)}
 						id={item.id}
-						setProductAmount={(amount) =>
-							setGetListProduct({...getListProduct, [idProduct]: [amount, unit] as any})
-						}
+						setProductAmount={(amount) => {
+							const newList = getListProduct.map((value) => {
+								if (value[0] === item.id && value[2] === item.info?.id) {
+									return [value[0], amount, value[2]];
+								}
+								return value;
+							});
+							setGetListProduct(newList);
+						}}
 					/>
 					<TouchRemoveView
 						onPress={() =>

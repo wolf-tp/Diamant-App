@@ -153,13 +153,8 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 						<SubmitButton
 							loading={getStatus === 'OrderLoading'}
 							onPress={() => {
-								const result = Object.keys(listProduct).map((key: string) => [
-									Number(key),
-									listProduct[key][0],
-									listProduct[key][1],
-								]);
 								dispatch(
-									order({products: result, date_of_delivery: date.dateString, comment: text})
+									order({products: listProduct, date_of_delivery: date.dateString, comment: text})
 								);
 							}}
 						>

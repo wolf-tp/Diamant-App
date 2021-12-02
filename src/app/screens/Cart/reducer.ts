@@ -48,7 +48,6 @@ interface OrderType {
 	comment?: string;
 }
 export const order = createAsyncThunk('cart/order', async (params: OrderType) => {
-	console.log(params);
 	const res = await query<Result<Order | undefined>, OrderType>('/order', 'POST', params);
 	return res?.results;
 });
