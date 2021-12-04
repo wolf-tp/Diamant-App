@@ -23,7 +23,7 @@ const ProductCardSmall = ({image, ...props}: ProductDetail & Props) => {
 			</ViewImage>
 			<Amount paddingLeft>{props.amount}</Amount>
 			<Amount>X</Amount>
-			<NameProduct>{props.title}</NameProduct>
+			<NameProduct>{`${props.title} (${props.info?.unit_weight})`}</NameProduct>
 		</ContainerProductCard>
 	);
 };
