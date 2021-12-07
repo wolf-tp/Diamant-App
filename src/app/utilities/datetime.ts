@@ -1,3 +1,4 @@
+import momentTz from 'moment-timezone';
 import moment from 'moment';
 
 const frMonth = [
@@ -26,10 +27,12 @@ export const getDateDisplay = (date?: string, isNotShowTime?: boolean) => {
 	const timeString = `${hours}:${minutes} _`;
 	return `${isNotShowTime ? '' : timeString}${day} ${frMonth[+month]} ${year}`;
 };
-export const getToday = new Date();
+const today = momentTz().tz('Europe/Paris').format('YYYY-MM-DDTHH:mm:ss').toString();
+export const getToday = new Date(today);
 export const getTomorrow = (() => {
-	const tomorrow = moment().add(1, 'days').utc(false).toDate();
+	const tomorrow = new Date(
+		momentTz().add(1, 'days').tz('Europe/Paris').format('YYYY-MM-DDTHH:mm:ss').toString()
+	);
 	return tomorrow;
 })();
-
-export const getHour = moment(getToday).hour();
+export const getHour = momentTz().tz('Europe/Paris').hour();
