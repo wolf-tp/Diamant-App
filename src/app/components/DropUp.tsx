@@ -39,6 +39,7 @@ interface Props {
 type SelectDateType = 'today' | 'tomorrow' | 'anotherDay';
 
 const isBookOfDay = getHour < 6;
+const isBookTomorrow = getHour < 12;
 
 const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 	const getString = getTranslate();
@@ -51,7 +52,9 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 		date: isBookOfDay ? getToday : getTomorrow,
 		dateString: moment(isBookOfDay ? getToday : getTomorrow).format('YYYY-MM-DD'),
 	});
-	const [selectDate, setSelectDate] = useState<SelectDateType>(isBookOfDay ? 'today' : 'tomorrow');
+	const [selectDate, setSelectDate] = useState<SelectDateType>(
+		isBookOfDay ? 'today' : isBookTomorrow ? 'tomorrow' : 'anotherDay'
+	);
 	const [show, setShow] = useState(false);
 	useEffect(() => {
 		if (getStatus === 'OrderError') {
@@ -112,9 +115,12 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 								{getString('DropUp', 'Today')}
 							</DateButton>
 							<DateButton
+								disabled={getHour < 12 ? false : true}
 								style={{
 									backgroundColor:
-										selectDate === 'tomorrow' ? theme.colors.orange_100 : theme.colors.gray_300,
+										getHour < 12 && selectDate === 'tomorrow'
+											? theme.colors.orange_100
+											: theme.colors.gray_300,
 								}}
 								onPress={() => {
 									setSelectDate('tomorrow');

@@ -27,12 +27,9 @@ export const getDateDisplay = (date?: string, isNotShowTime?: boolean) => {
 	const timeString = `${hours}:${minutes} _`;
 	return `${isNotShowTime ? '' : timeString}${day} ${frMonth[+month]} ${year}`;
 };
-const today = momentTz().tz('Europe/Paris').format('YYYY-MM-DDTHH:mm:ss').toString();
-export const getToday = new Date(today);
+export const getToday = new Date(moment().utc().add(1, 'hour').toString());
 export const getTomorrow = (() => {
-	const tomorrow = new Date(
-		momentTz().add(1, 'days').tz('Europe/Paris').format('YYYY-MM-DDTHH:mm:ss').toString()
-	);
+	const tomorrow = new Date(moment().utc().add(1, 'days').add(1, 'hours').toString());
 	return tomorrow;
 })();
-export const getHour = momentTz().tz('Europe/Paris').hour();
+export const getHour = moment().utc().add(1, 'hours').hour();
