@@ -43,11 +43,11 @@ export const getCategories = (categories?: Categories[]) => {
 
 export const fetchCategories = createAsyncThunk(
 	'home/fetchCategories',
-	async (params?: UserInput) => {
+	async (params?: UserInput): Promise<[StatusResponse, Categories[] | undefined]> => {
 		const res = await query<Result<Categories[]>, UserInput>('/category/index', 'GET', params);
 		let categories = res?.results;
 		const result = getCategories(categories);
-		return result;
+		return [res?.status, result];
 	}
 );
 export const toggleFavorite = createAsyncThunk(
@@ -134,10 +134,11 @@ const homeSlice = createSlice({
 			})
 			.addCase(
 				fetchCategories.fulfilled,
-				(state, action: PayloadAction<Categories[] | undefined>) => {
-					state.categories.status = action.payload ? 'success' : 'failed';
+				(state, action: PayloadAction<[StatusResponse, Categories[] | undefined]>) => {
+					const [status, result] = action.payload;
+					state.categories.status = status === 'OK' ? 'success' : 'failed';
 					if (action.payload) {
-						state.categories.data = action.payload;
+						state.categories.data = result;
 						state.categoriesList = state.categories.data;
 					}
 				}

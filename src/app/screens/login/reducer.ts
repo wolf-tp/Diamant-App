@@ -7,7 +7,7 @@ import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
 import * as Keychain from 'react-native-keychain';
 
 let initModal: {
-	status?: Status;
+	status?: Status | 'inactive';
 	user?: LoginResult;
 } = {
 	status: 'none',
@@ -16,8 +16,7 @@ let initModal: {
 export const loginAuth = createAsyncThunk('auth/loginAuth', async (user: UserInput) => {
 	const res = await query<LoginResponse, UserInput>('/login', 'POST', {...user, fcm_token});
 	res?.results && Keychain.setGenericPassword(user.user_name as string, user.password as string);
-
-	return res?.results;
+	return res;
 });
 export const logoutAuth = createAsyncThunk('auth/logoutAuth', async () => {
 	const res = await query<LoginResponse, UserInput>('/logout', 'GET');
@@ -50,13 +49,19 @@ const authSlice = createSlice({
 			.addCase(loginAuth.pending, (state) => {
 				state.status = 'loading';
 			})
-			.addCase(loginAuth.fulfilled, (state, action: PayloadAction<LoginResult | undefined>) => {
-				state.status = action.payload ? 'success' : 'failed';
+			.addCase(loginAuth.fulfilled, (state, action: PayloadAction<LoginResponse | undefined>) => {
+				const response = action.payload;
+				state.status =
+					response?.status === 'OK'
+						? 'success'
+						: response?.errors?.auth === 'INACTIVE'
+						? 'inactive'
+						: 'failed';
+				console.log(response?.results);
+				setKey(ACCESS_TOKEN_STORAGE, response?.results);
+				setTokenAxios(response?.results?.token);
 
-				setKey(ACCESS_TOKEN_STORAGE, action.payload);
-				setTokenAxios(action.payload?.token);
-
-				state.user = action.payload;
+				state.user = response?.results;
 			})
 			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) => {
 				if (action.payload === 'OK') {

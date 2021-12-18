@@ -4,8 +4,9 @@ declare type App = {
 declare type Status = 'loading' | 'failed' | 'none' | 'success';
 declare type LangName = 'en' | 'fr';
 declare type LoadDataAPI<T> = [boolean | undefined, T];
+declare type StatusResponse = 'OK' | 'NG' | undefined;
 declare interface Result<T> {
-	status: string;
+	status: StatusResponse;
 	results: T;
 }
 declare type Product = {
@@ -51,6 +52,7 @@ declare type BannerData = {
 	'sub-category'?: string;
 	updated_at?: Date;
 	isLoading?: boolean;
+	is_permission?: boolean;
 };
 declare interface Navigate<T> {
 	route?: Route<T>;
@@ -66,8 +68,9 @@ declare enum MethodHttp {
 	POST = 'POST',
 }
 declare interface LoginResponse {
-	status?: string;
+	status?: StatusResponse;
 	results?: LoginResult;
+	errors?: {auth: 'INACTIVE' | 'ACTIVE'};
 }
 
 declare interface LoginResult {
@@ -198,6 +201,7 @@ declare interface Notifications {
 	created_at?: string;
 	updated_at?: string;
 	isRead?: boolean;
+	is_permission?: boolean;
 }
 
 declare interface InfoProduct {

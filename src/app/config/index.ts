@@ -19,3 +19,7 @@ const firebaseConfig = {
 	FirebaseApp.initializeApp(firebaseConfig).finally(() => {
 		console.log('FirebaseInit', FirebaseApp.apps.length);
 	});
+// !FirebaseApp.apps.length &&
+// 	FirebaseApp.initializeApp(firebaseConfig).finally(() => {
+// 		console.log('FirebaseInit', FirebaseApp.apps.length);
+// 	});

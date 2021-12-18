@@ -122,7 +122,13 @@ const Login = () => {
 						value={data.password as string}
 						placeholder={getString('Login', 'Password')}
 						handleChange={handleChange('password')}
-						error={statusLogin === 'failed' ? getString('Login', 'LoginFailed') : errors.password}
+						error={
+							statusLogin === 'failed'
+								? getString('Login', 'LoginFailed')
+								: statusLogin === 'inactive'
+								? getString('Login', 'LoginInActive')
+								: errors.password
+						}
 					>
 						<EyePassword isPress={changeSecurePassword} onPress={onPressSecurePassword} />
 					</PasswordView>

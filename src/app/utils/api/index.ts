@@ -26,12 +26,7 @@ export const query = async <T, P>(
 			break;
 	}
 
-	return response
-		.then((_response) => _response.data)
-		.catch((err) => {
-			console.log('err===', err);
-			return undefined;
-		});
+	return response.then((_response) => _response.data).catch((err) => err);
 };
 
 export const setTokenAxios = (token?: string) =>
@@ -45,6 +40,6 @@ axios.interceptors.response.use(
 		if (error.response.status === 401 && !error.response.config.url.includes('login')) {
 			store.dispatch(logoutAuth());
 		}
-		return Promise.reject(error);
+		return Promise.reject(error.response.data);
 	}
 );

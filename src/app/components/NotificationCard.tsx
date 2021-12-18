@@ -9,7 +9,15 @@ import React, {useCallback, useState} from 'react';
 
 const maxLineHide = 3;
 
-const NotificationCard = ({title, content, product_id, category_id, id, isRead}: Notifications) => {
+const NotificationCard = ({
+	title,
+	content,
+	product_id,
+	category_id,
+	id,
+	isRead,
+	is_permission,
+}: Notifications) => {
 	const dispatch = useAppDispatch();
 	const [showMore, setShowMore] = useState(false);
 	const [isFullText, setIsFullText] = useState(false);
@@ -25,6 +33,7 @@ const NotificationCard = ({title, content, product_id, category_id, id, isRead}:
 		<Container
 			onPress={() => {
 				dispatch(readPrivateNotification(id));
+				if (!is_permission) return;
 				if (product_id) {
 					navigate('ProductDetail', {id: product_id});
 					return;

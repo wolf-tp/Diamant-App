@@ -54,6 +54,7 @@ const enData = {
 		EmailRequire: 'Email is required',
 		PasswordRequire: 'Password is required',
 		LoginFailed: 'Wrong username or password',
+		LoginInActive: 'Your account has been deactivated. Please contact your site administrator.',
 	},
 	ProductDetail: {
 		detail: 'Product Detail',

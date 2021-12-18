@@ -54,6 +54,8 @@ const frData = {
 		EmailRequire: 'Email is required',
 		PasswordRequire: 'Password is required',
 		LoginFailed: "Nom d'utilisateur ou mot de passe erroné",
+		LoginInActive:
+			"Votre compte a été désactivé. Merci de contacter l'administrateur de votre site.",
 	},
 	ProductDetail: {
 		detail: 'Product Detail',

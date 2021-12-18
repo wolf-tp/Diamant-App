@@ -36,7 +36,7 @@ const dataTab: TabScreen[] = [
 		name: 'NotificationsStack',
 		title: 'Notifications',
 		Icon: IconNotification,
-		listChild: ['Notifications', 'Cart', 'Setting', 'ConfirmOrder', 'OrderDetail'],
+		listChild: ['Notifications', 'Cart', 'Setting', 'ConfirmOrder', 'OrderDetail', 'ProductDetail'],
 	},
 ];
 

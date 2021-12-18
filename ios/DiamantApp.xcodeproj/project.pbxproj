@@ -47,6 +47,7 @@
 		5BEFA0ECC08DD387F3FD3B26 /* Pods-DiamantApp-DiamantAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiamantApp-DiamantAppTests.release.xcconfig"; path = "Target Support Files/Pods-DiamantApp-DiamantAppTests/Pods-DiamantApp-DiamantAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		7F5607C4284D4735BEA7E314 /* MontserratAlternates-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-SemiBold.ttf"; path = "../assets/fonts/MontserratAlternates-SemiBold.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DiamantApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9018E31D2764563C002969DB /* DiamantApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = DiamantApp.entitlements; path = DiamantApp/DiamantApp.entitlements; sourceTree = "<group>"; };
 		B647F58DE3CC62BE2143F33D /* Pods-DiamantApp-DiamantAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiamantApp-DiamantAppTests.debug.xcconfig"; path = "Target Support Files/Pods-DiamantApp-DiamantAppTests/Pods-DiamantApp-DiamantAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B856685326FDD42400873454 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B8E823AC26D64952000403F5 /* DiamantApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DiamantApp-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 		13B07FAE1A68108700A75B9A /* DiamantApp */ = {
 			isa = PBXGroup;
 			children = (
+				9018E31D2764563C002969DB /* DiamantApp.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -494,8 +496,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = DiamantApp/DiamantApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P328L4JBJ6;
+				DEVELOPMENT_TEAM = PJBC328L3X;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DiamantApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -523,8 +526,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = DiamantApp/DiamantApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P328L4JBJ6;
+				DEVELOPMENT_TEAM = PJBC328L3X;
 				INFOPLIST_FILE = DiamantApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

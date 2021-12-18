@@ -45,9 +45,7 @@ const RootScreen = () => {
 	const isAuthorized = useAppSelector(isLogin);
 
 	useEffect(() => {
-		setTimeout(() => {
-			SplashScreen.hide();
-		}, 1000);
+		setTimeout(SplashScreen.hide, 1000);
 	}, []);
 
 	return (

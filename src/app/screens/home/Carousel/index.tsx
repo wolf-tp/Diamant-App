@@ -29,13 +29,23 @@ const CarouselHome = ({setIndexTabHome}: Props) => {
 	}, []);
 
 	const _renderImage = ({
-		item: {title, content, isLoading, product_id, category_id = 1, category, ...item},
+		item: {
+			title,
+			content,
+			isLoading,
+			product_id,
+			category_id = 1,
+			category,
+			is_permission,
+			...item
+		},
 	}: {
 		item: BannerData;
 	}) => (
 		<CarouselCard
 			activeOpacity={0.6}
 			onPress={() => {
+				if (is_permission === false) return;
 				if (product_id) {
 					navigate('ProductDetail', {
 						id: product_id,

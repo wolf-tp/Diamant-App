@@ -1,7 +1,14 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import PushNotification, {Importance} from 'react-native-push-notification';
+import {Alert} from 'react-native';
+import PushNotification, {Importance, ReceivedNotification} from 'react-native-push-notification';
 
 export let fcm_token = '';
+
+type NotificationType = Omit<ReceivedNotification, 'userInfo'>;
+const onClickNotification = (notification: NotificationType) => {
+	console.log('Notification Data', notification.data);
+	// Alert.alert('NotificationData', JSON.stringify(notification.data));
+};
 
 PushNotification.createChannel(
 	{
@@ -17,12 +24,21 @@ PushNotification.createChannel(
 
 PushNotification.configure({
 	onRegister: function (token) {
+		console.log(token);
 		fcm_token = token.token;
 	},
 
-	onNotification: function (notification) {
+	onNotification: function (notification: NotificationType) {
 		console.log('NOTIFICATION:', notification);
-		notification.finish(PushNotificationIOS.FetchResult.NoData);
+		notification.userInteraction
+			? onClickNotification(notification)
+			: PushNotification.localNotification({
+					...notification,
+					message: notification.message as string,
+					channelId: 'diamant-channel',
+			  });
+
+		notification?.finish?.(PushNotificationIOS.FetchResult.NoData);
 	},
 
 	onAction: function (notification) {
