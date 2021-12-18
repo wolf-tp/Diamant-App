@@ -12,7 +12,7 @@ type UpdateAmountStatus = 'UpdateSuccess' | 'UpdateError' | 'UpdateLoading' | 'R
 let initCart: {
 	status?: Status | OrderStatus | UpdateAmountStatus;
 	products?: ProductList;
-	cartObject?: IObject;
+	cartObject?: Array<{id: number | string; info: number | undefined; amount: string | undefined}>;
 	order?: Order;
 } = {
 	status: 'none',
@@ -34,6 +34,7 @@ export const getProductList = createAsyncThunk('cart/getProductList', async () =
 export const updateAmountProduct = createAsyncThunk(
 	'cart/updateAmountProduct',
 	async (params: UpdateType, {dispatch}) => {
+		console.log('🚀 ~ file: reducer.ts ~ line 37 ~ params', params);
 		const res = await query<Result<ProductList | undefined>, UpdateType>('/cart', 'PUT', params);
 		if (res?.status === 'OK') {
 			dispatch(fetchCountCart());
@@ -67,13 +68,14 @@ export const reOrder = createAsyncThunk(
 	}
 );
 
-const getCartObjects = (products?: ProductList): IObject =>
-	products?.products.reduce((prevResultProduct, item) => {
+const getCartObjects = (products: ProductList) =>
+	products?.products.map((item) => {
 		return {
-			...prevResultProduct,
-			[item.id || '']: item.amount,
+			id: item.id || '',
+			info: item.info?.id,
+			amount: item.amount,
 		};
-	}, {}) as IObject;
+	});
 
 const cartSlice = createSlice({
 	initialState: initCart,
@@ -93,7 +95,7 @@ const cartSlice = createSlice({
 				(state, action: PayloadAction<ProductList | undefined>) => {
 					state.status = action.payload ? 'success' : 'failed';
 					state.products = action.payload;
-					state.cartObject = getCartObjects(action.payload);
+					state.cartObject = action.payload ? getCartObjects(action.payload) : undefined;
 				}
 			)
 			.addCase(
@@ -109,7 +111,7 @@ const cartSlice = createSlice({
 						state.status = 'UpdateSuccess';
 					}
 					state.products = action.payload;
-					state.cartObject = getCartObjects(action.payload);
+					state.cartObject = action.payload ? getCartObjects(action.payload) : undefined;
 				}
 			)
 			.addCase(toggleFavorite.fulfilled, (state, action: PayloadAction<PayloadFavorite>) => {
@@ -137,7 +139,7 @@ const cartSlice = createSlice({
 			.addCase(reOrder.fulfilled, (state, action: PayloadAction<ProductList | undefined>) => {
 				state.status = action.payload ? 'success' : 'failed';
 				state.products = action.payload;
-				state.cartObject = getCartObjects(action.payload);
+				state.cartObject = action.payload ? getCartObjects(action.payload) : undefined;
 			})
 			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) =>
 				action.payload === 'OK' ? initCart : state
@@ -147,7 +149,7 @@ const cartSlice = createSlice({
 export const getCartStatus = (state: RootState) => state.cart.status;
 export const getCartProduct = (state: RootState) => state.cart.products;
 export const getUpdateCartProducts = (state: RootState) => state.cart.products;
-export const getCartObject = (state: RootState) => state.cart.cartObject || {};
+export const getCartObject = (state: RootState) => state.cart.cartObject || [];
 export const getOrder = (state: RootState) => state.cart.order;
 
 export const {cleanReducer} = cartSlice.actions;

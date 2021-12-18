@@ -20,13 +20,20 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 	const params = getParams<Product>(props);
 	const {id, subCategory, category} = params as Product;
 	const dispatch = useAppDispatch();
-	const cartAmount = useAppSelector(getCartObject);
+	const cartAmounts = useAppSelector(getCartObject);
 	const cartStatus = useAppSelector(getCartStatus);
 	const {product, status} = useAppSelector((state) => state.productDetail);
+	const [packaging, setPackaging] = useState<number>(0);
+	const getInfoId = product?.info ? product?.info[packaging].id : 0;
 	const {description, dlc, item_code, ...cartProduct} = product || {};
 	const getString = getTranslate();
-
-	const [packaging, setPackaging] = useState<number>(0);
+	const getCartAmount = cartAmounts.find((value) => {
+		if (getInfoId === 0) {
+			return value.id == id ? value : null;
+		} else {
+			return value.id == id && value.info == getInfoId ? value : null;
+		}
+	});
 
 	useEffect(() => {
 		dispatch(getProduct(id));
@@ -92,8 +99,8 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 								dispatch(
 									updateAmountProduct({
 										product_id: product?.id,
-										amount: Number(cartAmount[product?.id || ''] || 0) + 1,
-										info_id: product?.info ? product.info[packaging].id : 0,
+										amount: Number(getCartAmount?.amount || 0) + 1,
+										info_id: getInfoId,
 									})
 								);
 							}}

@@ -32,9 +32,10 @@ const CardFood = ({
 	const getString = getTranslate();
 	const dispatch = useAppDispatch();
 
-	const cartAmount = useAppSelector(getCartObject);
+	const cartAmounts = useAppSelector(getCartObject);
 
 	const {title = '', description = '', item_code = '', id, is_favorite, info} = product;
+	const getCartAmounts = cartAmounts.find((value) => (value.id == id ? value : null));
 
 	return (
 		<Container
@@ -73,7 +74,7 @@ const CardFood = ({
 							dispatch(
 								updateAmountProduct({
 									product_id: id,
-									amount: Number(cartAmount[id || ''] || 0) + 1,
+									amount: Number(getCartAmounts?.amount || 0) + 1,
 									info_id: info[0].id,
 								})
 							);
