@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {BreadCrumbArray} from 'app/components/Breadcrumb';
 import Button from 'app/components/Button';
@@ -13,18 +14,20 @@ import {getTranslate, replaceText} from 'app/locate/reducer';
 import Loading from 'app/components/Loading';
 import {cleanReducer, getCartObject, getCartStatus, updateAmountProduct} from '../Cart/reducer';
 import {showToast} from 'app/components/ToastCart/reducer';
+import {fetchOtherMessage} from '../Notifications/reducer';
 
 interface Props {}
-
-const ProductDetail = (props: Props & Navigate<Product>) => {
-	const params = getParams<Product>(props);
-	const {id, subCategory, category} = params as Product;
+type Params = Product & ParamsNotification;
+const ProductDetail = (props: Props & Navigate<Product & ParamsNotification>) => {
+	const params = getParams<Params>(props);
+	const {id, subCategory, category, isFromNotification} = params as Params;
 	const dispatch = useAppDispatch();
 	const cartAmounts = useAppSelector(getCartObject);
 	const cartStatus = useAppSelector(getCartStatus);
 	const {product, status} = useAppSelector((state) => state.productDetail);
 	const [packaging, setPackaging] = useState<number>(0);
-	const getInfoId = product?.info ? product?.info[packaging].id : 0;
+	const getInfoId =
+		product?.info && product?.info?.length > packaging ? product?.info[packaging].id : 0;
 	const {description, dlc, item_code, ...cartProduct} = product || {};
 	const getString = getTranslate();
 	const getCartAmount = cartAmounts.find((value) => {
@@ -35,6 +38,9 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 		}
 	});
 
+	useEffect(() => {
+		isFromNotification && dispatch(fetchOtherMessage({page: 1}));
+	}, []);
 	useEffect(() => {
 		dispatch(getProduct(id));
 	}, [dispatch, id]);
@@ -86,7 +92,11 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 							<ListHorizontalText>
 								<ListVerticalText>
 									<TextTitle>{getString('ProductDetail', 'Packaging')}</TextTitle>
-									<TextValue>{product?.info ? product.info[packaging].packaging : '0'}</TextValue>
+									<TextValue>
+										{product?.info && product?.info?.length > packaging
+											? product.info[packaging].packaging
+											: '0'}
+									</TextValue>
 								</ListVerticalText>
 								<ListVerticalText>
 									<TextTitle>{getString('ProductDetail', 'Dlc')}</TextTitle>
@@ -95,6 +105,7 @@ const ProductDetail = (props: Props & Navigate<Product>) => {
 							</ListHorizontalText>
 						</ScrollContainer>
 						<ConfirmButton
+							disabled={!product?.info?.length}
 							onPress={() => {
 								dispatch(
 									updateAmountProduct({

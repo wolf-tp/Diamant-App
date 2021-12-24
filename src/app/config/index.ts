@@ -1,5 +1,4 @@
 import FirebaseApp from '@react-native-firebase/app';
-import './notification';
 
 export const UPLOAD_URL = 'http://3.142.220.3/';
 export const API_PREFIX = 'http://3.142.220.3/api/user';

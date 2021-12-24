@@ -1,13 +1,32 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {Alert} from 'react-native';
+import {navigate} from 'app/navigation/rootNavigation';
 import PushNotification, {Importance, ReceivedNotification} from 'react-native-push-notification';
 
 export let fcm_token = '';
-
+type NotificationDataType = {
+	orderId?: string;
+	productId?: string;
+	categoryId?: string;
+};
 type NotificationType = Omit<ReceivedNotification, 'userInfo'>;
-const onClickNotification = (notification: NotificationType) => {
-	console.log('Notification Data', notification.data);
-	// Alert.alert('NotificationData', JSON.stringify(notification.data));
+const notiParams: ParamsNotification = {isFromNotification: true};
+const onClickNotification = async (notification: NotificationType) => {
+	const data: NotificationDataType = notification.data;
+	const {orderId, productId, categoryId} = data;
+	if (orderId) {
+		navigate('OrderDetail', {id: orderId, code: orderId, ...notiParams});
+	} else if (productId) {
+		navigate('ProductDetail', {id: productId});
+	}
+	if (categoryId) {
+		navigate('HomeStack', {
+			screen: 'Home',
+			params: {
+				...notiParams,
+				categoryId,
+			},
+		} as any);
+	}
 };
 
 PushNotification.createChannel(

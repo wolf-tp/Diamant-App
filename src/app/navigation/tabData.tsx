@@ -18,7 +18,7 @@ const dataTab: TabScreen[] = [
 		name: 'HomeStack',
 		title: 'Home',
 		Icon: IconHome,
-		listChild: ['Home', 'Cart', 'ProductDetail', 'ListProduct', 'ConfirmOrder'],
+		listChild: ['Home', 'Cart', 'ProductDetail', 'ListProduct', 'ConfirmOrder', 'OrderDetail'],
 	},
 	{
 		name: 'OrdersStack',
@@ -30,7 +30,7 @@ const dataTab: TabScreen[] = [
 		name: 'FavoriteStack',
 		title: 'Favorite',
 		Icon: IconFavorite,
-		listChild: ['Favorite', 'Cart', 'ProductDetail', 'ConfirmOrder'],
+		listChild: ['Favorite', 'Cart', 'ProductDetail', 'ConfirmOrder', 'OrderDetail'],
 	},
 	{
 		name: 'NotificationsStack',

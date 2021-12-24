@@ -28,7 +28,6 @@ const CartProductDetail = (props: Props) => {
 	const theme = getAppTheme();
 	const container: ViewStyle = {
 		backgroundColor: theme.colors.orange_100,
-		width: 120,
 		borderRadius: 15,
 		marginTop: 10,
 		zIndex: 1,
@@ -74,7 +73,7 @@ const CartProductDetail = (props: Props) => {
 					items={items}
 					setOpen={setOpen}
 					setValue={setValue}
-					listItemContainerStyle={{width: 120}}
+					listItemContainerStyle={{width: screenWidth / 2.3}}
 					setItems={setItems}
 					style={container}
 					textStyle={stylesText}

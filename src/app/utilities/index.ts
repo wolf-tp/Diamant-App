@@ -24,10 +24,10 @@ export const handleLoadMore = ({
 	isMore: (nextData.length || 0) >= fetchCount,
 	page: status === 'loading' ? 1 : (page || 1) + 1,
 });
-export const findTabHome = (category_id?: number) => {
+export const findTabHome = (category_id?: number | string) => {
 	const categories = getDataCategories(store.getState());
 	const id = categories?.findIndex((category) => {
-		if (category.id === category_id) {
+		if (category.id === Number(category_id)) {
 			return true;
 		}
 
@@ -37,3 +37,4 @@ export const findTabHome = (category_id?: number) => {
 };
 export const getStatusTextOrder = (status?: number) =>
 	status === 1 ? 'NewOrder' : status === 2 ? 'InPreparation' : status === 3 ? 'Delayed' : 'Process';
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

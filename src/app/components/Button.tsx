@@ -48,7 +48,7 @@ const Container = styled.TouchableOpacity<ButtonProps>`
 	border-color: ${({outline, theme}) => (outline ? theme.colors.main : 'transparent')};
 	align-items: center;
 	justify-content: center;
-	opacity: ${({disabled}) => (disabled ? 0.7 : 1)};
+	opacity: ${({disabled}) => (disabled ? 0.3 : 1)};
 `;
 const TextButton = styled.Text<ButtonProps>`
 	font-style: normal;

@@ -5,12 +5,13 @@ declare type Status = 'loading' | 'failed' | 'none' | 'success';
 declare type LangName = 'en' | 'fr';
 declare type LoadDataAPI<T> = [boolean | undefined, T];
 declare type StatusResponse = 'OK' | 'NG' | undefined;
+declare type ParamsNotification = {isFromNotification?: boolean};
 declare interface Result<T> {
 	status: StatusResponse;
 	results: T;
 }
 declare type Product = {
-	id?: number;
+	id?: number | string;
 	item_code?: string;
 	title?: string;
 	description?: string;
@@ -101,7 +102,7 @@ declare type LogoutOption = {
 	tokenExpiration?: boolean;
 };
 declare type Favorite = {
-	id?: number;
+	id?: number | string;
 	user_id?: number;
 	products?: Product[];
 	created_at?: string;

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "adb reverse tcp:8081 tcp:8765 && react-native run-android",
+    "android": "react-native run-android",
     "ios": "npx react-native run-ios --simulator=\"iPhone 11 (13.6)\"",
     "start": "react-native start",
     "test": "jest",

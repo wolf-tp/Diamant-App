@@ -16,9 +16,9 @@ import {changeLanguage} from 'app/locate/reducer';
 export type RootStackParamList = {
 	Home: undefined;
 	ListProduct: {id: string | number | undefined};
-	ProductDetail: Product | ProductDetail;
+	ProductDetail: (Product | ProductDetail) & ParamsNotification;
 	ConfirmOrder: Order | undefined;
-	OrderDetail: ListOrders & {isDisplayStatus?: boolean};
+	OrderDetail: ListOrders & {isDisplayStatus?: boolean} & ParamsNotification;
 	ListOrders: undefined;
 	Cart: undefined;
 	Favorite: undefined;
