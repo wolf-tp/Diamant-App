@@ -74,8 +74,10 @@ const ProductHome = ({indexTabHome, setIndexTabHome}: Props) => {
 					onIndexChange={setIndexTabHome}
 					initialLayout={{width: layout.width}}
 				/>
-			) : (
+			) : isLoading ? (
 				<Loading />
+			) : (
+				<EmptyText>{getString('Global', 'EmptyList')}</EmptyText>
 			)}
 		</Container>
 	);

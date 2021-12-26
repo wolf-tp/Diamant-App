@@ -5,7 +5,7 @@ import {isIOS} from 'app/styles/dimens';
 import {RowBetween, TextLarge, TextMedium} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import React, {useEffect, useState} from 'react';
-import {ViewStyle} from 'react-native';
+import {View, ViewStyle} from 'react-native';
 import CardFood from './CardFood';
 import RefreshList from './RefreshList';
 
@@ -76,6 +76,11 @@ const ProductList = ({
 			data={listData || []}
 			showsVerticalScrollIndicator={false}
 			renderItem={renderItemProduct as any}
+			ListEmptyComponent={
+				<View>
+					<TextMedium>No Item</TextMedium>
+				</View>
+			}
 			keyExtractor={(_, _index) => `product_${_index.toString()}`}
 			keyboardShouldPersistTaps={'handled'}
 			{...refreshProps}
