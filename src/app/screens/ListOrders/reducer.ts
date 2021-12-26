@@ -8,9 +8,11 @@ import ProductDetail from '../ProductDetail';
 let initState: {
 	history: {status?: Status; data?: ListOrders[]; page?: number; isMore?: boolean};
 	listProduct: {status?: Status; data?: ProductDetail[]};
+	detailOrder: ListOrders;
 } = {
 	history: {},
 	listProduct: {},
+	detailOrder: {},
 };
 
 export const fetchHistoryOrder = createAsyncThunk(
@@ -26,20 +28,24 @@ export const fetchHistoryOrder = createAsyncThunk(
 );
 export const fetHistoryProducts = createAsyncThunk(
 	'orders/fetHistoryProducts',
-	async (orderId: string | number) => {
+	async (orderId?: string | number) => {
 		const res = await query<Result<ListOrders>, string | number>(
 			`/order/${orderId}`,
 			'GET',
 			orderId
 		);
-		return res?.results.products as typeof initState.listProduct.data;
+		return res?.results;
 	}
 );
 
 const OrdersSlice = createSlice({
 	initialState: initState,
 	name: 'orders',
-	reducers: {},
+	reducers: {
+		clearDetailOrder: (state) => {
+			state.detailOrder = initState.detailOrder;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchHistoryOrder.pending, (state, {meta: {arg}}) => {
@@ -61,9 +67,12 @@ const OrdersSlice = createSlice({
 			})
 			.addCase(
 				fetHistoryProducts.fulfilled,
-				(state, {payload}: PayloadAction<ProductDetail[] | undefined>) => {
+				(state, {payload}: PayloadAction<ListOrders | undefined>) => {
 					state.listProduct.status = payload ? 'failed' : 'success';
-					state.listProduct.data = payload;
+					if (payload) {
+						state.listProduct.data = payload?.products as ProductDetail[];
+						state.detailOrder = payload;
+					}
 				}
 			)
 			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) =>
@@ -71,6 +80,7 @@ const OrdersSlice = createSlice({
 			);
 	},
 });
+export const {clearDetailOrder} = OrdersSlice.actions;
 
 export const getStatusHistoryOrder = (state: RootState) => state.orders.history.status;
 export const getDataHistoryOrder = (state: RootState) => state.orders.history.data;
@@ -78,6 +88,7 @@ export const getStatusHistoryProducts = (state: RootState) => state.orders.listP
 export const getDataHistoryProducts = (state: RootState) => state.orders.listProduct.data;
 export const getNextPageHistoryOrder = (state: RootState) => (state.orders.history.page || 0) + 1;
 export const hasMoreHistoryOrder = (state: RootState) => state.orders.history.isMore;
+export const getDetailOrder = (state: RootState) => state.orders.detailOrder;
 
 const OrdersReducer = OrdersSlice.reducer;
 export default OrdersReducer;

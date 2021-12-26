@@ -12,7 +12,8 @@
     "android_build_debug": "rm -f android/app/build/outputs/apk/debug/* &&  cd android && ./gradlew app:assembleDebug && cd .. && mkdir -p output && cp -f android/app/build/outputs/apk/debug/*.apk ./output",
     "android_build_release": "cd android && ./gradlew clean && ./gradlew app:assembleRelease",
     "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'",
-    "ios11": "react-native run-ios --simulator=\"iPhone 11\""
+    "ios11": "react-native run-ios --simulator=\"iPhone 11\"",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.7",
@@ -35,6 +36,8 @@
     "lottie-react-native": "^4.0.3",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "react": "17.0.1",
     "react-native": "0.64.1",
     "react-native-biometrics": "^2.1.4",

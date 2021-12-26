@@ -13,20 +13,25 @@ const notiParams: ParamsNotification = {isFromNotification: true};
 const onClickNotification = async (notification: NotificationType) => {
 	const data: NotificationDataType = notification.data;
 	const {orderId, productId, categoryId} = data;
-	if (orderId) {
-		navigate('OrderDetail', {id: orderId, code: orderId, ...notiParams});
-	} else if (productId) {
-		navigate('ProductDetail', {id: productId});
-	}
-	if (categoryId) {
-		navigate('HomeStack', {
-			screen: 'Home',
-			params: {
-				...notiParams,
-				categoryId,
-			},
-		} as any);
-	}
+	setTimeout(
+		() => {
+			if (orderId) {
+				navigate('OrderDetail', {id: orderId, code: orderId, ...notiParams});
+			} else if (productId) {
+				navigate('ProductDetail', {id: productId});
+			}
+			if (categoryId) {
+				navigate('HomeStack', {
+					screen: 'Home',
+					params: {
+						...notiParams,
+						categoryId,
+					},
+				} as any);
+			}
+		},
+		notification.foreground ? 0 : 2000
+	);
 };
 
 PushNotification.createChannel(

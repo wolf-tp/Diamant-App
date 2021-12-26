@@ -63,7 +63,7 @@ const CardFood = ({
 				<Description ellipsizeMode={'tail'} numberOfLines={2}>
 					{description}
 				</Description>
-				<Description>CODE: {item_code.toUpperCase()}</Description>
+				<Description>CODE: {item_code?.toUpperCase()}</Description>
 			</ContainerContent>
 			{children ? (
 				children

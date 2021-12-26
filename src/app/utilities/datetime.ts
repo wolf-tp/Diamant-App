@@ -2,6 +2,7 @@ import momentTz from 'moment-timezone';
 import moment from 'moment';
 
 const frMonth = [
+	'',
 	'janvier',
 	'février',
 	'mars',
