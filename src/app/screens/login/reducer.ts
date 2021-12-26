@@ -5,6 +5,7 @@ import {query, setTokenAxios} from 'app/utils/api';
 import {removeKey, setKey} from 'app/utils/storage';
 import {ACCESS_TOKEN_STORAGE} from 'app/utils/storage/constants';
 import * as Keychain from 'react-native-keychain';
+import PushNotification from 'react-native-push-notification';
 
 let initModal: {
 	status?: Status | 'inactive';
@@ -65,6 +66,7 @@ const authSlice = createSlice({
 			})
 			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) => {
 				if (action.payload === 'OK') {
+					PushNotification.cancelAllLocalNotifications();
 					removeKey(ACCESS_TOKEN_STORAGE);
 					// action.payload?.tokenExpiration
 					return {status: 'none'};

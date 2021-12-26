@@ -1,5 +1,6 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {navigate} from 'app/navigation/rootNavigation';
+import {store} from 'app/redux/store';
 import PushNotification, {Importance, ReceivedNotification} from 'react-native-push-notification';
 
 export let fcm_token = '';
@@ -15,6 +16,7 @@ const onClickNotification = async (notification: NotificationType) => {
 	const {orderId, productId, categoryId} = data;
 	setTimeout(
 		() => {
+			if (!store.getState()?.auth.user?.token) return;
 			if (orderId) {
 				navigate('OrderDetail', {id: orderId, code: orderId, ...notiParams});
 			} else if (productId) {
