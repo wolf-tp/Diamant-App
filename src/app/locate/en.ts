@@ -65,6 +65,8 @@ const enData = {
 		Dlc: 'DLC',
 		Submit: 'Submit',
 		Description: 'Description',
+		ErrorLoadProductTitle: 'Product error',
+		ErrorLoadDetailContent: 'This product could not be loaded.',
 	},
 	Intro: {
 		WelcomeTo: 'Welcome to',

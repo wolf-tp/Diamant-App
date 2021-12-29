@@ -1,4 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {popNavigate} from 'app/navigation/rootNavigation';
 import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
 import {toggleFavorite} from '../home/reducer';
@@ -21,7 +22,11 @@ export const getProduct = createAsyncThunk(
 const productSlice = createSlice({
 	initialState: initModal,
 	name: 'Product',
-	reducers: {},
+	reducers: {
+		clearStatusLoadProduct: (state) => {
+			state.status = 'none';
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getProduct.pending, (state) => {
@@ -29,6 +34,7 @@ const productSlice = createSlice({
 			})
 			.addCase(getProduct.fulfilled, (state, action: PayloadAction<DetailAProduct | undefined>) => {
 				state.status = action.payload ? 'success' : 'failed';
+				console.log(action.payload ? 'success' : 'failed', action.payload);
 				state.product = action.payload;
 			})
 			.addCase(toggleFavorite.fulfilled, (state, action: PayloadAction<PayloadFavorite>) => {
@@ -39,6 +45,7 @@ const productSlice = createSlice({
 			});
 	},
 });
+export const {clearStatusLoadProduct} = productSlice.actions;
 export const getProductDetail = (state: RootState) => state.productDetail;
 
 const ProductReducer = productSlice.reducer;

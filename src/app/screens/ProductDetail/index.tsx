@@ -4,17 +4,18 @@ import {BreadCrumbArray} from 'app/components/Breadcrumb';
 import Button from 'app/components/Button';
 import CartProductDetail from 'app/components/CartProductDetail';
 import Collapse from 'app/components/Collapse';
-import {getParams, navigate} from 'app/navigation/rootNavigation';
+import {getParams, navigate, popNavigate} from 'app/navigation/rootNavigation';
 import {screenHeight} from 'app/styles/dimens';
 import {AreaContainer, Container} from 'app/styles/globalStyled';
 import styled from 'app/styles/styled';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
-import {getProduct} from './reducer';
+import {clearStatusLoadProduct, getProduct} from './reducer';
 import {getTranslate, replaceText} from 'app/locate/reducer';
 import Loading from 'app/components/Loading';
 import {cleanReducer, getCartObject, getCartStatus, updateAmountProduct} from '../Cart/reducer';
 import {showToast} from 'app/components/ToastCart/reducer';
 import {fetchOtherMessage} from '../Notifications/reducer';
+import {showModal} from 'app/components/modal/reducer';
 
 interface Props {}
 type Params = Product & ParamsNotification;
@@ -40,10 +41,24 @@ const ProductDetail = (props: Props & Navigate<Product & ParamsNotification>) =>
 
 	useEffect(() => {
 		isFromNotification && dispatch(fetchOtherMessage({page: 1}));
+		return () => dispatch(clearStatusLoadProduct());
 	}, []);
 	useEffect(() => {
 		dispatch(getProduct(id));
 	}, [dispatch, id]);
+	useEffect(() => {
+		status === 'failed' &&
+			dispatch(
+				showModal({
+					status: 'ERROR',
+					title: getString('ProductDetail', 'ErrorLoadProductTitle'),
+					message: getString('ProductDetail', 'ErrorLoadDetailContent'),
+					positiveButton: {
+						onPress: popNavigate,
+					},
+				})
+			);
+	}, [status]);
 	useEffect(() => {
 		if (cartStatus === 'UpdateSuccess') {
 			dispatch(

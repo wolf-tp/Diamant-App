@@ -66,6 +66,8 @@ const frData = {
 		Dlc: 'DLC',
 		Submit: 'Ajouter au panier',
 		Description: 'Description',
+		ErrorLoadProductTitle: 'Erreur de produit',
+		ErrorLoadDetailContent: "Ce produit n'a pas pu être chargé.",
 	},
 	Intro: {
 		WelcomeTo: 'Welcome to',
