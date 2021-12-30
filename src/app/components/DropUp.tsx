@@ -66,12 +66,11 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 				})
 			);
 		} else if (getStatus === 'OrderSuccess') {
-			if (event) {
-				event();
-			}
+			event?.();
 			dispatch(
 				fetchHistoryOrder({
 					range: 1,
+					page: 1,
 				})
 			);
 			dispatch(fetchOrderStatus(FIRST_PAGE));

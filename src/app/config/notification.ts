@@ -1,5 +1,6 @@
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {navigate} from 'app/navigation/rootNavigation';
+import {StackActions} from '@react-navigation/native';
+import {navigate, navigationRef} from 'app/navigation/rootNavigation';
 import {store} from 'app/redux/store';
 import PushNotification, {Importance, ReceivedNotification} from 'react-native-push-notification';
 
@@ -18,7 +19,15 @@ const onClickNotification = async (notification: NotificationType) => {
 		() => {
 			if (!store.getState()?.auth.user?.token) return;
 			if (orderId) {
-				navigate('OrderDetail', {id: orderId, code: orderId, ...notiParams});
+				const orderDetailParams = {
+					id: orderId,
+					code: orderId,
+					isDisplayStatus: true,
+					...notiParams,
+				};
+				navigationRef?.current?.getCurrentRoute()?.name === 'OrderDetail'
+					? navigationRef?.current?.dispatch(StackActions.replace('OrderDetail', orderDetailParams))
+					: navigate('OrderDetail', orderDetailParams);
 			} else if (productId) {
 				navigate('ProductDetail', {id: productId});
 			}

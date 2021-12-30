@@ -64,10 +64,12 @@ const authSlice = createSlice({
 
 				state.user = response?.results;
 			})
+			.addCase(logoutAuth.pending, () => {
+				removeKey(ACCESS_TOKEN_STORAGE);
+			})
 			.addCase(logoutAuth.fulfilled, (state, action: PayloadAction<string | undefined>) => {
 				if (action.payload === 'OK') {
 					PushNotification.cancelAllLocalNotifications();
-					removeKey(ACCESS_TOKEN_STORAGE);
 					// action.payload?.tokenExpiration
 					return {status: 'none'};
 				}
