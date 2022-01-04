@@ -44,7 +44,7 @@ export const readPrivateNotification = createAsyncThunk(
 
 export const readStatusOrder = createAsyncThunk(
 	'favorite/readStatusOrder',
-	async (params: number) => {
+	async (params: number | string) => {
 		const res = await query<Result<StatusOrder>, undefined>(`/order/${params}`, 'POST');
 
 		return res?.results;

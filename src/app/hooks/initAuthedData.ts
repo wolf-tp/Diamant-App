@@ -16,7 +16,7 @@ import {
 } from 'app/screens/Notifications/reducer';
 import {useEffect} from 'react';
 
-const pageInit = {page: 1};
+export const pageInit = {page: 1};
 const useInitAuthorized = () => {
 	const dispatch = useAppDispatch();
 
