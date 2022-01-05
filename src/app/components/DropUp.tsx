@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Platform, ViewProps} from 'react-native';
+import {ViewProps} from 'react-native';
 import {getTranslate} from 'app/locate/reducer';
 import {getAppTheme} from 'app/styles/reducer';
 import {navigate} from 'app/navigation/rootNavigation';
 import {useAppDispatch, useAppSelector} from 'app/redux/store/hooks';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import styled from 'app/styles/styled';
 import Button from './Button';
@@ -39,7 +39,6 @@ interface Props {
 type SelectDateType = 'today' | 'tomorrow' | 'anotherDay';
 
 const isBookOfDay = getHour < 6;
-const isBookTomorrow = getHour < 12;
 
 const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 	const getString = getTranslate();
@@ -52,9 +51,7 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 		date: isBookOfDay ? getToday : getTomorrow,
 		dateString: moment(isBookOfDay ? getToday : getTomorrow).format('YYYY-MM-DD'),
 	});
-	const [selectDate, setSelectDate] = useState<SelectDateType>(
-		isBookOfDay ? 'today' : isBookTomorrow ? 'tomorrow' : 'anotherDay'
-	);
+	const [selectDate, setSelectDate] = useState<SelectDateType>(isBookOfDay ? 'today' : 'tomorrow');
 	const [show, setShow] = useState(false);
 	useEffect(() => {
 		if (getStatus === 'OrderError') {
@@ -81,11 +78,11 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 		}
 	}, [getStatus, dispatch, getString, event, myOrder]);
 
-	const onChange = (events: any, selectedDate: any) => {
-		const currentDate = selectedDate || date;
-		setShow(Platform.OS === 'ios');
-		if (currentDate.dateString !== date.dateString) {
-			setDate({date: currentDate, dateString: moment(currentDate).format('YYYY-MM-DD')});
+	const onChange = (selectedDate: Date) => {
+		const stringDate = moment(selectedDate).format('YYYY-MM-DD');
+		setShow(false);
+		if (stringDate !== date.dateString) {
+			setDate({date: selectedDate, dateString: stringDate});
 		}
 	};
 
@@ -98,10 +95,10 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 						<Title>{getString('DropUp', 'ChooseDate')}</Title>
 						<CustomRowView>
 							<DateButton
-								disabled={getHour < 6 ? false : true}
+								disabled={!isBookOfDay}
 								style={{
 									backgroundColor:
-										getHour < 6 && selectDate === 'today'
+										isBookOfDay && selectDate === 'today'
 											? theme.colors.orange_100
 											: theme.colors.gray_300,
 								}}
@@ -114,12 +111,9 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 								{getString('DropUp', 'Today')}
 							</DateButton>
 							<DateButton
-								disabled={getHour < 12 ? false : true}
 								style={{
 									backgroundColor:
-										getHour < 12 && selectDate === 'tomorrow'
-											? theme.colors.orange_100
-											: theme.colors.gray_300,
+										selectDate === 'tomorrow' ? theme.colors.orange_100 : theme.colors.gray_300,
 								}}
 								onPress={() => {
 									setSelectDate('tomorrow');
@@ -165,17 +159,18 @@ const DropUp = ({style, isShowModal, event, listProduct}: Props) => {
 						>
 							{getString('DropUp', 'Submit')}
 						</SubmitButton>
-						{show && (
-							<DateTimePicker
-								testID={'dateTimePicker'}
-								value={date.date}
-								mode={'date'}
-								is24Hour={true}
-								display={'default'}
-								onChange={onChange}
-								minimumDate={getTomorrow}
-							/>
-						)}
+
+						<DateTimePicker
+							isVisible={show}
+							testID={'dateTimePicker'}
+							onCancel={() => setShow(false)}
+							date={date.date}
+							mode={'date'}
+							is24Hour={true}
+							display={'default'}
+							onConfirm={onChange}
+							minimumDate={getTomorrow}
+						/>
 					</Container>
 				</KeyboardContainer>
 			</AreaContainer>

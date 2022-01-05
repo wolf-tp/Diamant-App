@@ -76,15 +76,7 @@ const CardFood = ({
 									product_id: id,
 									amount: Number(getCartAmounts?.amount || 0) + 1,
 									info_id: info[0].id,
-								})
-							);
-							dispatch(
-								showToast({
-									message: replaceText(getString('Cart', 'AddProductToCart'), 1),
-									button: {
-										children: getString('Cart', 'Title'),
-										onPress: () => navigate('Cart'),
-									},
+									toastMessage: replaceText(getString('Cart', 'AddProductToCart'), 1),
 								})
 							);
 						}

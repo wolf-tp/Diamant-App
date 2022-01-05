@@ -18,7 +18,7 @@ const OrderDetail = (props: Navigate<ParamsOrderDetail>) => {
 		if (params.isFromNotification) {
 			dispatch(fetchOrderStatus({page: 1}));
 			params.id && dispatch(readStatusOrder(params.id));
-			const fetchListStatus = dispatch(fetchOrderStatus(pageInit));
+			const fetchListStatus = () => dispatch(fetchOrderStatus(pageInit));
 			setTimeout(fetchListStatus, 1000);
 		}
 

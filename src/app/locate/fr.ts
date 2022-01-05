@@ -29,7 +29,7 @@ const frData = {
 	},
 	Cart: {
 		Title: 'Cart',
-		AddProductToCart: 'Vous avez ajouté avec succès {value} produit',
+		AddProductToCart: 'Vous avez ajouté avec succès {value} produit à votre panier',
 		AddProductToCartFail: "Vous n'avez pas réussi à ajouter le produit {value}",
 		NoneProduct: "Il n'y a aucun produit dans le panier",
 	},

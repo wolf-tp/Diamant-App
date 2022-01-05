@@ -5,6 +5,7 @@ import {RootState} from 'app/redux/store';
 import {query} from 'app/utils/api';
 import {fetchCountCart, toggleFavorite} from '../home/reducer';
 import {logoutAuth} from '../login/reducer';
+import Toast from 'react-native-toast-message';
 
 type OrderStatus = 'OrderSuccess' | 'OrderError' | 'OrderLoading';
 type UpdateAmountStatus = 'UpdateSuccess' | 'UpdateError' | 'UpdateLoading' | 'RemoveSuccess';
@@ -26,6 +27,7 @@ interface UpdateType {
 	product_id?: number;
 	amount?: number;
 	info_id?: number;
+	toastMessage?: string;
 }
 export const getProductList = createAsyncThunk('cart/getProductList', async () => {
 	const res = await query<Result<ProductList | undefined>, undefined>('/cart', 'GET');
@@ -33,10 +35,19 @@ export const getProductList = createAsyncThunk('cart/getProductList', async () =
 });
 export const updateAmountProduct = createAsyncThunk(
 	'cart/updateAmountProduct',
-	async (params: UpdateType, {dispatch}) => {
+	async ({toastMessage, ...params}: UpdateType, {dispatch}) => {
 		console.log('🚀 ~ file: reducer.ts ~ line 37 ~ params', params);
 		const res = await query<Result<ProductList | undefined>, UpdateType>('/cart', 'PUT', params);
 		if (res?.status === 'OK') {
+			toastMessage &&
+				Toast.show({
+					type: 'success',
+					onPress: () => navigate('Cart'),
+					text1: toastMessage,
+					visibilityTime: 2000,
+					position: 'bottom',
+					bottomOffset: 60,
+				});
 			dispatch(fetchCountCart());
 		}
 		res?.results && (res.results.amount = params.amount);

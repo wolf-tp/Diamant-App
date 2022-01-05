@@ -127,6 +127,7 @@ const ProductDetail = (props: Props & Navigate<Product & ParamsNotification>) =>
 										product_id: product?.id,
 										amount: Number(getCartAmount?.amount || 0) + 1,
 										info_id: getInfoId,
+										toastMessage: replaceText(getString('Cart', 'AddProductToCart'), 1),
 									})
 								);
 							}}
