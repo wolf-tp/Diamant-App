@@ -1,3 +1,5 @@
+import {AnyAction, ThunkDispatch} from '@reduxjs/toolkit';
+import {hideLoading, showLoading} from 'app/components/modal/reducer';
 import {fetchCount, UPLOAD_URL} from 'app/config';
 import {store} from 'app/redux/store';
 import {getDataCategories} from 'app/screens/home/reducer';
@@ -38,3 +40,12 @@ export const findTabHome = (category_id?: number | string) => {
 export const getStatusTextOrder = (status?: number) =>
 	status === 1 ? 'NewOrder' : status === 2 ? 'InPreparation' : status === 3 ? 'Delayed' : 'Process';
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const withLoading = async <S extends (...args: any) => any>(
+	dispatch: ThunkDispatch<unknown, unknown, AnyAction>,
+	asyncTask: S
+): Promise<ReturnType<S>> => {
+	dispatch(showLoading());
+	const task = await (asyncTask as any)();
+	dispatch(hideLoading());
+	return task;
+};

@@ -10,6 +10,7 @@ type ModalContent = {
 	status: StatusModal;
 	negativeButton?: ModalButtonProps;
 	positiveButton?: ModalButtonProps;
+	isLoading?: boolean;
 };
 
 const initModal: ModalContent = {visible: false, status: 'SUCCESS', title: ''};
@@ -21,11 +22,12 @@ const modalSlice = createSlice({
 		showModal: (state, action: PayloadAction<ModalContent>) => {
 			return {...action.payload, visible: true};
 		},
+		showLoading: (state) => ({...state, isLoading: true}),
+		hideLoading: (state) => ({...state, isLoading: false}),
 		hideModal: (state) => ({...state, visible: false}),
 		clearModal: (_) => ({...initModal}),
 	},
 });
-export const {hideModal, showModal, clearModal} = modalSlice.actions;
-
+export const {hideModal, showModal, clearModal, hideLoading, showLoading} = modalSlice.actions;
 const modalReducer = modalSlice.reducer;
 export default modalReducer;

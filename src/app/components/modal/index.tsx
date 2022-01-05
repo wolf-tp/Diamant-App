@@ -12,8 +12,9 @@ import {
 } from 'app/styles/globalStyled';
 import {getAppTheme} from 'app/styles/reducer';
 import styled, {css} from 'app/styles/styled';
-import {ViewStyle} from 'react-native';
+import {ActivityIndicator, ViewStyle} from 'react-native';
 import Modal from 'react-native-modal';
+import {Modal as RNModal} from 'react-native';
 import Button from '../Button';
 import {IconError, IconInformation, IconSuccess} from '../icons/Icons';
 import {clearModal, hideModal} from './reducer';
@@ -24,7 +25,7 @@ const ModalPopup = () => {
 	const dispatch = useAppDispatch();
 	const theme = getAppTheme();
 	//Property State
-	const {visible, message, title, description, status, negativeButton, positiveButton} =
+	const {visible, message, title, description, status, negativeButton, positiveButton, isLoading} =
 		useAppSelector((state) => state.modal);
 
 	//Used to keep the interface from shaking
@@ -44,7 +45,13 @@ const ModalPopup = () => {
 		onPress?.();
 	};
 
-	return (
+	return isLoading ? (
+		<RNModal visible={true} transparent>
+			<ContainerLoading>
+				<ActivityIndicator color={'white'} size={'large'} />
+			</ContainerLoading>
+		</RNModal>
+	) : (
 		<Modal
 			animationIn={'fadeInDown'}
 			animationOut={'fadeOutDown'}
@@ -81,6 +88,11 @@ const ModalPopup = () => {
 		</Modal>
 	);
 };
+const ContainerLoading = styled.View`
+	background-color: #0008;
+	flex: 1;
+	justify-content: center;
+`;
 const ContainerTop = styled(RowView)`
 	${centerItemsCss}
 `;

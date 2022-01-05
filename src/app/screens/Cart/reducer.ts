@@ -6,6 +6,7 @@ import {query} from 'app/utils/api';
 import {fetchCountCart, toggleFavorite} from '../home/reducer';
 import {logoutAuth} from '../login/reducer';
 import Toast from 'react-native-toast-message';
+import {withLoading} from 'app/utilities';
 
 type OrderStatus = 'OrderSuccess' | 'OrderError' | 'OrderLoading';
 type UpdateAmountStatus = 'UpdateSuccess' | 'UpdateError' | 'UpdateLoading' | 'RemoveSuccess';
@@ -35,48 +36,49 @@ export const getProductList = createAsyncThunk('cart/getProductList', async () =
 });
 export const updateAmountProduct = createAsyncThunk(
 	'cart/updateAmountProduct',
-	async ({toastMessage, ...params}: UpdateType, {dispatch}) => {
-		console.log('🚀 ~ file: reducer.ts ~ line 37 ~ params', params);
-		const res = await query<Result<ProductList | undefined>, UpdateType>('/cart', 'PUT', params);
-		if (res?.status === 'OK') {
-			toastMessage &&
-				Toast.show({
-					type: 'success',
-					onPress: () => navigate('Cart'),
-					text1: toastMessage,
-					visibilityTime: 2000,
-					position: 'bottom',
-					bottomOffset: 60,
-				});
-			dispatch(fetchCountCart());
-		}
-		res?.results && (res.results.amount = params.amount);
-		return res?.results;
-	}
+	async ({toastMessage, ...params}: UpdateType, {dispatch}) =>
+		await withLoading(dispatch, async () => {
+			const res = await query<Result<ProductList | undefined>, UpdateType>('/cart', 'PUT', params);
+			if (res?.status === 'OK') {
+				toastMessage &&
+					Toast.show({
+						type: 'success',
+						onPress: () => navigate('Cart'),
+						text1: toastMessage,
+						visibilityTime: 2000,
+						position: 'bottom',
+						bottomOffset: 60,
+					});
+				dispatch(fetchCountCart());
+			}
+			res?.results && (res.results.amount = params.amount);
+			return res?.results;
+		})
 );
 interface OrderType {
 	products: {}[][];
 	date_of_delivery: string;
 	comment?: string;
 }
-export const order = createAsyncThunk('cart/order', async (params: OrderType) => {
+export const order = createAsyncThunk('cart/order', async (params: OrderType, {dispatch}) => {
 	const res = await query<Result<Order | undefined>, OrderType>('/order', 'POST', params);
 	return res?.results;
 });
 export const reOrder = createAsyncThunk(
 	'cart/reOrder',
-	async (params: {products: number[][]}, {dispatch}) => {
-		const res = await query<Result<Order | undefined>, {products: number[][]}>(
-			'/cart/reOrder',
-			'PUT',
-			params
-		);
-		if (res?.results) {
-			navigate('Cart');
-			dispatch(fetchCountCart());
-			return res?.results;
-		}
-	}
+	async (params: {products: number[][]}, {dispatch}) =>
+		await withLoading(dispatch, async () => {
+			const res = await query<Result<Order | undefined>, {products: number[][]}>(
+				'/cart/reOrder',
+				'PUT',
+				params
+			);
+			if (res?.results) {
+				navigate('Cart');
+				dispatch(fetchCountCart());
+				return res?.results;
+			}
+		})
 );
 
 const getCartObjects = (products: ProductList) =>
