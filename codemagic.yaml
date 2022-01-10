@@ -1,0 +1,47 @@
+workflows:
+  react-native-android:
+    name: React Native Android
+    max_build_duration: 120
+    instance_type: mac_mini
+    environment:
+      groups:
+        - keystore_credentials
+        - google_play
+        - other
+      vars:
+        PACKAGE_NAME: 'com.digital_unicorn.diamant_app'
+      node: 14.18.0
+      npm: 8.3.0
+    triggering:
+      events:
+        - push
+        - tag
+        - pull_request
+      branch_patterns:
+        - pattern: develop
+          include: true
+          source: true
+    scripts:
+      - name: Set NODEJS
+        script: |
+          export NODE_OPTIONS=--openssl-legacy-provider
+      - name: Install npm dependencies
+        script: |
+          rm -rf node_modules
+          yarn install --production --ignore-scripts --prefer-offline
+      - name: Set Android SDK location
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$FCI_BUILD_DIR/android/local.properties"
+      - name: Build Android release
+        script: |
+          cd android && ./gradlew assembleRelease
+    artifacts:
+      - android/app/build/outputs/**/*.apk
+    publishing:
+      # See the following link for details about email publishing - https://docs.codemagic.io/publishing-yaml/distribution/#email
+      email:
+        recipients:
+          - phuong2612.mobile@gmail.com
+        notify:
+          success: true
+          failure: true
